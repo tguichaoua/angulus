@@ -22,6 +22,11 @@ pub struct Angle<F> {
 impl<F: Num> Angle<F> {
     /// The angle of value zero.
     pub const ZERO: Self = Angle::from_radians_unchecked(F::ZERO);
+
+    /// [Machine epsilon] value for [`Angle`].
+    ///
+    /// [Machine epsilon]: https://en.wikipedia.org/wiki/Machine_epsilon
+    pub const EPSILON: Self = Angle::from_radians_unchecked(F::DOUBLE_EPSILON);
 }
 
 impl<F: Num> Angle<F> {

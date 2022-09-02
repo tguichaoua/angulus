@@ -19,6 +19,16 @@ pub trait Num:
     /// The multiplicative identity element of `Self` (aka `1`).
     const ONE: Self;
 
+    /// [Machine epsilon] value for `Self`.
+    ///
+    /// [Machine epsilon]: https://en.wikipedia.org/wiki/Machine_epsilon
+    const EPSILON: Self;
+
+    /// The double of `EPSILON`.
+    ///
+    /// Required by [`Angle::EPSILON`] because const trait multiplication is unstable.
+    const DOUBLE_EPSILON: Self;
+
     /// The full circle constant (τ)
     ///
     /// Equal to 2π.
@@ -59,6 +69,8 @@ pub trait Num:
 impl Num for f32 {
     const ZERO: Self = 0.0f32;
     const ONE: Self = 1.0f32;
+    const EPSILON: Self = f32::EPSILON;
+    const DOUBLE_EPSILON: Self = 2.0 * Self::EPSILON;
 
     const TAU: Self = std::f32::consts::TAU;
     const PI: Self = std::f32::consts::PI;
@@ -95,6 +107,8 @@ impl Num for f32 {
 impl Num for f64 {
     const ZERO: Self = 0.0f64;
     const ONE: Self = 1.0f64;
+    const EPSILON: Self = f64::EPSILON;
+    const DOUBLE_EPSILON: Self = 2.0 * Self::EPSILON;
 
     const TAU: Self = std::f64::consts::TAU;
     const PI: Self = std::f64::consts::PI;

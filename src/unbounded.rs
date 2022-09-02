@@ -35,6 +35,11 @@ pub struct UnboundedAngle<F> {
 impl<F: Num> UnboundedAngle<F> {
     /// The angle of value zero.
     pub const ZERO: Self = UnboundedAngle::from_radians(F::ZERO);
+
+    /// [Machine epsilon] value for [`UnboundedAngle`].
+    ///
+    /// [Machine epsilon]: https://en.wikipedia.org/wiki/Machine_epsilon
+    pub const EPSILON: Self = UnboundedAngle::from_radians(F::DOUBLE_EPSILON);
 }
 
 impl<F: Num> UnboundedAngle<F> {
