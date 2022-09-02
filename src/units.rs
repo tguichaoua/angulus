@@ -17,8 +17,8 @@
 //! let deg = Degrees(angle);
 //! let turns = Turns(angle);
 //!
-//! assert_eq!(format!("{rad}"), "3.14 rad");
-//! assert_eq!(format!("{deg}"), "90.0°");
+//! assert_eq!(format!("{rad}"), "1.5707964 rad");
+//! assert_eq!(format!("{deg}"), "90°");
 //! assert_eq!(format!("{turns}"), "0.25 tr");
 //! # }
 //! ```
