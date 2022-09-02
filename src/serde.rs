@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{Angle, MainAngle, Num};
+use crate::{Angle, Num, UnboundedAngle};
 
 impl<N: Serialize> Serialize for Angle<N> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -11,7 +11,7 @@ impl<N: Serialize> Serialize for Angle<N> {
     }
 }
 
-impl<'de, N: Deserialize<'de>> Deserialize<'de> for Angle<N> {
+impl<'de, N: Num + Deserialize<'de>> Deserialize<'de> for Angle<N> {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -21,7 +21,7 @@ impl<'de, N: Deserialize<'de>> Deserialize<'de> for Angle<N> {
     }
 }
 
-impl<N: Serialize> Serialize for MainAngle<N> {
+impl<N: Serialize> Serialize for UnboundedAngle<N> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -30,13 +30,13 @@ impl<N: Serialize> Serialize for MainAngle<N> {
     }
 }
 
-impl<'de, N: Num + Deserialize<'de>> Deserialize<'de> for MainAngle<N> {
+impl<'de, N: Deserialize<'de>> Deserialize<'de> for UnboundedAngle<N> {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
         let radians = N::deserialize(deserializer)?;
-        Ok(MainAngle::from_radians(radians))
+        Ok(UnboundedAngle::from_radians(radians))
     }
 }
 
@@ -44,16 +44,18 @@ impl<'de, N: Num + Deserialize<'de>> Deserialize<'de> for MainAngle<N> {
 mod tests {
     use serde::{Deserialize, Serialize};
 
-    use crate::{Angle, ToAngle};
+    use crate::{ToAngle, UnboundedAngle};
 
     #[test]
     fn should_serialize() {
         #[derive(Serialize)]
         struct Foo {
-            angle: Angle<f32>,
+            angle: UnboundedAngle<f32>,
         }
 
-        let foo = Foo { angle: 56.0.rad() };
+        let foo = Foo {
+            angle: 56.0.rad_unbounded(),
+        };
         let json = serde_json::to_string(&foo).unwrap();
 
         assert_eq!(json, "{\"angle\":56.0");
@@ -63,10 +65,10 @@ mod tests {
     fn should_deserialize() {
         #[derive(Deserialize)]
         struct Foo {
-            angle: Angle<f32>,
+            angle: UnboundedAngle<f32>,
         }
 
         let foo: Foo = serde_json::from_str("{\"angle\":56.0").unwrap();
-        assert_eq!(foo.angle, 56.0.rad());
+        assert_eq!(foo.angle, 56.0.rad_unbounded());
     }
 }
