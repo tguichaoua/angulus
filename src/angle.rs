@@ -172,65 +172,47 @@ impl<F: Num> Angle<F> {
 //-------------------------------------------------------------------
 
 impl<F: Num> Add for Angle<F> {
-    type Output = UnboundedAngle<F>;
+    type Output = Self;
 
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians + rhs.radians)
-    }
-}
-
-impl<F: Num> Add<UnboundedAngle<F>> for Angle<F> {
-    type Output = UnboundedAngle<F>;
-
-    #[inline]
-    fn add(self, rhs: UnboundedAngle<F>) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians + rhs.radians)
+        Self::from_radians(self.radians + rhs.radians)
     }
 }
 
 impl<F: Num> Sub for Angle<F> {
-    type Output = UnboundedAngle<F>;
+    type Output = Self;
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians - rhs.radians)
-    }
-}
-
-impl<F: Num> Sub<UnboundedAngle<F>> for Angle<F> {
-    type Output = UnboundedAngle<F>;
-
-    #[inline]
-    fn sub(self, rhs: UnboundedAngle<F>) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians - rhs.radians)
+        Self::from_radians(self.radians - rhs.radians)
     }
 }
 
 impl<F: Num> Mul<F> for Angle<F> {
-    type Output = UnboundedAngle<F>;
+    type Output = Self;
 
     #[inline]
     fn mul(self, rhs: F) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians * rhs)
+        Self::from_radians(self.radians * rhs)
     }
 }
 
 impl<F: Num> Div<F> for Angle<F> {
-    type Output = UnboundedAngle<F>;
+    type Output = Self;
 
     #[inline]
     fn div(self, rhs: F) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians / rhs)
+        Self::from_radians(self.radians / rhs)
     }
 }
 
 impl<F: Num> Neg for Angle<F> {
-    type Output = UnboundedAngle<F>;
+    type Output = Self;
 
     #[inline]
     fn neg(self) -> Self::Output {
-        UnboundedAngle::from_radians(self.radians.neg())
+        Self::from_radians(self.radians.neg())
     }
 }
 
