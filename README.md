@@ -3,7 +3,7 @@
 [![crates.io](https://img.shields.io/crates/v/angulus)](https://crates.io/crates/angulus)
 [![docs.rs](https://docs.rs/angulus/badge.svg)](https://docs.rs/angulus)
 
-Wrapper for angle with unit convertion.
+Provides types for angle manipulation.
 
 ## Features
 
@@ -11,39 +11,29 @@ Wrapper for angle with unit convertion.
 
 ## Example
 
-```rs
-use angulus::*;
+```rust
+use angulus::{*, units::*};
 
 fn main() {
-    let a = 90.0.deg();
-    let b = Angle::FULL + a;
-    let c = b.main_angle();
-    let d = a.to_radians();
+    let alpha = Angle::DEG_90;
+    let beta = Angle::RAD_FRAC_PI_4;
+    let gamma: Angle<f32> = alpha + beta;
 
-    // Unit convetion
-    let rad = Angle::from_radians(std::f32::consts::FRAC_PI_2);
-    let deg = rad.to_degrees();
-    let abs_difference = (deg.to_value() - 90.0).abs();
-    assert!(abs_difference <= f32::EPSILON);
+    // in radians : 1.5707964 rad + 0.7853982 rad = 2.3561945 rad
+    println!(
+        "in radians : {} + {} = {}",
+        Radians(alpha),
+        Radians(beta),
+        Radians(gamma),
+    );
 
-    // Calculate the main angle value
-    let main_value = 450.0.deg().main_angle().to_value();
-    let abs_difference = (main_value - 90.0).abs();
-    assert!(abs_difference <= f32::EPSILON);
-
-    // Formating with unit symbole
-    assert_eq!(format!("{}", 90.0.deg()), "90°");
-    assert_eq!(format!("{}", Angle::QUARTER), "1.5707963267948966 rad");
-
-    // sin, cos, tan
-    let deg = 90.0.deg();
-    let rad = std::f32::consts::FRAC_PI_2.rad();
-
-    let abs_difference = (deg.sin() - 1.0).abs();
-    assert!(abs_difference <= f32::EPSILON);
-
-    let abs_difference = (rad.sin() - 1.0).abs();
-    assert!(abs_difference <= f32::EPSILON);
+    // in degrees : 90° + 45° = 135°
+    println!(
+        "in degrees : {} + {} = {}",
+        Degrees(alpha),
+        Degrees(beta),
+        Degrees(gamma),
+    );
 }
 ```
 

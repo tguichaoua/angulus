@@ -1,4 +1,4 @@
-//! Provide types for angle manipulation.
+//! Provides types for angle manipulation.
 //!
 //! ## Overview
 //!
@@ -88,3 +88,7 @@ pub use angle::Angle;
 pub use helpers::*;
 pub use num::Num;
 pub use unbounded::UnboundedAngle;
+
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
