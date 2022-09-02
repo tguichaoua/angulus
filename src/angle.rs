@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
+use crate::utility::AngleConvertion;
 use crate::{Num, UnboundedAngle};
 
 /// Represents a geometrical angle whose value is the main angle value
@@ -120,14 +121,14 @@ impl<N: Copy> Angle<N> {
 impl<N: Num> Angle<N> {
     /// The value of the angle in degrees.
     #[inline]
-    pub const fn to_degrees(self) -> N {
-        todo!()
+    pub fn to_degrees(self) -> N {
+        self.radians * N::RAD_TO_DEG
     }
 
     /// The value of the angle in turns.
     #[inline]
-    pub const fn to_turns(self) -> N {
-        todo!()
+    pub fn to_turns(self) -> N {
+        self.radians * N::RAD_TO_TURNS
     }
 }
 
@@ -239,5 +240,43 @@ impl<N: Num> Neg for Angle<N> {
     #[inline]
     fn neg(self) -> Self::Output {
         UnboundedAngle::from_radians(self.radians.neg())
+    }
+}
+
+//-------------------------------------------------------------------
+// Misc.
+//-------------------------------------------------------------------
+
+impl<N: Num> AngleConvertion for Angle<N> {
+    type N = N;
+
+    #[inline]
+    fn from_radians(radians: N) -> Self {
+        Self::from_radians(radians)
+    }
+
+    #[inline]
+    fn from_degrees(degrees: N) -> Self {
+        Self::from_degrees(degrees)
+    }
+
+    #[inline]
+    fn from_turns(turns: N) -> Self {
+        Self::from_turns(turns)
+    }
+
+    #[inline]
+    fn to_radians(&self) -> N {
+        (*self).to_radians()
+    }
+
+    #[inline]
+    fn to_degrees(&self) -> N {
+        (*self).to_degrees()
+    }
+
+    #[inline]
+    fn to_turns(&self) -> N {
+        (*self).to_turns()
     }
 }

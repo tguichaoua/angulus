@@ -3,7 +3,7 @@ use std::{
     ops::{Add, Div, Mul, Neg, Sub},
 };
 
-use crate::{Angle, Num};
+use crate::{utility::AngleConvertion, Angle, Num};
 
 /// Represents a geometrical angle.
 ///
@@ -199,5 +199,43 @@ impl<N: Num> Neg for UnboundedAngle<N> {
     #[inline]
     fn neg(self) -> Self::Output {
         Self::from_radians(self.radians.neg())
+    }
+}
+
+//-------------------------------------------------------------------
+// Misc.
+//-------------------------------------------------------------------
+
+impl<N: Num> AngleConvertion for UnboundedAngle<N> {
+    type N = N;
+
+    #[inline]
+    fn from_radians(radians: N) -> Self {
+        Self::from_radians(radians)
+    }
+
+    #[inline]
+    fn from_degrees(degrees: N) -> Self {
+        Self::from_degrees(degrees)
+    }
+
+    #[inline]
+    fn from_turns(turns: N) -> Self {
+        Self::from_turns(turns)
+    }
+
+    #[inline]
+    fn to_radians(&self) -> N {
+        (*self).to_radians()
+    }
+
+    #[inline]
+    fn to_degrees(&self) -> N {
+        (*self).to_degrees()
+    }
+
+    #[inline]
+    fn to_turns(&self) -> N {
+        (*self).to_turns()
     }
 }

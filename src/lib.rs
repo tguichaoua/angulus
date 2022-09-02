@@ -136,6 +136,8 @@ mod angle;
 mod helpers;
 mod num;
 mod unbounded;
+pub mod units;
+mod utility;
 
 pub use angle::Angle;
 pub use helpers::*;
