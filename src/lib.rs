@@ -1,4 +1,4 @@
-//! Provide types for angle manipulation.
+//! Provides types for angle manipulation.
 //!
 //! ## Overview
 //!
