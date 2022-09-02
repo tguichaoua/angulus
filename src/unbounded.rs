@@ -35,23 +35,52 @@ pub struct UnboundedAngle<F> {
 impl<F: Num> UnboundedAngle<F> {
     /// The angle of value zero.
     pub const ZERO: Self = UnboundedAngle::from_radians(F::ZERO);
-
-    /// The full circle angle.
-    pub const FULL: Self = UnboundedAngle::from_radians(F::TAU);
-    /// The half of a circle angle.
-    pub const HALF: Self = UnboundedAngle::from_radians(F::PI);
-    /// The quarter of a circle angle.
-    pub const QUARTER: Self = UnboundedAngle::from_radians(F::FRAC_PI_2);
-    /// The sixth of a circle angle.
-    pub const SIXTH: Self = UnboundedAngle::from_radians(F::FRAC_PI_3);
-    /// The eighth of a circle angle.
-    pub const EIGHTH: Self = UnboundedAngle::from_radians(F::FRAC_PI_4);
-    /// The twelfth of a circle angle.
-    pub const TWELFTH: Self = UnboundedAngle::from_radians(F::FRAC_PI_6);
-    /// The sixteenth of a circle angle.
-    pub const SIXTEENTH: Self = UnboundedAngle::from_radians(F::FRAC_PI_8);
 }
 
+impl<F: Num> UnboundedAngle<F> {
+    /// The angle of π radians.
+    pub const RAD_PI: Self = UnboundedAngle::from_radians(F::PI);
+    /// The angle of π/2 radians.
+    pub const RAD_FRAC_PI_2: Self = UnboundedAngle::from_radians(F::FRAC_PI_2);
+    /// The angle of π/3 radians.
+    pub const RAD_FRAC_PI_3: Self = UnboundedAngle::from_radians(F::FRAC_PI_3);
+    /// The angle of π/4 radians.
+    pub const RAD_FRAC_PI_4: Self = UnboundedAngle::from_radians(F::FRAC_PI_4);
+    /// The angle of π/6 radians.
+    pub const RAD_FRAC_PI_6: Self = UnboundedAngle::from_radians(F::FRAC_PI_6);
+    /// The angle of π/8 radians.
+    pub const RAD_FRAC_PI_8: Self = UnboundedAngle::from_radians(F::FRAC_PI_8);
+}
+
+impl<F: Num> UnboundedAngle<F> {
+    /// The angle of 180°.
+    pub const DEG_180: Self = Self::RAD_PI;
+    /// The angle of 90°.
+    pub const DEG_90: Self = Self::RAD_FRAC_PI_2;
+    /// The angle of 60°.
+    pub const DEG_60: Self = Self::RAD_FRAC_PI_3;
+    /// The angle of 45°.
+    pub const DEG_45: Self = Self::RAD_FRAC_PI_4;
+    /// The angle of 30°.
+    pub const DEG_30: Self = Self::RAD_FRAC_PI_6;
+    /// The angle of 22.5°.
+    pub const DEG_22_5: Self = Self::RAD_FRAC_PI_8;
+}
+
+impl<F: Num> UnboundedAngle<F> {
+    /// The angle of a half of a circle (1/2 turns).
+    pub const HALF: Self = Self::RAD_PI;
+    /// The angle of a quarter of a circle (1/4 turns).
+    pub const QUARTER: Self = Self::RAD_FRAC_PI_2;
+    /// The angle of a sixth of a circle (1/6 turns).
+    pub const SIXTH: Self = Self::RAD_FRAC_PI_3;
+    ///  The angle of a eighth of a circle (1/6 turns).
+    pub const EIGHTH: Self = Self::RAD_FRAC_PI_4;
+    ///  The angle of a twelfth of a circle (1/12 turns).
+    pub const TWELFTH: Self = Self::RAD_FRAC_PI_6;
+    ///  The angle of a sixteenth of a circle (1/16 turns).
+    pub const SIXTEENTH: Self = Self::RAD_FRAC_PI_8;
+}
 //-------------------------------------------------------------------
 // Standard traits
 //-------------------------------------------------------------------
