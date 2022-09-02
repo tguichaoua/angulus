@@ -1,264 +1,128 @@
 use std::{
-    fmt::{Debug, Display},
-    marker::PhantomData,
+    fmt::Debug,
     ops::{Add, Div, Mul, Neg, Sub},
 };
 
-use crate::{Degrees, MainAngle, Num, Radians, ToUnit, Turns, Unit, UnitName};
+use crate::{MainAngle, Num};
 
 /// Represents a geometrical angle.
 ///
 /// The parameter `N` is the numerical type that store the value.
-///
-/// The parameter `U` is the unit of the angle.
-/// It can be one of the following :
-/// - [`Radians`]
-/// - [`Degrees`]
-/// - [`Turns`]
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
-pub struct Angle<N, U = Radians> {
-    pub(crate) value: N,
-    _unit: PhantomData<U>,
-}
-
-impl<N, U> Angle<N, U> {
-    /// Create an angle from the given value.
-    #[inline]
-    pub const fn new(value: N) -> Self {
-        Self {
-            value,
-            _unit: PhantomData,
-        }
-    }
-
-    /// The numerical value of the angle.
-    #[inline]
-    pub fn to_value(self) -> N {
-        self.value
-    }
-}
-
-impl<N: Num, U: Unit<N>> Angle<N, U> {
-    /// Compute the main value of this angle.
-    #[inline]
-    pub fn main_angle(self) -> MainAngle<N, U> {
-        MainAngle::new(self.value)
-    }
-}
-
-impl<N, U> From<MainAngle<N, U>> for Angle<N, U> {
-    #[inline]
-    fn from(main_angle: MainAngle<N, U>) -> Self {
-        main_angle.to_angle()
-    }
-}
-
-impl<N: Num, U> Default for Angle<N, U> {
-    fn default() -> Self {
-        Self::ZERO
-    }
-}
-
-//-------------------------------------------------------------------
-// Format
-//-------------------------------------------------------------------
-
-impl<N: Debug, U: Unit<N>> Debug for Angle<N, U> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("Angle")
-            .field(&self.value)
-            .field(&U::default())
-            .finish()
-    }
-}
-
-impl<N: Display, U: UnitName> Display for Angle<N, U> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}{}", self.value, U::UNIT)
-    }
+pub struct Angle<N> {
+    pub(crate) radians: N,
 }
 
 //-------------------------------------------------------------------
 // Const
 //-------------------------------------------------------------------
 
-impl<N: Num, U> Angle<N, U> {
+impl<N: Num> Angle<N> {
     /// The angle of value zero.
-    pub const ZERO: Self = Angle::new(N::ZERO);
-}
+    pub const ZERO: Self = Angle::from_radians(N::ZERO);
 
-impl<N, U: Unit<N>> Angle<N, U> {
     /// The full circle angle.
-    pub const FULL: Self = Angle::new(U::FULL);
+    pub const FULL: Self = Angle::from_radians(N::TAU);
     /// The half of a circle angle.
-    pub const HALF: Self = Angle::new(U::HALF);
+    pub const HALF: Self = Angle::from_radians(N::PI);
     /// The quarter of a circle angle.
-    pub const QUARTER: Self = Angle::new(U::QUARTER);
+    pub const QUARTER: Self = Angle::from_radians(N::FRAC_PI_2);
     /// The sixth of a circle angle.
-    pub const SIXTH: Self = Angle::new(U::SIXTH);
+    pub const SIXTH: Self = Angle::from_radians(N::FRAC_PI_3);
     /// The eighth of a circle angle.
-    pub const EIGHTH: Self = Angle::new(U::EIGHTH);
+    pub const EIGHTH: Self = Angle::from_radians(N::FRAC_PI_4);
     /// The twelfth of a circle angle.
-    pub const TWELFTH: Self = Angle::new(U::TWELFTH);
+    pub const TWELFTH: Self = Angle::from_radians(N::FRAC_PI_6);
     /// The sixteenth of a circle angle.
-    pub const SIXTEENTH: Self = Angle::new(U::SIXTEENTH);
+    pub const SIXTEENTH: Self = Angle::from_radians(N::FRAC_PI_8);
 }
 
 //-------------------------------------------------------------------
-// from units
+// Standard traits
 //-------------------------------------------------------------------
 
-impl<N> Angle<N, Radians> {
-    /// Creates a new angle with a value in radians.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let x = Angle::from_radians(std::f32::consts::FRAC_PI_2);
-    ///
-    /// let abs_difference = (x.sin() - 1.0).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+impl<N: Debug> Debug for Angle<N> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_tuple("Angle").field(&self.radians).finish()
+    }
+}
+
+impl<N: Num> Default for Angle<N> {
+    #[inline]
+    fn default() -> Self {
+        Self::ZERO
+    }
+}
+
+//-------------------------------------------------------------------
+// Ctor
+//-------------------------------------------------------------------
+
+impl<N> Angle<N> {
+    /// Creates a new angle from a value in radians.
     #[inline]
     pub const fn from_radians(radians: N) -> Self {
-        Self::new(radians)
+        Self { radians }
     }
 }
 
-impl<N> Angle<N, Degrees> {
-    /// Creates a new angle with a value in degrees.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let x = Angle::from_degrees(90.0f32);
-    ///
-    /// let abs_difference = (x.sin() - 1.0).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+impl<N: Num> Angle<N> {
+    /// Creates a new angle from a value in degrees.
     #[inline]
-    pub const fn from_degrees(degrees: N) -> Self {
-        Self::new(degrees)
+    pub fn from_degrees(degrees: N) -> Self {
+        Self::from_radians(degrees * N::DEG_TO_RAD)
     }
-}
 
-impl<N> Angle<N, Turns> {
-    /// Creates a new angle with a value in turns.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let x = Angle::from_turns(0.25f32);
-    ///
-    /// let abs_difference = (x.sin() - 1.0).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+    /// Creates a new angle from a value in turns.
     #[inline]
-    pub const fn from_turns(turns: N) -> Self {
-        Self::new(turns)
+    pub fn from_turns(turns: N) -> Self {
+        Self::from_radians(turns * N::TURNS_TO_RAD)
     }
 }
 
 //-------------------------------------------------------------------
-// Unit convertion
+// Getters
 //-------------------------------------------------------------------
 
-impl<N: Num, U> Angle<N, U> {
-    /// Converts the angle unit to another.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let rad = Angle::from_radians(std::f32::consts::FRAC_PI_2);
-    /// let deg = rad.to_unit::<Degrees>();
-    ///
-    /// let abs_difference = (deg.to_value() - 90.0).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+impl<N: Copy> Angle<N> {
+    /// The value of the angle in radians.
     #[inline]
-    pub fn to_unit<V>(self) -> Angle<N, V>
-    where
-        U: ToUnit<N, V>,
-    {
-        Angle::new(self.value * U::FACTOR)
+    pub const fn to_radians(self) -> N {
+        self.radians
+    }
+}
+
+impl<N: Num> Angle<N> {
+    /// The value of the angle in degrees.
+    #[inline]
+    pub fn to_degrees(self) -> N {
+        self.radians * N::RAD_TO_DEG
     }
 
-    /// Converts the angle unit to radians.
-    ///
-    /// Shortcut for `angle.to_unit::<Radians>()`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let deg = Angle::from_degrees(90.0f32);
-    /// let rad = deg.to_radians();
-    ///
-    /// let abs_difference = (rad.to_value() - std::f32::consts::FRAC_PI_2).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+    /// The value of the angle in turns.
     #[inline]
-    pub fn to_radians(self) -> Angle<N, Radians>
-    where
-        U: ToUnit<N, Radians>,
-    {
-        self.to_unit()
+    pub fn to_turns(self) -> N {
+        self.radians * N::RAD_TO_TURNS
     }
+}
 
-    /// Converts the angle unit to degrees.
-    ///
-    /// Shortcut for `angle.to_unit::<Degrees>()`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let rad = Angle::from_radians(std::f32::consts::FRAC_PI_2);
-    /// let deg = rad.to_degrees();
-    ///
-    /// let abs_difference = (deg.to_value() - 90.0).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+//-------------------------------------------------------------------
+// MainAngle convertion
+//-------------------------------------------------------------------
+
+impl<N: Num> Angle<N> {
+    /// Compute the main value of this angle.
     #[inline]
-    pub fn to_degrees(self) -> Angle<N, Degrees>
-    where
-        U: ToUnit<N, Degrees>,
-    {
-        self.to_unit()
+    pub fn to_main_angle(self) -> MainAngle<N> {
+        MainAngle::from_radians(self.radians)
     }
+}
 
-    /// Converts the angle unit to turns.
-    ///
-    /// Shortcut for `angle.to_unit::<Turns>()`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// # use angulus::*;
-    /// let rad = Angle::from_radians(std::f32::consts::FRAC_PI_2);
-    /// let tr = rad.to_turns();
-    ///
-    /// let abs_difference = (tr.to_value() - 0.25).abs();
-    ///
-    /// assert!(abs_difference <= f32::EPSILON);
-    /// ```
+impl<N> From<MainAngle<N>> for Angle<N> {
     #[inline]
-    pub fn to_turns(self) -> Angle<N, Turns>
-    where
-        U: ToUnit<N, Turns>,
-    {
-        self.to_unit()
+    fn from(main_angle: MainAngle<N>) -> Self {
+        Self::from_radians(main_angle.radians)
     }
 }
 
@@ -266,29 +130,26 @@ impl<N: Num, U> Angle<N, U> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<N: Num, U> Angle<N, U>
-where
-    U: ToUnit<N, Radians>,
-{
+impl<N: Num> Angle<N> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> N {
-        self.to_radians().value.sin()
+        self.radians.sin()
     }
     /// Computes the cosine.
     #[inline]
     pub fn cos(self) -> N {
-        self.to_radians().value.cos()
+        self.radians.cos()
     }
     /// Computes the tangent.
     #[inline]
     pub fn tan(self) -> N {
-        self.to_radians().value.tan()
+        self.radians.tan()
     }
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
     #[inline]
     pub fn sin_cos(self) -> (N, N) {
-        self.to_radians().value.sin_cos()
+        self.radians.sin_cos()
     }
 }
 
@@ -296,47 +157,47 @@ where
 // Ops
 //-------------------------------------------------------------------
 
-impl<N: Num, U> Add for Angle<N, U> {
+impl<N: Num> Add for Angle<N> {
     type Output = Self;
 
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        Self::new(self.value + rhs.value)
+        Self::from_radians(self.radians + rhs.radians)
     }
 }
 
-impl<N: Num, U> Sub for Angle<N, U> {
+impl<N: Num> Sub for Angle<N> {
     type Output = Self;
 
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        Self::new(self.value - rhs.value)
+        Self::from_radians(self.radians - rhs.radians)
     }
 }
 
-impl<N: Num, U> Mul<N> for Angle<N, U> {
+impl<N: Num> Mul<N> for Angle<N> {
     type Output = Self;
 
     #[inline]
     fn mul(self, rhs: N) -> Self::Output {
-        Self::new(self.value * rhs)
+        Self::from_radians(self.radians * rhs)
     }
 }
 
-impl<N: Num, U> Div<N> for Angle<N, U> {
+impl<N: Num> Div<N> for Angle<N> {
     type Output = Self;
 
     #[inline]
     fn div(self, rhs: N) -> Self::Output {
-        Self::new(self.value / rhs)
+        Self::from_radians(self.radians / rhs)
     }
 }
 
-impl<N: Num, U> Neg for Angle<N, U> {
+impl<N: Num> Neg for Angle<N> {
     type Output = Self;
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Self::new(self.value.neg())
+        Self::from_radians(self.radians.neg())
     }
 }
