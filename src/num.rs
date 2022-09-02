@@ -54,11 +54,6 @@ pub trait Num:
     fn tan(self) -> Self;
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
     fn sin_cos(self) -> (Self, Self);
-
-    /// Calculates the least nonnegative remainder of `self (mod rhs)`.
-    ///
-    /// In particular, the return value `r` satisfies `0.0 <= r < rhs.abs()`.
-    fn rem_euclid(self, rhs: Self) -> Self;
 }
 
 impl Num for f32 {
@@ -95,10 +90,6 @@ impl Num for f32 {
     fn sin_cos(self) -> (Self, Self) {
         self.sin_cos()
     }
-    #[inline]
-    fn rem_euclid(self, rhs: Self) -> Self {
-        self.rem_euclid(rhs)
-    }
 }
 
 impl Num for f64 {
@@ -134,9 +125,5 @@ impl Num for f64 {
     #[inline]
     fn sin_cos(self) -> (Self, Self) {
         self.sin_cos()
-    }
-    #[inline]
-    fn rem_euclid(self, rhs: Self) -> Self {
-        self.rem_euclid(rhs)
     }
 }
