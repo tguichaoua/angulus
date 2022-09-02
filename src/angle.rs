@@ -198,6 +198,24 @@ impl<F: Num> Mul<F> for Angle<F> {
     }
 }
 
+impl Mul<Angle<f32>> for f32 {
+    type Output = Angle<f32>;
+
+    #[inline]
+    fn mul(self, rhs: Angle<f32>) -> Self::Output {
+        rhs * self
+    }
+}
+
+impl Mul<Angle<f64>> for f64 {
+    type Output = Angle<f64>;
+
+    #[inline]
+    fn mul(self, rhs: Angle<f64>) -> Self::Output {
+        rhs * self
+    }
+}
+
 impl<F: Num> Div<F> for Angle<F> {
     type Output = Self;
 

@@ -200,6 +200,24 @@ impl<F: Num> Mul<F> for UnboundedAngle<F> {
     }
 }
 
+impl Mul<UnboundedAngle<f32>> for f32 {
+    type Output = UnboundedAngle<f32>;
+
+    #[inline]
+    fn mul(self, rhs: UnboundedAngle<f32>) -> Self::Output {
+        rhs * self
+    }
+}
+
+impl Mul<UnboundedAngle<f64>> for f64 {
+    type Output = UnboundedAngle<f64>;
+
+    #[inline]
+    fn mul(self, rhs: UnboundedAngle<f64>) -> Self::Output {
+        rhs * self
+    }
+}
+
 impl<F: Num> Div<F> for UnboundedAngle<F> {
     type Output = Self;
 
