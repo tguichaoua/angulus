@@ -9,9 +9,9 @@
 //! unit followed by the unit symbole.
 //!
 //! ```
-//! # use angulus::{Angle, units::{Degrees, Radians, Turns}};
+//! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns}};
 //! # fn main() {
-//! let angle = 90.0.deg();
+//! let angle = 90.0_f32.deg();
 //!
 //! let rad = Radians(angle);
 //! let deg = Degrees(angle);
@@ -30,10 +30,10 @@
 //!
 //! ```
 //! # use angulus::{Angle, units::{Degrees, Radians, Turns}};
-//! # use use float_eq::assert_float_eq;
+//! # use float_eq::assert_float_eq;
 //! # use serde::{Serialize, Deserialize};
 //! # fn main() {
-//! [derive(Serialize, Deserialize)]
+//! #[derive(Serialize, Deserialize)]
 //! struct Foo {
 //!     rad: Radians<Angle<f32>>,
 //!     deg: Degrees<Angle<f32>>,
@@ -50,9 +50,9 @@
 //!
 //! let foo: Foo = serde_json::from_value(json).unwrap();
 //!
-//! assert_float_eq!(foo.rad.to_radians(), 1.0, abs <= 0.000001)
-//! assert_float_eq!(foo.deg.to_degrees(), 90.0, abs <= 0.000001)
-//! assert_float_eq!(foo.tr.to_turns(), 0.5, abs <= 0.000001)
+//! assert_float_eq!(foo.rad.0.to_radians(), 1.0, abs <= 0.000001);
+//! assert_float_eq!(foo.deg.0.to_degrees(), 90.0, abs <= 0.000001);
+//! assert_float_eq!(foo.tr.0.to_turns(), 0.5, abs <= 0.000001);
 //! # }
 //! ```
 

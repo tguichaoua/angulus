@@ -11,13 +11,13 @@ use crate::{utility::AngleConvertion, Angle, Num};
 ///
 /// ```
 /// # use angulus::*;
-/// # use float_eq::assert_
+/// # use float_eq::assert_float_eq;
 /// # fn main() {
-/// let angle = (3.0 * 90.0.deg()).to_degrees();
-/// let unboudned = (3.0 * 90.0.deg_unbounded()).to_degrees();
+/// let angle = (3.0_f32 * 90.0_f32.deg()).to_degrees();
+/// let unboudned = (3.0_f32 * 90.0_f32.deg_unbounded()).to_degrees();
 ///
-/// assert_float_eq!(angle, -90.0, abs <= f32::EPSILOF);
-/// assert_float_eq!(unboudned, 270.0, abs <= f32::EPSILOF);
+/// assert_float_eq!(angle, -90.0, abs <= f32::EPSILON);
+/// assert_float_eq!(unboudned, 270.0, abs <= f32::EPSILON);
 /// # }
 /// ```
 ///

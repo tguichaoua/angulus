@@ -58,7 +58,7 @@
 //! `to_*` methods.
 //!
 //! ```
-//! # use angulus::;
+//! # use angulus::*;
 //! # fn main() {
 //! let rad = 90.0.deg().to_radians(); // convert 90° into radians
 //! let deg = 0.5.turns().to_degrees(); // convert 0.5 turns into degrees
