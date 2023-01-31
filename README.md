@@ -3,39 +3,43 @@
 [![crates.io](https://img.shields.io/crates/v/angulus)](https://crates.io/crates/angulus)
 [![docs.rs](https://docs.rs/angulus/badge.svg)](https://docs.rs/angulus)
 
-Provides types for angle manipulation.
+Unit agnostic angle.
 
-## Features
+## What problem does it solve ?
 
-- `serde` : Serialization/deserialization support via serde.
+Using simple floating point numbers to store an angle value is error-prone : you may add two angle with one in radians and the second in degrees or you may try to compute the cosine of a value in degrees and get an unexpected result.
+
+`angulus` provides a type that represent an angle with no specific unit.
 
 ## Example
 
 ```rust
-use angulus::{*, units::*};
+use angulus::{units::*, *};
 
 fn main() {
-    let alpha = Angle::DEG_90;
+    // Create an angle of 90°.
+    let alpha = 90.0_f32.deg();
+
+    // Create an angle of π/4 rad (45°).
     let beta = Angle::RAD_FRAC_PI_4;
-    let gamma: Angle<f32> = alpha + beta;
 
-    // in radians : 1.5707964 rad + 0.7853982 rad = 2.3561945 rad
+    // Add the two angle without worrying about units.
+    let gamma = alpha + beta;
+
+    // Print the result.
     println!(
-        "in radians : {} + {} = {}",
-        Radians(alpha),
-        Radians(beta),
-        Radians(gamma),
+        "The cosine of {} is {}",
+        Degrees(gamma), // The angle is wrapped to display the value in degrees.
+        gamma.cos() // Compute the cosine without worrying about units.
     );
 
-    // in degrees : 90° + 45° = 135°
-    println!(
-        "in degrees : {} + {} = {}",
-        Degrees(alpha),
-        Degrees(beta),
-        Degrees(gamma),
-    );
+    // Output : The cosine of 135° is -0.70710677
 }
 ```
+
+## Features
+
+- `serde` : Serialization/deserialization support via serde.
 
 ## License
 

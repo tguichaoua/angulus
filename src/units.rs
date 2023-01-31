@@ -1,32 +1,27 @@
-//! This module provides wrapper for angles to indicate in wich unit to convert them
-//! to display them or (de)serialize them.
+//! This module provides wrappers to "colorize" an angle with a specific unit.
 //!
 //! ## Display
 //!
-//! Angle types didn't implement [`Display`] trait because they don't have canonical unit.
+//! Because angles are unit agnostic they cannot implement the [`Display`] trait.
 //!
-//! Unit wrapper implement the [`Display`] trait by writting the angle value in the desired
-//! unit followed by the unit symbole.
+//! But unit wrappers implement the [`Display`] trait.
+//! The value is displayed by writting the angle value in the desired unit followed by the unit symbole.
 //!
 //! ```
 //! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns}};
 //! # fn main() {
 //! let angle = 90.0_f32.deg();
 //!
-//! let rad = Radians(angle);
-//! let deg = Degrees(angle);
-//! let turns = Turns(angle);
-//!
-//! assert_eq!(format!("{rad}"), "1.5707964 rad");
-//! assert_eq!(format!("{deg}"), "90°");
-//! assert_eq!(format!("{turns}"), "0.25 tr");
+//! assert_eq!(format!("{}", Radians(angle)), "1.5707964 rad");
+//! assert_eq!(format!("{}", Degrees(angle)), "90°");
+//! assert_eq!(format!("{}", Turns(angle)), "0.25 tr");
 //! # }
 //! ```
 //!
 //! ## (De)Serialization
 //!
-//! By default, angle types (de)serialize into/from radians.
-//! By using a unit wrapper, the value is (de)serialize into/from the desire unit.
+//! The angle types (de)serialize into/from radians.
+//! But unit wrappers will (de)serialize the value into/from the specified unit.
 //!
 //! ```
 //! # use angulus::{Angle, units::{Degrees, Radians, Turns}};
@@ -58,73 +53,36 @@
 
 use std::fmt::Display;
 
-use crate::utility::AngleConvertion;
+use crate::private::IAngle;
 
-//-------------------------------------------------------------------
+macro_rules! unit {
+    (
+        $vis:vis $name:ident, $unit:expr, $to_method:ident, $format:expr
+    ) => {
+        /// Unit wrapper to "colorize" an angle in
+        #[doc = $unit]
+        ///
+        /// See the [module level documentation][self] for more details.
+        $vis struct $name<A>(pub A);
 
-/// Unit wrapper to manipulate angle in radians.
-///
-/// See the [module level documentation][self] for more details.
-pub struct Radians<A>(pub A);
+        impl<A> From<A> for $name<A> {
+            fn from(x: A) -> Self {
+                Self(x)
+            }
+        }
 
-impl<A> From<A> for Radians<A> {
-    fn from(x: A) -> Self {
-        Self(x)
-    }
+        impl<A: IAngle> Display for $name<A>
+        where
+            A::Num: Display,
+        {
+            #[inline]
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, $format, IAngle::$to_method(self.0))
+            }
+        }
+    };
 }
 
-impl<A: AngleConvertion> Display for Radians<A>
-where
-    A::N: Display,
-{
-    #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} rad", self.0.to_radians())
-    }
-}
-
-//-------------------------------------------------------------------
-
-/// Unit wrapper to manipulate angle in degrees.
-///
-/// See the [module level documentation][self] for more details.
-pub struct Degrees<A>(pub A);
-
-impl<A> From<A> for Degrees<A> {
-    fn from(x: A) -> Self {
-        Self(x)
-    }
-}
-
-impl<A: AngleConvertion> Display for Degrees<A>
-where
-    A::N: Display,
-{
-    #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}°", self.0.to_degrees())
-    }
-}
-
-//-------------------------------------------------------------------
-
-/// Unit wrapper to manipulate angle in turns.
-///
-/// See the [module level documentation][self] for more details.
-pub struct Turns<A>(pub A);
-
-impl<A> From<A> for Turns<A> {
-    fn from(x: A) -> Self {
-        Self(x)
-    }
-}
-
-impl<A: AngleConvertion> Display for Turns<A>
-where
-    A::N: Display,
-{
-    #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} tr", self.0.to_turns())
-    }
-}
+unit!(pub Radians, "radians.", to_radians, "{} rad");
+unit!(pub Degrees, "degrees.", to_degrees, "{}°");
+unit!(pub Turns, "turns.", to_turns, "{} tr");

@@ -11,7 +11,6 @@ pub trait Num:
     + Rem<Output = Self>
     + Neg<Output = Self>
     + PartialOrd
-    + PartialEq
     + Sized
 {
     /// The additive identity element of `Self` (aka `0`).
@@ -26,7 +25,7 @@ pub trait Num:
 
     /// The double of `EPSILON`.
     ///
-    /// Required by [`Angle::EPSILON`] because const trait multiplication is unstable.
+    /// Required by [`Angle::EPSILON`][crate::Angle::EPSILON] because const trait multiplication is unstable.
     const DOUBLE_EPSILON: Self;
 
     /// The full circle constant (τ)

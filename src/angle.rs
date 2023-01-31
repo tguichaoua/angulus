@@ -1,7 +1,6 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
-use crate::utility::AngleConvertion;
 use crate::{Num, UnboundedAngle};
 
 /// Represents the canonical value of an angle.
@@ -12,7 +11,7 @@ use crate::{Num, UnboundedAngle};
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
 pub struct Angle<F> {
-    pub(crate) radians: F,
+    radians: F,
 }
 
 //-------------------------------------------------------------------
@@ -266,44 +265,6 @@ impl<F: Num> Neg for Angle<F> {
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Self::from_radians(self.radians.neg())
-    }
-}
-
-//-------------------------------------------------------------------
-// Misc.
-//-------------------------------------------------------------------
-
-impl<F: Num> AngleConvertion for Angle<F> {
-    type N = F;
-
-    #[inline]
-    fn from_radians(radians: F) -> Self {
-        Self::from_radians(radians)
-    }
-
-    #[inline]
-    fn from_degrees(degrees: F) -> Self {
-        Self::from_degrees(degrees)
-    }
-
-    #[inline]
-    fn from_turns(turns: F) -> Self {
-        Self::from_turns(turns)
-    }
-
-    #[inline]
-    fn to_radians(&self) -> F {
-        (*self).to_radians()
-    }
-
-    #[inline]
-    fn to_degrees(&self) -> F {
-        (*self).to_degrees()
-    }
-
-    #[inline]
-    fn to_turns(&self) -> F {
-        (*self).to_turns()
+        Self::from_radians(-self.radians)
     }
 }
