@@ -1,10 +1,15 @@
-//! Provides types for angle manipulation.
+//! Unit agnostic angle.
 //!
 //! ## Overview
 //!
-//! An [`Angle`] is the canonical representation of an angle.
+//! Using simple floating point numbers to store an angle value is error-prone : you may add up an angle in radians and one in degrees
+//! or you may try to compute the [cosinus][f32::cos] of a value in degrees and get an unexpected result.
 //!
-//! For example, `90°` and `-270°` have different value but is the same angle.
+//! [`Angle`] and [`UnboundedAngle`] represent an angle value with no specific unit.
+//!
+//! [`Angle`] represent a canonical angle, i.e. the internal value fit the range `(-π; π]` in radians.
+//!
+//! For example, `90°` and `-270°` have different value but are the same angle.
 //!
 //! ```
 //! # use angulus::Angle;
@@ -12,11 +17,11 @@
 //! let a = Angle::from_degrees(90.0);
 //! let b = Angle::from_degrees(-270.0);
 //!
-//! assert_eq!(a.to_degrees(), b.to_degrees());
+//! assert_eq!(a, b);
 //! # }
 //! ```
 //!
-//! Conversely [`UnboundedAngle`] represent angle using the provided value.
+//! Conversely [`UnboundedAngle`] represent any angle value.
 //!
 //! ```
 //! # use angulus::UnboundedAngle;
@@ -24,24 +29,13 @@
 //! let a = UnboundedAngle::from_degrees(90.0);
 //! let b = UnboundedAngle::from_degrees(-270.0);
 //!
-//! assert_ne!(a.to_degrees(), b.to_degrees());
+//! assert_ne!(a, b);
 //! # }
 //! ```
 //!
-//! ### Create an angle
+//! ## From value to angle
 //!
-//! An [`Angle`] can be created either with the [`ToAngle`] helper trait.
-//!
-//! ```
-//! # use angulus::*;
-//! # fn main() {
-//! let deg = 90.0.deg();
-//! let rad = 3.14.rad();
-//! let turns = 0.75.turns();
-//! # }
-//! ```
-//!
-//! Or via the `from_*` methods.
+//! To create an angle from a value, you can use the `from_*` methods with the unit of the value...
 //!
 //! ```
 //! # use angulus::*;
@@ -52,41 +46,58 @@
 //! # }
 //! ```
 //!
-//! ### Get the angle value
-//!
-//! The value of the angle can be retrieved into different units using the
-//! `to_*` methods.
+//! or you use the [`ToAngle`] trait directly on the value.
 //!
 //! ```
 //! # use angulus::*;
 //! # fn main() {
-//! let rad = 90.0.deg().to_radians(); // convert 90° into radians
-//! let deg = 0.5.turns().to_degrees(); // convert 0.5 turns into degrees
-//! let turns = 0.75.rad().to_turns(); // convert 0.75 rad into turns
+//! let deg = 90.0.deg();
+//! let rad = 3.14.rad();
+//! let turns = 0.75.turns();
 //! # }
 //! ```
 //!
-//! ## [Serde](https://crates.io/crates/serde) support
+//! ## From angle to value
 //!
-//! (De)Serialization is supported via serde with the `serde` feature flag.
+//! To convert back an angle to a value you can use the `to_*` methods with the desired unit.
 //!
-//! By default angles are (de)serialize from/into radians.
+//! ```
+//! # use angulus::*;
+//! # fn main() {
+//! let a = Angle::<f32>::QUARTER;
 //!
-//! To (de)serialize from/into a specific unit see [the units module][units].
+//! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
+//! assert_eq!(a.to_degrees(), 90.0);
+//! assert_eq!(a.to_turns(), 0.25);
+//! # }
+//! ```
+//!
+//! ## Display
+//!
+//! Since [`Angle`] and [`UnboundedAngle`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
+//! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
+//!
+//! ## Serde support
+//!
+//! The `serde` feature flag enable the support of [serde](https://crates.io/crates/serde).
+//!
+//! Even if [`Angle`] and [`UnboundedAngle`] are unit agnostic they (de)serialize from/into radians
+//! for convenience.
+//! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
 
 #[cfg(feature = "serde")]
 mod serde;
 
 mod angle;
-mod helpers;
 mod num;
+mod private;
+mod to_angle;
 mod unbounded;
 pub mod units;
-mod utility;
 
 pub use angle::Angle;
-pub use helpers::*;
 pub use num::Num;
+pub use to_angle::ToAngle;
 pub use unbounded::UnboundedAngle;
 
 #[doc = include_str!("../README.md")]

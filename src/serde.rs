@@ -1,133 +1,77 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
+    private::IAngle,
     units::{Degrees, Radians, Turns},
-    utility::AngleConvertion,
     Angle, Num, UnboundedAngle,
 };
 
 //-------------------------------------------------------------------
 
-impl<N: Serialize> Serialize for Angle<N> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.radians.serialize(serializer)
-    }
+macro_rules! impl_angle {
+    (
+        $name:ident
+    ) => {
+        impl<F: Copy + Serialize> Serialize for $name<F> {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                self.to_radians().serialize(serializer)
+            }
+        }
+
+        impl<'de, F: Num + Deserialize<'de>> Deserialize<'de> for $name<F> {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                let radians = Deserialize::deserialize(deserializer)?;
+                Ok($name::from_radians(radians))
+            }
+        }
+    };
 }
 
-impl<'de, N: Num + Deserialize<'de>> Deserialize<'de> for Angle<N> {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let radians = N::deserialize(deserializer)?;
-        Ok(Angle::from_radians(radians))
-    }
-}
+impl_angle!(Angle);
+impl_angle!(UnboundedAngle);
 
 //-------------------------------------------------------------------
 
-impl<N: Serialize> Serialize for UnboundedAngle<N> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.radians.serialize(serializer)
-    }
+macro_rules! unit_impl {
+    (
+        $unit:ident, $to_method:ident, $from_method:ident
+    ) => {
+        impl<A: IAngle> Serialize for $unit<A>
+        where
+            A::Num: Serialize,
+        {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                IAngle::$to_method(self.0).serialize(serializer)
+            }
+        }
+
+        impl<'de, A: IAngle> Deserialize<'de> for $unit<A>
+        where
+            A::Num: Deserialize<'de>,
+        {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                let value = Deserialize::deserialize(deserializer)?;
+                Ok($unit(IAngle::$from_method(value)))
+            }
+        }
+    };
 }
 
-impl<'de, N: Deserialize<'de>> Deserialize<'de> for UnboundedAngle<N> {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let radians = N::deserialize(deserializer)?;
-        Ok(UnboundedAngle::from_radians(radians))
-    }
-}
-
-//-------------------------------------------------------------------
-
-impl<A: AngleConvertion> Serialize for Radians<A>
-where
-    A::N: Serialize,
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.0.to_radians().serialize(serializer)
-    }
-}
-
-impl<'de, A: AngleConvertion> Deserialize<'de> for Radians<A>
-where
-    A::N: Deserialize<'de>,
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let radians = A::N::deserialize(deserializer)?;
-        Ok(Radians(A::from_radians(radians)))
-    }
-}
-
-//-------------------------------------------------------------------
-
-impl<A: AngleConvertion> Serialize for Degrees<A>
-where
-    A::N: Serialize,
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.0.to_degrees().serialize(serializer)
-    }
-}
-
-impl<'de, A: AngleConvertion> Deserialize<'de> for Degrees<A>
-where
-    A::N: Deserialize<'de>,
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let degrees = A::N::deserialize(deserializer)?;
-        Ok(Degrees(A::from_degrees(degrees)))
-    }
-}
-
-//-------------------------------------------------------------------
-
-impl<A: AngleConvertion> Serialize for Turns<A>
-where
-    A::N: Serialize,
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.0.to_turns().serialize(serializer)
-    }
-}
-
-impl<'de, A: AngleConvertion> Deserialize<'de> for Turns<A>
-where
-    A::N: Deserialize<'de>,
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let turns = A::N::deserialize(deserializer)?;
-        Ok(Turns(A::from_turns(turns)))
-    }
-}
+unit_impl!(Radians, to_radians, from_radians);
+unit_impl!(Degrees, to_degrees, from_degrees);
+unit_impl!(Turns, to_turns, from_turns);
 
 //-------------------------------------------------------------------
 

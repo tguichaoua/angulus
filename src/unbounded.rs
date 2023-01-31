@@ -3,7 +3,7 @@ use std::{
     ops::{Add, Div, Mul, Neg, Sub},
 };
 
-use crate::{utility::AngleConvertion, Angle, Num};
+use crate::{Angle, Num};
 
 /// Represents an angle that may not be the canonical value.
 ///
@@ -25,7 +25,7 @@ use crate::{utility::AngleConvertion, Angle, Num};
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
 pub struct UnboundedAngle<F> {
-    pub(crate) radians: F,
+    radians: F,
 }
 
 //-------------------------------------------------------------------
@@ -169,10 +169,10 @@ impl<F: Num> UnboundedAngle<F> {
     }
 }
 
-impl<F> From<Angle<F>> for UnboundedAngle<F> {
+impl<F: Copy> From<Angle<F>> for UnboundedAngle<F> {
     #[inline]
-    fn from(main_angle: Angle<F>) -> Self {
-        Self::from_radians(main_angle.radians)
+    fn from(angle: Angle<F>) -> Self {
+        Self::from_radians(angle.to_radians())
     }
 }
 
@@ -266,44 +266,6 @@ impl<F: Num> Neg for UnboundedAngle<F> {
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Self::from_radians(self.radians.neg())
-    }
-}
-
-//-------------------------------------------------------------------
-// Misc.
-//-------------------------------------------------------------------
-
-impl<F: Num> AngleConvertion for UnboundedAngle<F> {
-    type N = F;
-
-    #[inline]
-    fn from_radians(radians: F) -> Self {
-        Self::from_radians(radians)
-    }
-
-    #[inline]
-    fn from_degrees(degrees: F) -> Self {
-        Self::from_degrees(degrees)
-    }
-
-    #[inline]
-    fn from_turns(turns: F) -> Self {
-        Self::from_turns(turns)
-    }
-
-    #[inline]
-    fn to_radians(&self) -> F {
-        (*self).to_radians()
-    }
-
-    #[inline]
-    fn to_degrees(&self) -> F {
-        (*self).to_degrees()
-    }
-
-    #[inline]
-    fn to_turns(&self) -> F {
-        (*self).to_turns()
+        Self::from_radians(-self.radians)
     }
 }
