@@ -2,8 +2,9 @@
 //!
 //! ## Overview
 //!
-//! Using simple floating point numbers to store an angle value is error-prone : you may add up an angle in radians and one in degrees
-//! or you may try to compute the [cosinus][f32::cos] of a value in degrees and get an unexpected result.
+//! Using simple floating point numbers to store an angle value is error-prone : you may add two
+//! angle with one in radians and the second in degrees or you may try to compute the cosine of
+//! a value in degrees and get an unexpected result.
 //!
 //! [`Angle`] and [`UnboundedAngle`] represent an angle value with no specific unit.
 //!
