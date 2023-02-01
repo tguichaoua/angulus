@@ -86,3 +86,4 @@ macro_rules! unit {
 unit!(pub Radians, "radians.", to_radians, "{} rad");
 unit!(pub Degrees, "degrees.", to_degrees, "{}°");
 unit!(pub Turns, "turns.", to_turns, "{} tr");
+unit!(pub Gradians, "gradians.", to_gradians, "{}g");

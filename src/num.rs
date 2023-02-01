@@ -55,6 +55,11 @@ pub trait Num:
     /// Convertion factor from radians to turns.
     const RAD_TO_TURNS: Self;
 
+    /// Convertion factor from gradians to radians.
+    const GRAD_TO_RAD: Self;
+    /// Convertion factor from radians to gradians.
+    const RAD_TO_GRAD: Self;
+
     /// Computes the sine (in radians).
     fn sin(self) -> Self;
     /// Computes the cosine (in radians).
@@ -84,6 +89,9 @@ impl Num for f32 {
 
     const TURNS_TO_RAD: Self = std::f32::consts::TAU;
     const RAD_TO_TURNS: Self = 0.159_154_94_f32;
+
+    const GRAD_TO_RAD: Self = std::f32::consts::PI / 200.0;
+    const RAD_TO_GRAD: Self = 200.0 / std::f32::consts::PI;
 
     #[inline]
     fn sin(self) -> Self {
@@ -122,6 +130,9 @@ impl Num for f64 {
 
     const TURNS_TO_RAD: Self = std::f64::consts::TAU;
     const RAD_TO_TURNS: Self = 0.159_154_943_092_f64;
+
+    const GRAD_TO_RAD: Self = std::f64::consts::PI / 200.0;
+    const RAD_TO_GRAD: Self = 200.0 / std::f64::consts::PI;
 
     #[inline]
     fn sin(self) -> Self {

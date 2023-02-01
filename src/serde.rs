@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     private::IAngle,
-    units::{Degrees, Radians, Turns},
+    units::{Degrees, Gradians, Radians, Turns},
     Angle, AngleUnbounded, Num,
 };
 
@@ -72,6 +72,7 @@ macro_rules! unit_impl {
 unit_impl!(Radians, to_radians, from_radians);
 unit_impl!(Degrees, to_degrees, from_degrees);
 unit_impl!(Turns, to_turns, from_turns);
+unit_impl!(Gradians, to_gradians, from_gradians);
 
 //-------------------------------------------------------------------
 
@@ -81,7 +82,7 @@ mod tests {
     use serde::{Deserialize, Serialize};
 
     use crate::{
-        units::{Degrees, Radians, Turns},
+        units::{Degrees, Gradians, Radians, Turns},
         Angle, AngleUnbounded, ToAngle,
     };
 
@@ -95,6 +96,7 @@ mod tests {
             rad: Radians<Angle<f32>>,
             deg: Degrees<Angle<f32>>,
             tr: Turns<AngleUnbounded<f32>>,
+            g: Gradians<AngleUnbounded<f32>>,
         }
 
         #[derive(Deserialize)]
@@ -103,6 +105,7 @@ mod tests {
             rad: f32,
             deg: f32,
             tr: f32,
+            g: f32,
         }
 
         let before = WithAngle {
@@ -110,6 +113,7 @@ mod tests {
             rad: Radians(0.5.turns()),
             deg: Degrees(90.0.deg()),
             tr: Turns(270.0.deg_unbounded()),
+            g: Gradians(AngleUnbounded::TWELFTH),
         };
         let json = serde_json::to_string(&before).unwrap();
         let after: WithoutAngle = serde_json::from_str(&json).unwrap();
@@ -118,6 +122,7 @@ mod tests {
         assert_float_eq!(before.rad.0.to_radians(), after.rad, abs <= TOLERANCE);
         assert_float_eq!(before.deg.0.to_degrees(), after.deg, abs <= TOLERANCE);
         assert_float_eq!(before.tr.0.to_turns(), after.tr, abs <= TOLERANCE);
+        assert_float_eq!(before.g.0.to_gradians(), after.g, abs <= TOLERANCE);
     }
 
     #[test]
@@ -128,6 +133,7 @@ mod tests {
             rad: Radians<Angle<f32>>,
             deg: Degrees<Angle<f32>>,
             tr: Turns<AngleUnbounded<f32>>,
+            g: Gradians<AngleUnbounded<f32>>,
         }
 
         let json = serde_json::json!(
@@ -136,6 +142,7 @@ mod tests {
                 "rad":0.5,
                 "deg":270.0,
                 "tr":50.0,
+                "g": 150,
             }
         );
 
@@ -147,5 +154,6 @@ mod tests {
         assert_float_eq!(foo.rad.0.to_radians(), 0.5, abs <= TOLERANCE);
         assert_float_eq!(foo.deg.0.to_degrees(), -90.0, abs <= TOLERANCE);
         assert_float_eq!(foo.tr.0.to_turns(), 50.0, abs <= TOLERANCE);
+        assert_float_eq!(foo.g.0.to_gradians(), 150.0, abs <= TOLERANCE);
     }
 }
