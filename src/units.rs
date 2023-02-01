@@ -8,13 +8,14 @@
 //! The value is displayed by writting the angle value in the desired unit followed by the unit symbole.
 //!
 //! ```
-//! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns}};
+//! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns, Gradians}};
 //! # fn main() {
 //! let angle = 90.0_f32.deg();
 //!
 //! assert_eq!(format!("{}", Radians(angle)), "1.5707964 rad");
 //! assert_eq!(format!("{}", Degrees(angle)), "90°");
 //! assert_eq!(format!("{}", Turns(angle)), "0.25 tr");
+//! assert_eq!(format!("{}", Gradians(angle)), "100g");
 //! # }
 //! ```
 //!
@@ -24,7 +25,7 @@
 //! But unit wrappers will (de)serialize the value into/from the specified unit.
 //!
 //! ```
-//! # use angulus::{Angle, units::{Degrees, Radians, Turns}};
+//! # use angulus::{Angle, units::{Degrees, Radians, Turns, Gradians}};
 //! # use float_eq::assert_float_eq;
 //! # use serde::{Serialize, Deserialize};
 //! # fn main() {
@@ -33,6 +34,7 @@
 //!     rad: Radians<Angle<f32>>,
 //!     deg: Degrees<Angle<f32>>,
 //!     tr: Turns<Angle<f32>>,
+//!     g: Gradians<Angle<f32>>,
 //! }
 //!
 //! let json = serde_json::json!{
@@ -40,6 +42,7 @@
 //!         "rad": 1.0,
 //!         "deg": 90.0,
 //!         "tr": 0.5,
+//!         "g": 50,
 //!     }
 //! };
 //!
@@ -48,6 +51,7 @@
 //! assert_float_eq!(foo.rad.0.to_radians(), 1.0, abs <= 0.000001);
 //! assert_float_eq!(foo.deg.0.to_degrees(), 90.0, abs <= 0.000001);
 //! assert_float_eq!(foo.tr.0.to_turns(), 0.5, abs <= 0.000001);
+//! assert_float_eq!(foo.g.0.to_gradians(), 50.0, abs <= 0.000001);
 //! # }
 //! ```
 
@@ -86,3 +90,4 @@ macro_rules! unit {
 unit!(pub Radians, "radians.", to_radians, "{} rad");
 unit!(pub Degrees, "degrees.", to_degrees, "{}°");
 unit!(pub Turns, "turns.", to_turns, "{} tr");
+unit!(pub Gradians, "gradians.", to_gradians, "{}g");

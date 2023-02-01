@@ -73,6 +73,21 @@ impl<F: Num> Angle<F> {
     pub const SIXTEENTH: Self = Self::RAD_FRAC_PI_8;
 }
 
+impl<F: Num> Angle<F> {
+    /// The angle of 200g.
+    pub const GRAD_200: Self = Self::RAD_PI;
+    /// The angle of 100g.
+    pub const GRAD_100: Self = Self::RAD_FRAC_PI_2;
+    /// The angle of 66.6g.
+    pub const GRAD_66_6: Self = Self::RAD_FRAC_PI_3;
+    ///  The angle of 50g.
+    pub const GRAD_50: Self = Self::RAD_FRAC_PI_4;
+    ///  The angle of 33.3g.
+    pub const GRAD_33_3: Self = Self::RAD_FRAC_PI_6;
+    ///  The angle of 25g.
+    pub const GRAD_25: Self = Self::RAD_FRAC_PI_8;
+}
+
 //-------------------------------------------------------------------
 // Standard traits
 //-------------------------------------------------------------------
@@ -129,6 +144,12 @@ impl<F: Num> Angle<F> {
     pub fn from_turns(turns: F) -> Self {
         Self::from_radians(turns * F::TURNS_TO_RAD)
     }
+
+    /// Creates a new angle from a value in gradians.
+    #[inline]
+    pub fn from_gradians(gradians: F) -> Self {
+        Self::from_radians(gradians * F::GRAD_TO_RAD)
+    }
 }
 
 //-------------------------------------------------------------------
@@ -154,6 +175,12 @@ impl<F: Num> Angle<F> {
     #[inline]
     pub fn to_turns(self) -> F {
         self.radians * F::RAD_TO_TURNS
+    }
+
+    /// The value of the angle in gradians.
+    #[inline]
+    pub fn to_gradians(self) -> F {
+        self.radians * F::RAD_TO_GRAD
     }
 }
 
