@@ -44,6 +44,7 @@
 //! let deg = Angle::from_degrees(90.0);
 //! let rad = Angle::from_radians(3.14);
 //! let turns = Angle::from_turns(0.75);
+//! let grad = Angle::from_gradians(50.0);
 //! # }
 //! ```
 //!
@@ -55,6 +56,7 @@
 //! let deg = 90.0.deg();
 //! let rad = 3.14.rad();
 //! let turns = 0.75.turns();
+//! let grad = 50.0.g();
 //! # }
 //! ```
 //!
@@ -70,6 +72,7 @@
 //! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
 //! assert_eq!(a.to_degrees(), 90.0);
 //! assert_eq!(a.to_turns(), 0.25);
+//! assert_eq!(a.to_gradians(), 100.0);
 //! # }
 //! ```
 //!
