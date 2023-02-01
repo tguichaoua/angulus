@@ -6,7 +6,7 @@
 //! angle with one in radians and the second in degrees or you may try to compute the cosine of
 //! a value in degrees and get an unexpected result.
 //!
-//! [`Angle`] and [`UnboundedAngle`] represent an angle value with no specific unit.
+//! [`Angle`] and [`AngleUnbounded`] represent an angle value with no specific unit.
 //!
 //! [`Angle`] represent a canonical angle, i.e. the internal value fit the range `(-π; π]` in radians.
 //!
@@ -22,13 +22,13 @@
 //! # }
 //! ```
 //!
-//! Conversely [`UnboundedAngle`] represent any angle value.
+//! Conversely [`AngleUnbounded`] represent any angle value.
 //!
 //! ```
-//! # use angulus::UnboundedAngle;
+//! # use angulus::AngleUnbounded;
 //! # fn main() {
-//! let a = UnboundedAngle::from_degrees(90.0);
-//! let b = UnboundedAngle::from_degrees(-270.0);
+//! let a = AngleUnbounded::from_degrees(90.0);
+//! let b = AngleUnbounded::from_degrees(-270.0);
 //!
 //! assert_ne!(a, b);
 //! # }
@@ -75,14 +75,14 @@
 //!
 //! ## Display
 //!
-//! Since [`Angle`] and [`UnboundedAngle`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
+//! Since [`Angle`] and [`AngleUnbounded`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
 //! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
 //!
 //! ## Serde support
 //!
 //! The `serde` feature flag enable the support of [serde](https://crates.io/crates/serde).
 //!
-//! Even if [`Angle`] and [`UnboundedAngle`] are unit agnostic they (de)serialize from/into radians
+//! Even if [`Angle`] and [`AngleUnbounded`] are unit agnostic they (de)serialize from/into radians
 //! for convenience.
 //! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
 
@@ -99,7 +99,7 @@ pub mod units;
 pub use angle::Angle;
 pub use num::Num;
 pub use to_angle::ToAngle;
-pub use unbounded::UnboundedAngle;
+pub use unbounded::AngleUnbounded;
 
 #[doc = include_str!("../README.md")]
 #[cfg(doctest)]

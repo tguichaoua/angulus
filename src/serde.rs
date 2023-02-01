@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
     private::IAngle,
     units::{Degrees, Radians, Turns},
-    Angle, Num, UnboundedAngle,
+    Angle, AngleUnbounded, Num,
 };
 
 //-------------------------------------------------------------------
@@ -34,7 +34,7 @@ macro_rules! impl_angle {
 }
 
 impl_angle!(Angle);
-impl_angle!(UnboundedAngle);
+impl_angle!(AngleUnbounded);
 
 //-------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ mod tests {
 
     use crate::{
         units::{Degrees, Radians, Turns},
-        Angle, ToAngle, UnboundedAngle,
+        Angle, AngleUnbounded, ToAngle,
     };
 
     const TOLERANCE: f32 = 0.00001;
@@ -94,7 +94,7 @@ mod tests {
             angle: Angle<f32>,
             rad: Radians<Angle<f32>>,
             deg: Degrees<Angle<f32>>,
-            tr: Turns<UnboundedAngle<f32>>,
+            tr: Turns<AngleUnbounded<f32>>,
         }
 
         #[derive(Deserialize)]
@@ -127,7 +127,7 @@ mod tests {
             angle: Angle<f32>,
             rad: Radians<Angle<f32>>,
             deg: Degrees<Angle<f32>>,
-            tr: Turns<UnboundedAngle<f32>>,
+            tr: Turns<AngleUnbounded<f32>>,
         }
 
         let json = serde_json::json!(

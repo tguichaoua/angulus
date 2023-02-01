@@ -1,4 +1,4 @@
-use crate::{Angle, Num, UnboundedAngle};
+use crate::{Angle, AngleUnbounded, Num};
 
 /// Marker trait for angle types.
 ///
@@ -50,7 +50,7 @@ impl<F: Num> IAngle for Angle<F> {
     }
 }
 
-impl<F: Num> IAngle for UnboundedAngle<F> {
+impl<F: Num> IAngle for AngleUnbounded<F> {
     type Num = F;
 
     #[inline]

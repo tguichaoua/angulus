@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
-use crate::{Num, UnboundedAngle};
+use crate::{AngleUnbounded, Num};
 
 /// Represents the canonical value of an angle.
 ///
@@ -163,14 +163,14 @@ impl<F: Num> Angle<F> {
 
 impl<F: Copy> Angle<F> {
     /// Converts this angle into an unbounded angle.
-    pub const fn to_unbounded(self) -> UnboundedAngle<F> {
-        UnboundedAngle::from_radians(self.radians)
+    pub const fn to_unbounded(self) -> AngleUnbounded<F> {
+        AngleUnbounded::from_radians(self.radians)
     }
 }
 
-impl<F: Num> From<UnboundedAngle<F>> for Angle<F> {
+impl<F: Num> From<AngleUnbounded<F>> for Angle<F> {
     #[inline]
-    fn from(angle: UnboundedAngle<F>) -> Self {
+    fn from(angle: AngleUnbounded<F>) -> Self {
         Self::from_radians(angle.to_radians())
     }
 }
