@@ -65,7 +65,7 @@ impl<F: Num> Angle<F> {
     pub const QUARTER: Self = Self::RAD_FRAC_PI_2;
     /// The angle of a sixth of a circle (1/6 turns).
     pub const SIXTH: Self = Self::RAD_FRAC_PI_3;
-    ///  The angle of a eighth of a circle (1/6 turns).
+    ///  The angle of a eighth of a circle (1/8 turns).
     pub const EIGHTH: Self = Self::RAD_FRAC_PI_4;
     ///  The angle of a twelfth of a circle (1/12 turns).
     pub const TWELFTH: Self = Self::RAD_FRAC_PI_6;
