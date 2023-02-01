@@ -84,11 +84,11 @@ impl Num for f32 {
     const FRAC_PI_6: Self = std::f32::consts::FRAC_PI_6;
     const FRAC_PI_8: Self = std::f32::consts::FRAC_PI_8;
 
-    const DEG_TO_RAD: Self = 0.017_453_292_f32;
-    const RAD_TO_DEG: Self = 57.295_78_f32;
+    const DEG_TO_RAD: Self = std::f32::consts::PI / 180.0;
+    const RAD_TO_DEG: Self = 180.0 / std::f32::consts::PI;
 
     const TURNS_TO_RAD: Self = std::f32::consts::TAU;
-    const RAD_TO_TURNS: Self = 0.159_154_94_f32;
+    const RAD_TO_TURNS: Self = 1.0 / std::f32::consts::TAU;
 
     const GRAD_TO_RAD: Self = std::f32::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f32::consts::PI;
@@ -125,11 +125,11 @@ impl Num for f64 {
     const FRAC_PI_6: Self = std::f64::consts::FRAC_PI_6;
     const FRAC_PI_8: Self = std::f64::consts::FRAC_PI_8;
 
-    const DEG_TO_RAD: Self = 0.017_453_292_519_943_295_f64;
-    const RAD_TO_DEG: Self = 57.295_779_513_082_32_f64;
+    const DEG_TO_RAD: Self = std::f64::consts::PI / 180.0;
+    const RAD_TO_DEG: Self = 180.0 / std::f64::consts::PI;
 
     const TURNS_TO_RAD: Self = std::f64::consts::TAU;
-    const RAD_TO_TURNS: Self = 0.159_154_943_092_f64;
+    const RAD_TO_TURNS: Self = 1.0 / std::f64::consts::TAU;
 
     const GRAD_TO_RAD: Self = std::f64::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f64::consts::PI;
