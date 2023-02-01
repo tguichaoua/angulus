@@ -14,17 +14,17 @@ use crate::{Angle, Num};
 /// # use float_eq::assert_float_eq;
 /// # fn main() {
 /// let angle = (3.0_f32 * 90.0_f32.deg()).to_degrees();
-/// let unboudned = (3.0_f32 * 90.0_f32.deg_unbounded()).to_degrees();
+/// let unbounded = (3.0_f32 * 90.0_f32.deg_unbounded()).to_degrees();
 ///
 /// assert_float_eq!(angle, -90.0, ulps <= 1);
-/// assert_float_eq!(unboudned, 270.0, ulps <= 1);
+/// assert_float_eq!(unbounded, 270.0, ulps <= 1);
 /// # }
 /// ```
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
-pub struct UnboundedAngle<F> {
+pub struct AngleUnbounded<F> {
     radians: F,
 }
 
@@ -32,32 +32,32 @@ pub struct UnboundedAngle<F> {
 // Const
 //-------------------------------------------------------------------
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// The angle of value zero.
-    pub const ZERO: Self = UnboundedAngle::from_radians(F::ZERO);
+    pub const ZERO: Self = AngleUnbounded::from_radians(F::ZERO);
 
-    /// [Machine epsilon] value for [`UnboundedAngle`].
+    /// [Machine epsilon] value for [`AngleUnbounded`].
     ///
     /// [Machine epsilon]: https://en.wikipedia.org/wiki/Machine_epsilon
-    pub const EPSILON: Self = UnboundedAngle::from_radians(F::DOUBLE_EPSILON);
+    pub const EPSILON: Self = AngleUnbounded::from_radians(F::DOUBLE_EPSILON);
 }
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// The angle of π radians.
-    pub const RAD_PI: Self = UnboundedAngle::from_radians(F::PI);
+    pub const RAD_PI: Self = AngleUnbounded::from_radians(F::PI);
     /// The angle of π/2 radians.
-    pub const RAD_FRAC_PI_2: Self = UnboundedAngle::from_radians(F::FRAC_PI_2);
+    pub const RAD_FRAC_PI_2: Self = AngleUnbounded::from_radians(F::FRAC_PI_2);
     /// The angle of π/3 radians.
-    pub const RAD_FRAC_PI_3: Self = UnboundedAngle::from_radians(F::FRAC_PI_3);
+    pub const RAD_FRAC_PI_3: Self = AngleUnbounded::from_radians(F::FRAC_PI_3);
     /// The angle of π/4 radians.
-    pub const RAD_FRAC_PI_4: Self = UnboundedAngle::from_radians(F::FRAC_PI_4);
+    pub const RAD_FRAC_PI_4: Self = AngleUnbounded::from_radians(F::FRAC_PI_4);
     /// The angle of π/6 radians.
-    pub const RAD_FRAC_PI_6: Self = UnboundedAngle::from_radians(F::FRAC_PI_6);
+    pub const RAD_FRAC_PI_6: Self = AngleUnbounded::from_radians(F::FRAC_PI_6);
     /// The angle of π/8 radians.
-    pub const RAD_FRAC_PI_8: Self = UnboundedAngle::from_radians(F::FRAC_PI_8);
+    pub const RAD_FRAC_PI_8: Self = AngleUnbounded::from_radians(F::FRAC_PI_8);
 }
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// The angle of 180°.
     pub const DEG_180: Self = Self::RAD_PI;
     /// The angle of 90°.
@@ -72,7 +72,7 @@ impl<F: Num> UnboundedAngle<F> {
     pub const DEG_22_5: Self = Self::RAD_FRAC_PI_8;
 }
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// The angle of a half of a circle (1/2 turns).
     pub const HALF: Self = Self::RAD_PI;
     /// The angle of a quarter of a circle (1/4 turns).
@@ -90,15 +90,15 @@ impl<F: Num> UnboundedAngle<F> {
 // Standard traits
 //-------------------------------------------------------------------
 
-impl<F: Debug> Debug for UnboundedAngle<F> {
+impl<F: Debug> Debug for AngleUnbounded<F> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("UnboundedAngle")
+        f.debug_tuple("AngleUnbounded")
             .field(&self.radians)
             .finish()
     }
 }
 
-impl<F: Num> Default for UnboundedAngle<F> {
+impl<F: Num> Default for AngleUnbounded<F> {
     #[inline]
     fn default() -> Self {
         Self::ZERO
@@ -109,7 +109,7 @@ impl<F: Num> Default for UnboundedAngle<F> {
 // Ctor
 //-------------------------------------------------------------------
 
-impl<F> UnboundedAngle<F> {
+impl<F> AngleUnbounded<F> {
     /// Creates a new unbounded angle from a value in radians.
     #[inline]
     pub const fn from_radians(radians: F) -> Self {
@@ -117,7 +117,7 @@ impl<F> UnboundedAngle<F> {
     }
 }
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// Creates a new unbounded angle from a value in degrees.
     #[inline]
     pub fn from_degrees(degrees: F) -> Self {
@@ -135,7 +135,7 @@ impl<F: Num> UnboundedAngle<F> {
 // Getters
 //-------------------------------------------------------------------
 
-impl<F: Copy> UnboundedAngle<F> {
+impl<F: Copy> AngleUnbounded<F> {
     /// The value of the unbounded angle in radians.
     #[inline]
     pub const fn to_radians(self) -> F {
@@ -143,7 +143,7 @@ impl<F: Copy> UnboundedAngle<F> {
     }
 }
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// The value of the unbounded angle in degrees.
     #[inline]
     pub fn to_degrees(self) -> F {
@@ -161,7 +161,7 @@ impl<F: Num> UnboundedAngle<F> {
 // MainAngle convertion
 //-------------------------------------------------------------------
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// Converts this angle into a bounded angle.
     #[inline]
     pub fn to_bounded(self) -> Angle<F> {
@@ -169,7 +169,7 @@ impl<F: Num> UnboundedAngle<F> {
     }
 }
 
-impl<F: Copy> From<Angle<F>> for UnboundedAngle<F> {
+impl<F: Copy> From<Angle<F>> for AngleUnbounded<F> {
     #[inline]
     fn from(angle: Angle<F>) -> Self {
         Self::from_radians(angle.to_radians())
@@ -180,7 +180,7 @@ impl<F: Copy> From<Angle<F>> for UnboundedAngle<F> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: Num> UnboundedAngle<F> {
+impl<F: Num> AngleUnbounded<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {
@@ -207,7 +207,7 @@ impl<F: Num> UnboundedAngle<F> {
 // Ops
 //-------------------------------------------------------------------
 
-impl<F: Num> Add for UnboundedAngle<F> {
+impl<F: Num> Add for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -216,7 +216,7 @@ impl<F: Num> Add for UnboundedAngle<F> {
     }
 }
 
-impl<F: Num> Sub for UnboundedAngle<F> {
+impl<F: Num> Sub for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -225,7 +225,7 @@ impl<F: Num> Sub for UnboundedAngle<F> {
     }
 }
 
-impl<F: Num> Mul<F> for UnboundedAngle<F> {
+impl<F: Num> Mul<F> for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -234,25 +234,25 @@ impl<F: Num> Mul<F> for UnboundedAngle<F> {
     }
 }
 
-impl Mul<UnboundedAngle<f32>> for f32 {
-    type Output = UnboundedAngle<f32>;
+impl Mul<AngleUnbounded<f32>> for f32 {
+    type Output = AngleUnbounded<f32>;
 
     #[inline]
-    fn mul(self, rhs: UnboundedAngle<f32>) -> Self::Output {
+    fn mul(self, rhs: AngleUnbounded<f32>) -> Self::Output {
         rhs * self
     }
 }
 
-impl Mul<UnboundedAngle<f64>> for f64 {
-    type Output = UnboundedAngle<f64>;
+impl Mul<AngleUnbounded<f64>> for f64 {
+    type Output = AngleUnbounded<f64>;
 
     #[inline]
-    fn mul(self, rhs: UnboundedAngle<f64>) -> Self::Output {
+    fn mul(self, rhs: AngleUnbounded<f64>) -> Self::Output {
         rhs * self
     }
 }
 
-impl<F: Num> Div<F> for UnboundedAngle<F> {
+impl<F: Num> Div<F> for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -261,7 +261,7 @@ impl<F: Num> Div<F> for UnboundedAngle<F> {
     }
 }
 
-impl<F: Num> Neg for UnboundedAngle<F> {
+impl<F: Num> Neg for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]

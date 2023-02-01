@@ -1,7 +1,7 @@
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 
 /// Marker trait for floating-point types that can be used as numerical type
-/// for [`Angle`][crate::Angle] and [`UnboundedAngle`][crate::UnboundedAngle].
+/// for [`Angle`][crate::Angle] and [`AngleUnbounded`][crate::AngleUnbounded].
 pub trait Num:
     Copy
     + Add<Output = Self>
