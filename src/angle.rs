@@ -5,7 +5,7 @@ use crate::{AngleUnbounded, Float};
 
 /// Represents the canonical value of an angle.
 ///
-/// The value is stored in the range `[-π; π]`.
+/// The value is stored in the range `(-π, π]`.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
@@ -111,7 +111,7 @@ impl<F: Float> Default for Angle<F> {
 
 impl<F> Angle<F> {
     /// Creates a new angle from a value in radians assuming it is already in
-    /// the the range `[-π; π]`.
+    /// the the range `(-π, π]`.
     #[inline]
     pub const fn from_radians_unchecked(radians: F) -> Self {
         Self { radians }
@@ -125,7 +125,7 @@ impl<F: Float> Angle<F> {
         let radians = radians % F::TAU;
         let radians = if radians > F::PI {
             radians - F::TAU
-        } else if radians < -F::PI {
+        } else if radians <= -F::PI {
             radians + F::TAU
         } else {
             radians
@@ -293,5 +293,18 @@ impl<F: Float> Neg for Angle<F> {
     #[inline]
     fn neg(self) -> Self::Output {
         Self::from_radians(-self.radians)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Angle;
+
+    #[test]
+    fn pi_eq_neg_pi() {
+        assert_eq!(
+            Angle::from_radians(std::f32::consts::PI),
+            Angle::from_radians(-std::f32::consts::PI),
+        )
     }
 }
