@@ -212,16 +212,19 @@ impl<F: Float> Angle<F> {
     pub fn sin(self) -> F {
         self.radians.sin()
     }
+
     /// Computes the cosine.
     #[inline]
     pub fn cos(self) -> F {
         self.radians.cos()
     }
+
     /// Computes the tangent.
     #[inline]
     pub fn tan(self) -> F {
         self.radians.tan()
     }
+
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
     #[inline]
     pub fn sin_cos(self) -> (F, F) {
@@ -292,7 +295,12 @@ impl<F: Float> Neg for Angle<F> {
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Self::from_radians(-self.radians)
+        debug_assert!(-F::PI < self.radians && self.radians <= F::PI);
+        if self.radians == F::PI {
+            self
+        } else {
+            Self::from_radians_unchecked(-self.radians)
+        }
     }
 }
 
