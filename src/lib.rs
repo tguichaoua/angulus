@@ -1,3 +1,5 @@
+#![deny(missing_docs)]
+
 //! Unit agnostic angle.
 //!
 //! ## Overview
@@ -93,6 +95,7 @@
 mod serde;
 
 mod angle;
+#[allow(missing_docs)]
 pub mod float;
 mod to_angle;
 mod unbounded;
@@ -106,8 +109,14 @@ pub use unbounded::AngleUnbounded;
 #[cfg(doctest)]
 pub struct ReadmeDoctests;
 
+/// Type alias for [`Angle::<f32>`].
 pub type Angle32 = Angle<f32>;
+
+/// Type alias for [`Angle::<f64>`].
 pub type Angle64 = Angle<f64>;
 
+/// Type alias for [`AngleUnbounded::<f32>`].
 pub type AngleUnbounded32 = AngleUnbounded<f32>;
+
+/// Type alias for [`AngleUnbounded::<f64>`].
 pub type AngleUnbounded64 = AngleUnbounded<f64>;
