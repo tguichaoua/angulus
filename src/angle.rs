@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
-use crate::{AngleUnbounded, Num};
+use crate::{AngleUnbounded, Float};
 
 /// Represents the canonical value of an angle.
 ///
@@ -18,7 +18,7 @@ pub struct Angle<F> {
 // Const
 //-------------------------------------------------------------------
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The angle of value zero.
     pub const ZERO: Self = Angle::from_radians_unchecked(F::ZERO);
 
@@ -28,7 +28,7 @@ impl<F: Num> Angle<F> {
     pub const EPSILON: Self = Angle::from_radians_unchecked(F::DOUBLE_EPSILON);
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The angle of π radians.
     pub const RAD_PI: Self = Angle::from_radians_unchecked(F::PI);
     /// The angle of π/2 radians.
@@ -43,7 +43,7 @@ impl<F: Num> Angle<F> {
     pub const RAD_FRAC_PI_8: Self = Angle::from_radians_unchecked(F::FRAC_PI_8);
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The angle of 180°.
     pub const DEG_180: Self = Self::RAD_PI;
     /// The angle of 90°.
@@ -58,7 +58,7 @@ impl<F: Num> Angle<F> {
     pub const DEG_22_5: Self = Self::RAD_FRAC_PI_8;
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The angle of a half of a circle (1/2 turns).
     pub const HALF: Self = Self::RAD_PI;
     /// The angle of a quarter of a circle (1/4 turns).
@@ -73,7 +73,7 @@ impl<F: Num> Angle<F> {
     pub const SIXTEENTH: Self = Self::RAD_FRAC_PI_8;
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The angle of 200g.
     pub const GRAD_200: Self = Self::RAD_PI;
     /// The angle of 100g.
@@ -98,7 +98,7 @@ impl<F: Debug> Debug for Angle<F> {
     }
 }
 
-impl<F: Num> Default for Angle<F> {
+impl<F: Float> Default for Angle<F> {
     #[inline]
     fn default() -> Self {
         Self::ZERO
@@ -118,7 +118,7 @@ impl<F> Angle<F> {
     }
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// Creates a new angle from a value in radians.
     #[inline]
     pub fn from_radians(radians: F) -> Self {
@@ -164,7 +164,7 @@ impl<F: Copy> Angle<F> {
     }
 }
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// The value of the angle in degrees.
     #[inline]
     pub fn to_degrees(self) -> F {
@@ -195,7 +195,7 @@ impl<F: Copy> Angle<F> {
     }
 }
 
-impl<F: Num> From<AngleUnbounded<F>> for Angle<F> {
+impl<F: Float> From<AngleUnbounded<F>> for Angle<F> {
     #[inline]
     fn from(angle: AngleUnbounded<F>) -> Self {
         Self::from_radians(angle.to_radians())
@@ -206,7 +206,7 @@ impl<F: Num> From<AngleUnbounded<F>> for Angle<F> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: Num> Angle<F> {
+impl<F: Float> Angle<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {
@@ -233,7 +233,7 @@ impl<F: Num> Angle<F> {
 // Ops
 //-------------------------------------------------------------------
 
-impl<F: Num> Add for Angle<F> {
+impl<F: Float> Add for Angle<F> {
     type Output = Self;
 
     #[inline]
@@ -242,7 +242,7 @@ impl<F: Num> Add for Angle<F> {
     }
 }
 
-impl<F: Num> Sub for Angle<F> {
+impl<F: Float> Sub for Angle<F> {
     type Output = Self;
 
     #[inline]
@@ -251,7 +251,7 @@ impl<F: Num> Sub for Angle<F> {
     }
 }
 
-impl<F: Num> Mul<F> for Angle<F> {
+impl<F: Float> Mul<F> for Angle<F> {
     type Output = Self;
 
     #[inline]
@@ -278,7 +278,7 @@ impl Mul<Angle<f64>> for f64 {
     }
 }
 
-impl<F: Num> Div<F> for Angle<F> {
+impl<F: Float> Div<F> for Angle<F> {
     type Output = Self;
 
     #[inline]
@@ -287,7 +287,7 @@ impl<F: Num> Div<F> for Angle<F> {
     }
 }
 
-impl<F: Num> Neg for Angle<F> {
+impl<F: Float> Neg for Angle<F> {
     type Output = Self;
 
     #[inline]

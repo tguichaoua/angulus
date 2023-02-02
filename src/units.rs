@@ -77,7 +77,7 @@ macro_rules! unit {
 
         impl<A: IAngle> Display for $name<A>
         where
-            A::Num: Display,
+            A::Float: Display,
         {
             #[inline]
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

@@ -3,7 +3,7 @@ use std::{
     ops::{Add, Div, Mul, Neg, Sub},
 };
 
-use crate::{Angle, Num};
+use crate::{Angle, Float};
 
 /// Represents an angle that may not be the canonical value.
 ///
@@ -32,7 +32,7 @@ pub struct AngleUnbounded<F> {
 // Const
 //-------------------------------------------------------------------
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The angle of value zero.
     pub const ZERO: Self = AngleUnbounded::from_radians(F::ZERO);
 
@@ -42,7 +42,7 @@ impl<F: Num> AngleUnbounded<F> {
     pub const EPSILON: Self = AngleUnbounded::from_radians(F::DOUBLE_EPSILON);
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The angle of π radians.
     pub const RAD_PI: Self = AngleUnbounded::from_radians(F::PI);
     /// The angle of π/2 radians.
@@ -57,7 +57,7 @@ impl<F: Num> AngleUnbounded<F> {
     pub const RAD_FRAC_PI_8: Self = AngleUnbounded::from_radians(F::FRAC_PI_8);
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The angle of 180°.
     pub const DEG_180: Self = Self::RAD_PI;
     /// The angle of 90°.
@@ -72,7 +72,7 @@ impl<F: Num> AngleUnbounded<F> {
     pub const DEG_22_5: Self = Self::RAD_FRAC_PI_8;
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The angle of a half of a circle (1/2 turns).
     pub const HALF: Self = Self::RAD_PI;
     /// The angle of a quarter of a circle (1/4 turns).
@@ -87,7 +87,7 @@ impl<F: Num> AngleUnbounded<F> {
     pub const SIXTEENTH: Self = Self::RAD_FRAC_PI_8;
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The angle of 200g.
     pub const GRAD_200: Self = Self::RAD_PI;
     /// The angle of 100g.
@@ -114,7 +114,7 @@ impl<F: Debug> Debug for AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> Default for AngleUnbounded<F> {
+impl<F: Float> Default for AngleUnbounded<F> {
     #[inline]
     fn default() -> Self {
         Self::ZERO
@@ -133,7 +133,7 @@ impl<F> AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// Creates a new unbounded angle from a value in degrees.
     #[inline]
     pub fn from_degrees(degrees: F) -> Self {
@@ -165,7 +165,7 @@ impl<F: Copy> AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// The value of the unbounded angle in degrees.
     #[inline]
     pub fn to_degrees(self) -> F {
@@ -189,7 +189,7 @@ impl<F: Num> AngleUnbounded<F> {
 // MainAngle convertion
 //-------------------------------------------------------------------
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// Converts this angle into a bounded angle.
     #[inline]
     pub fn to_bounded(self) -> Angle<F> {
@@ -208,7 +208,7 @@ impl<F: Copy> From<Angle<F>> for AngleUnbounded<F> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: Num> AngleUnbounded<F> {
+impl<F: Float> AngleUnbounded<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {
@@ -235,7 +235,7 @@ impl<F: Num> AngleUnbounded<F> {
 // Ops
 //-------------------------------------------------------------------
 
-impl<F: Num> Add for AngleUnbounded<F> {
+impl<F: Float> Add for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -244,7 +244,7 @@ impl<F: Num> Add for AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> Sub for AngleUnbounded<F> {
+impl<F: Float> Sub for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -253,7 +253,7 @@ impl<F: Num> Sub for AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> Mul<F> for AngleUnbounded<F> {
+impl<F: Float> Mul<F> for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -280,7 +280,7 @@ impl Mul<AngleUnbounded<f64>> for f64 {
     }
 }
 
-impl<F: Num> Div<F> for AngleUnbounded<F> {
+impl<F: Float> Div<F> for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]
@@ -289,7 +289,7 @@ impl<F: Num> Div<F> for AngleUnbounded<F> {
     }
 }
 
-impl<F: Num> Neg for AngleUnbounded<F> {
+impl<F: Float> Neg for AngleUnbounded<F> {
     type Output = Self;
 
     #[inline]

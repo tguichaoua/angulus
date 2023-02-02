@@ -1,9 +1,19 @@
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 
+mod private {
+    pub trait Sealed {}
+
+    impl Sealed for f32 {}
+    impl Sealed for f64 {}
+}
+
 /// Marker trait for floating-point types that can be used as numerical type
 /// for [`Angle`][crate::Angle] and [`AngleUnbounded`][crate::AngleUnbounded].
-pub trait Num:
-    Copy
+///
+/// This trait is sealed and is implemented for [`f32`] and [`f64`].
+pub trait Float:
+    private::Sealed
+    + Copy
     + Add<Output = Self>
     + Sub<Output = Self>
     + Mul<Output = Self>
@@ -70,7 +80,7 @@ pub trait Num:
     fn sin_cos(self) -> (Self, Self);
 }
 
-impl Num for f32 {
+impl Float for f32 {
     const ZERO: Self = 0.0f32;
     const ONE: Self = 1.0f32;
     const EPSILON: Self = f32::EPSILON;
@@ -111,7 +121,7 @@ impl Num for f32 {
     }
 }
 
-impl Num for f64 {
+impl Float for f64 {
     const ZERO: Self = 0.0f64;
     const ONE: Self = 1.0f64;
     const EPSILON: Self = f64::EPSILON;

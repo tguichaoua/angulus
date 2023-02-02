@@ -1,4 +1,4 @@
-use crate::{Angle, AngleUnbounded, Num};
+use crate::{Angle, AngleUnbounded, Float};
 
 /// Helper trait to convert a numerical value into an angle.
 pub trait ToAngle: Sized {
@@ -20,7 +20,7 @@ pub trait ToAngle: Sized {
     fn g_unbounded(self) -> AngleUnbounded<Self>;
 }
 
-impl<F: Num> ToAngle for F {
+impl<F: Float> ToAngle for F {
     fn rad(self) -> Angle<Self> {
         Angle::from_radians(self)
     }

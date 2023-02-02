@@ -1,25 +1,25 @@
-use crate::{Angle, AngleUnbounded, Num};
+use crate::{Angle, AngleUnbounded, Float};
 
 /// Marker trait for angle types.
 ///
 /// Used internally.
 pub(crate) trait IAngle: Copy {
-    /// The numerical type used by the angle.
-    type Num;
+    /// The floating-point type used by the angle.
+    type Float;
 
-    fn from_radians(radians: Self::Num) -> Self;
-    fn from_degrees(degrees: Self::Num) -> Self;
-    fn from_turns(turns: Self::Num) -> Self;
-    fn from_gradians(gradians: Self::Num) -> Self;
+    fn from_radians(radians: Self::Float) -> Self;
+    fn from_degrees(degrees: Self::Float) -> Self;
+    fn from_turns(turns: Self::Float) -> Self;
+    fn from_gradians(gradians: Self::Float) -> Self;
 
-    fn to_radians(self) -> Self::Num;
-    fn to_degrees(self) -> Self::Num;
-    fn to_turns(self) -> Self::Num;
-    fn to_gradians(self) -> Self::Num;
+    fn to_radians(self) -> Self::Float;
+    fn to_degrees(self) -> Self::Float;
+    fn to_turns(self) -> Self::Float;
+    fn to_gradians(self) -> Self::Float;
 }
 
-impl<F: Num> IAngle for Angle<F> {
-    type Num = F;
+impl<F: Float> IAngle for Angle<F> {
+    type Float = F;
 
     #[inline]
     fn from_radians(radians: F) -> Self {
@@ -57,13 +57,13 @@ impl<F: Num> IAngle for Angle<F> {
     }
 
     #[inline]
-    fn to_gradians(self) -> Self::Num {
+    fn to_gradians(self) -> Self::Float {
         self.to_gradians()
     }
 }
 
-impl<F: Num> IAngle for AngleUnbounded<F> {
-    type Num = F;
+impl<F: Float> IAngle for AngleUnbounded<F> {
+    type Float = F;
 
     #[inline]
     fn from_radians(radians: F) -> Self {
@@ -101,7 +101,7 @@ impl<F: Num> IAngle for AngleUnbounded<F> {
     }
 
     #[inline]
-    fn to_gradians(self) -> Self::Num {
+    fn to_gradians(self) -> Self::Float {
         self.to_gradians()
     }
 }
