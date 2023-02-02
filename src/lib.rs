@@ -94,7 +94,6 @@ mod serde;
 
 mod angle;
 mod float;
-mod private;
 mod to_angle;
 mod unbounded;
 pub mod units;

@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    private::IAngle,
     units::{Degrees, Gradians, Radians, Turns},
     Angle, AngleUnbounded, Float,
 };
@@ -40,39 +39,52 @@ impl_angle!(AngleUnbounded);
 
 macro_rules! unit_impl {
     (
-        $unit:ident, $to_method:ident, $from_method:ident
+        $unit:ident
     ) => {
-        impl<A: IAngle> Serialize for $unit<A>
-        where
-            A::Float: Serialize,
-        {
+        impl<F: Float + Serialize> Serialize for $unit<Angle<F>> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
             {
-                IAngle::$to_method(self.0).serialize(serializer)
+                self.to_value().serialize(serializer)
             }
         }
 
-        impl<'de, A: IAngle> Deserialize<'de> for $unit<A>
-        where
-            A::Float: Deserialize<'de>,
-        {
+        impl<F: Float + Serialize> Serialize for $unit<AngleUnbounded<F>> {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                self.to_value().serialize(serializer)
+            }
+        }
+
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $unit<Angle<F>> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
                 let value = Deserialize::deserialize(deserializer)?;
-                Ok($unit(IAngle::$from_method(value)))
+                Ok(Self::from_value(value))
+            }
+        }
+
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $unit<AngleUnbounded<F>> {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                let value = Deserialize::deserialize(deserializer)?;
+                Ok(Self::from_value(value))
             }
         }
     };
 }
 
-unit_impl!(Radians, to_radians, from_radians);
-unit_impl!(Degrees, to_degrees, from_degrees);
-unit_impl!(Turns, to_turns, from_turns);
-unit_impl!(Gradians, to_gradians, from_gradians);
+unit_impl!(Radians);
+unit_impl!(Degrees);
+unit_impl!(Turns);
+unit_impl!(Gradians);
 
 //-------------------------------------------------------------------
 
