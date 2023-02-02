@@ -44,7 +44,7 @@ macro_rules! unit_impl {
     ) => {
         impl<A: IAngle> Serialize for $unit<A>
         where
-            A::Num: Serialize,
+            A::Float: Serialize,
         {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
@@ -56,7 +56,7 @@ macro_rules! unit_impl {
 
         impl<'de, A: IAngle> Deserialize<'de> for $unit<A>
         where
-            A::Num: Deserialize<'de>,
+            A::Float: Deserialize<'de>,
         {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
