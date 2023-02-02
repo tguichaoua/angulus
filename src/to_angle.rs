@@ -1,4 +1,4 @@
-use crate::{Angle, AngleUnbounded, Float};
+use crate::{float::Float, Angle, AngleUnbounded};
 
 /// Helper trait to convert a numerical value into an angle.
 pub trait ToAngle: Sized {

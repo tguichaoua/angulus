@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
-use crate::{AngleUnbounded, Float};
+use crate::{AngleUnbounded, float::Float};
 
 /// Represents the canonical value of an angle.
 ///
