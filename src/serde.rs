@@ -9,10 +9,8 @@ use crate::{
 //-------------------------------------------------------------------
 
 macro_rules! impl_angle {
-    (
-        $name:ident
-    ) => {
-        impl<F: Copy + Serialize> Serialize for $name<F> {
+    ($angle:ident) => {
+        impl<F: Copy + Serialize> Serialize for $angle<F> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -21,13 +19,13 @@ macro_rules! impl_angle {
             }
         }
 
-        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $name<F> {
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $angle<F> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
                 let radians = Deserialize::deserialize(deserializer)?;
-                Ok($name::from_radians(radians))
+                Ok($angle::from_radians(radians))
             }
         }
     };
@@ -39,9 +37,7 @@ impl_angle!(AngleUnbounded);
 //-------------------------------------------------------------------
 
 macro_rules! unit_impl {
-    (
-        $unit:ident
-    ) => {
+    ($unit:ident) => {
         impl<F: Float + Serialize> Serialize for $unit<Angle<F>> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where

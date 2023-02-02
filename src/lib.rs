@@ -1,3 +1,5 @@
+#![deny(missing_docs)]
+
 //! Unit agnostic angle.
 //!
 //! ## Overview
@@ -67,7 +69,7 @@
 //! ```
 //! # use angulus::*;
 //! # fn main() {
-//! let a = Angle::<f32>::QUARTER;
+//! let a = Angle32::QUARTER;
 //!
 //! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
 //! assert_eq!(a.to_degrees(), 90.0);
@@ -106,8 +108,14 @@ pub use unbounded::AngleUnbounded;
 #[cfg(doctest)]
 pub struct ReadmeDoctests;
 
+/// Type alias for [`Angle::<f32>`].
 pub type Angle32 = Angle<f32>;
+
+/// Type alias for [`Angle::<f64>`].
 pub type Angle64 = Angle<f64>;
 
+/// Type alias for [`AngleUnbounded::<f32>`].
 pub type AngleUnbounded32 = AngleUnbounded<f32>;
+
+/// Type alias for [`AngleUnbounded::<f64>`].
 pub type AngleUnbounded64 = AngleUnbounded<f64>;

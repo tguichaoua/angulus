@@ -1,3 +1,5 @@
+//! Defines which types can be used as a floating-point value for the angle.
+
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 
 mod private {
@@ -107,14 +109,17 @@ impl Float for f32 {
     fn sin(self) -> Self {
         self.sin()
     }
+
     #[inline]
     fn cos(self) -> Self {
         self.cos()
     }
+
     #[inline]
     fn tan(self) -> Self {
         self.tan()
     }
+
     #[inline]
     fn sin_cos(self) -> (Self, Self) {
         self.sin_cos()
@@ -148,14 +153,17 @@ impl Float for f64 {
     fn sin(self) -> Self {
         self.sin()
     }
+
     #[inline]
     fn cos(self) -> Self {
         self.cos()
     }
+
     #[inline]
     fn tan(self) -> Self {
         self.tan()
     }
+
     #[inline]
     fn sin_cos(self) -> (Self, Self) {
         self.sin_cos()
