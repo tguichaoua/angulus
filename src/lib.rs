@@ -69,7 +69,7 @@
 //! ```
 //! # use angulus::*;
 //! # fn main() {
-//! let a = Angle::<f32>::QUARTER;
+//! let a = Angle32::QUARTER;
 //!
 //! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
 //! assert_eq!(a.to_degrees(), 90.0);

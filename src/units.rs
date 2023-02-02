@@ -21,20 +21,22 @@
 //!
 //! ## (De)Serialization
 //!
+//! This require the `serde` feature flag.
+//!
 //! The angle types (de)serialize into/from radians.
 //! But unit wrappers will (de)serialize the value into/from the specified unit.
 //!
 //! ```ignore
-//! # use angulus::{Angle, units::{Degrees, Radians, Turns, Gradians}};
+//! # use angulus::{units::*, *};
 //! # use float_eq::assert_float_eq;
 //! # use serde::{Serialize, Deserialize};
 //! # fn main() {
 //! #[derive(Serialize, Deserialize)]
 //! struct Foo {
-//!     rad: Radians<Angle<f32>>,
-//!     deg: Degrees<Angle<f32>>,
-//!     tr: Turns<Angle<f32>>,
-//!     g: Gradians<Angle<f32>>,
+//!     rad: Radians<Angle32>,
+//!     deg: Degrees<Angle32>,
+//!     tr: Turns<Angle32>,
+//!     g: Gradians<Angle32>,
 //! }
 //!
 //! let json = serde_json::json!{
