@@ -1,4 +1,4 @@
-use crate::{Angle, AngleUnbounded, Num};
+use crate::{Angle, AngleUnbounded, Float};
 
 /// Marker trait for angle types.
 ///
@@ -18,7 +18,7 @@ pub(crate) trait IAngle: Copy {
     fn to_gradians(self) -> Self::Num;
 }
 
-impl<F: Num> IAngle for Angle<F> {
+impl<F: Float> IAngle for Angle<F> {
     type Num = F;
 
     #[inline]
@@ -62,7 +62,7 @@ impl<F: Num> IAngle for Angle<F> {
     }
 }
 
-impl<F: Num> IAngle for AngleUnbounded<F> {
+impl<F: Float> IAngle for AngleUnbounded<F> {
     type Num = F;
 
     #[inline]
