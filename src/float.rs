@@ -1,9 +1,19 @@
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 
+mod private {
+    pub trait Sealed {}
+
+    impl Sealed for f32 {}
+    impl Sealed for f64 {}
+}
+
 /// Marker trait for floating-point types that can be used as numerical type
 /// for [`Angle`][crate::Angle] and [`AngleUnbounded`][crate::AngleUnbounded].
+///
+/// This trait is sealed and is implemented for [`f32`] and [`f64`].
 pub trait Float:
-    Copy
+    private::Sealed
+    + Copy
     + Add<Output = Self>
     + Sub<Output = Self>
     + Mul<Output = Self>
