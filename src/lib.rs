@@ -56,7 +56,7 @@
 //! let deg = 90.0.deg();
 //! let rad = 3.14.rad();
 //! let turns = 0.75.turns();
-//! let grad = 50.0.g();
+//! let grad = 50.0.grad();
 //! # }
 //! ```
 //!

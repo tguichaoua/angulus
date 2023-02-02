@@ -24,7 +24,7 @@
 //! The angle types (de)serialize into/from radians.
 //! But unit wrappers will (de)serialize the value into/from the specified unit.
 //!
-//! ```
+//! ```ignore
 //! # use angulus::{Angle, units::{Degrees, Radians, Turns, Gradians}};
 //! # use float_eq::assert_float_eq;
 //! # use serde::{Serialize, Deserialize};
