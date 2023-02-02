@@ -95,7 +95,6 @@
 mod serde;
 
 mod angle;
-#[allow(missing_docs)]
 pub mod float;
 mod to_angle;
 mod unbounded;

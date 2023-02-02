@@ -1,3 +1,5 @@
+//! Defines which types can be used as a floating-point value for the angle.
+
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 
 mod private {
