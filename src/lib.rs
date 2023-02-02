@@ -8,7 +8,7 @@
 //!
 //! [`Angle`] and [`AngleUnbounded`] represent an angle value with no specific unit.
 //!
-//! [`Angle`] represent a canonical angle, i.e. the internal value fit the range `(-π; π]` in radians.
+//! [`Angle`] represent a canonical angle, i.e. the internal value fit the range `(-π, π]` in radians.
 //!
 //! For example, `90°` and `-270°` have different value but are the same angle.
 //!
