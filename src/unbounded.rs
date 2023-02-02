@@ -214,16 +214,19 @@ impl<F: Float> AngleUnbounded<F> {
     pub fn sin(self) -> F {
         self.radians.sin()
     }
+
     /// Computes the cosine.
     #[inline]
     pub fn cos(self) -> F {
         self.radians.cos()
     }
+
     /// Computes the tangent.
     #[inline]
     pub fn tan(self) -> F {
         self.radians.tan()
     }
+
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
     #[inline]
     pub fn sin_cos(self) -> (F, F) {
