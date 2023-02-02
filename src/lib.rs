@@ -106,3 +106,9 @@ pub use unbounded::AngleUnbounded;
 #[doc = include_str!("../README.md")]
 #[cfg(doctest)]
 pub struct ReadmeDoctests;
+
+pub type Angle32 = Angle<f32>;
+pub type Angle64 = Angle<f64>;
+
+pub type AngleUnbounded32 = AngleUnbounded<f32>;
+pub type AngleUnbounded64 = AngleUnbounded<f64>;
