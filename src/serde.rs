@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
+    float::Float,
     units::{Degrees, Gradians, Radians, Turns},
-    Angle, AngleUnbounded, Float,
+    Angle, AngleUnbounded,
 };
 
 //-------------------------------------------------------------------

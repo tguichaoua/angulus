@@ -93,13 +93,12 @@
 mod serde;
 
 mod angle;
-mod float;
+pub mod float;
 mod to_angle;
 mod unbounded;
 pub mod units;
 
 pub use angle::Angle;
-pub use float::Float;
 pub use to_angle::ToAngle;
 pub use unbounded::AngleUnbounded;
 

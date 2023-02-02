@@ -57,7 +57,7 @@
 
 use std::fmt::Display;
 
-use crate::{Angle, AngleUnbounded, Float};
+use crate::{float::Float, Angle, AngleUnbounded};
 
 macro_rules! unit {
     (
