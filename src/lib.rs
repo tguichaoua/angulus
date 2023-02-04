@@ -97,6 +97,7 @@ pub mod rand;
 
 mod angle;
 pub mod float;
+mod macros;
 mod to_angle;
 mod unbounded;
 pub mod units;

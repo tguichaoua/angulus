@@ -1,9 +1,9 @@
 use std::{
     fmt::Debug,
-    ops::{Add, Div, Mul, Neg, Sub},
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
-use crate::{float::Float, Angle};
+use crate::{float::Float, forward_ref_binop, forward_ref_op_assign, forward_ref_unop, Angle};
 
 /// Represents an angle that may not be the canonical value.
 ///
@@ -247,6 +247,17 @@ impl<F: Float> Add for AngleUnbounded<F> {
     }
 }
 
+forward_ref_binop!(impl<F: Float> Add, add for AngleUnbounded<F>, AngleUnbounded<F>);
+
+impl<F: Float> AddAssign for AngleUnbounded<F> {
+    #[inline]
+    fn add_assign(&mut self, rhs: Self) {
+        self.radians += rhs.radians;
+    }
+}
+
+forward_ref_op_assign!(impl<F: Float> AddAssign, add_assign for AngleUnbounded<F>, AngleUnbounded<F>);
+
 impl<F: Float> Sub for AngleUnbounded<F> {
     type Output = Self;
 
@@ -255,6 +266,17 @@ impl<F: Float> Sub for AngleUnbounded<F> {
         Self::from_radians(self.radians - rhs.radians)
     }
 }
+
+forward_ref_binop!(impl<F: Float> Sub, sub for AngleUnbounded<F>, AngleUnbounded<F>);
+
+impl<F: Float> SubAssign for AngleUnbounded<F> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: Self) {
+        self.radians -= rhs.radians
+    }
+}
+
+forward_ref_op_assign!(impl<F: Float> SubAssign, sub_assign for AngleUnbounded<F>, AngleUnbounded<F>);
 
 impl<F: Float> Mul<F> for AngleUnbounded<F> {
     type Output = Self;
@@ -265,6 +287,8 @@ impl<F: Float> Mul<F> for AngleUnbounded<F> {
     }
 }
 
+forward_ref_binop!(impl<F: Float> Mul, mul for AngleUnbounded<F>, F);
+
 impl Mul<AngleUnbounded<f32>> for f32 {
     type Output = AngleUnbounded<f32>;
 
@@ -273,6 +297,8 @@ impl Mul<AngleUnbounded<f32>> for f32 {
         rhs * self
     }
 }
+
+forward_ref_binop!(impl Mul, mul for f32, AngleUnbounded<f32>);
 
 impl Mul<AngleUnbounded<f64>> for f64 {
     type Output = AngleUnbounded<f64>;
@@ -283,6 +309,17 @@ impl Mul<AngleUnbounded<f64>> for f64 {
     }
 }
 
+forward_ref_binop!(impl Mul, mul for f64, AngleUnbounded<f64>);
+
+impl<F: Float> MulAssign<F> for AngleUnbounded<F> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: F) {
+        self.radians *= rhs;
+    }
+}
+
+forward_ref_op_assign!(impl<F: Float> MulAssign, mul_assign for AngleUnbounded<F>, F);
+
 impl<F: Float> Div<F> for AngleUnbounded<F> {
     type Output = Self;
 
@@ -292,6 +329,17 @@ impl<F: Float> Div<F> for AngleUnbounded<F> {
     }
 }
 
+forward_ref_binop!(impl<F: Float> Div, div for AngleUnbounded<F>, F);
+
+impl<F: Float> DivAssign<F> for AngleUnbounded<F> {
+    #[inline]
+    fn div_assign(&mut self, rhs: F) {
+        self.radians /= rhs;
+    }
+}
+
+forward_ref_op_assign!(impl<F: Float> DivAssign, div_assign for AngleUnbounded<F>, F);
+
 impl<F: Float> Neg for AngleUnbounded<F> {
     type Output = Self;
 
@@ -300,3 +348,5 @@ impl<F: Float> Neg for AngleUnbounded<F> {
         Self::from_radians(-self.radians)
     }
 }
+
+forward_ref_unop!(impl<F: Float> Neg, neg for AngleUnbounded<F>);

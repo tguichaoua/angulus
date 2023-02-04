@@ -1,6 +1,6 @@
 //! Defines which types can be used as a floating-point value for the angle.
 
-use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 mod private {
     pub trait Sealed {}
@@ -17,9 +17,13 @@ pub trait Float:
     private::Sealed
     + Copy
     + Add<Output = Self>
+    + AddAssign
     + Sub<Output = Self>
+    + SubAssign
     + Mul<Output = Self>
+    + MulAssign
     + Div<Output = Self>
+    + DivAssign
     + Rem<Output = Self>
     + Neg<Output = Self>
     + PartialOrd
