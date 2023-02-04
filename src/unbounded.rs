@@ -22,7 +22,7 @@ use crate::{float::Float, Angle};
 /// ```
 ///
 /// The parameter `F` is the floating-point type used to store the value.
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Hash)]
 #[repr(transparent)]
 pub struct AngleUnbounded<F> {
     radians: F,
