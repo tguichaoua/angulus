@@ -94,6 +94,9 @@
 #[cfg(feature = "serde")]
 mod serde;
 
+#[cfg(feature = "rand")]
+mod rand;
+
 mod angle;
 pub mod float;
 mod to_angle;
