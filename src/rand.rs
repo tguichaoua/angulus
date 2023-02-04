@@ -1,11 +1,9 @@
-// FIXME : make the doc examples compile.
-
 //! Generate random angles with the [rand crate](https://docs.rs/rand/latest/rand/).
 //!
 //! ## Provided implementations
 //!
 //! [`Angle`] and [`AngleUnbounded`] (and [their unit wrapped equivalent][crate::units]) can be generated
-//! with the [`Standard`] distribution, and so with [`rand::random`][rand::random()] with the following
+//! with the [`Standard`] distribution, and so with [`rand::random`](https://docs.rs/rand/latest/rand/fn.random.html) with the following
 //! ranges and distributions:
 //!
 //! - [`Angle`]: Uniformly distributed on the full circle.
@@ -20,19 +18,21 @@
 //! Since [`AngleUnbounded`] implements [`PartialOrd`], this is stictly equivalent to generate a value from
 //! a range then convert it to [`AngleUnbounded`] or to generate the angle from a range of [`AngleUnbounded`].
 //!
-//! ```ignore
+//! ```no_run
 //! # use angulus::*;
+//! # use ::rand::*;
 //! let low = 10.0;
 //! let high = 90.0;
-//! let x = rand::thread_rng().gen_range(low..high);
+//! let x = thread_rng().gen_range(low..high);
 //! let angle = AngleUnbounded::from_degrees(x);
 //! ```
 //!
-//! ```ignore
+//! ```no_run
 //! # use angulus::*;
+//! # use ::rand::*;
 //! let low = AngleUnbounded::from_degrees(10.0);
 //! let high = AngleUnbounded::from_degrees(90.0);
-//! let angle = rand::thread_rng().gen_range(low..high);
+//! let angle = thread_rng().gen_range(low..high);
 //! ```
 //!
 //! ### [`Angle`]
@@ -40,12 +40,13 @@
 //! Because [`Angle`] did not implements [`PartialOrd`], the order of the angle in the range will define if the
 //! generated angles are on the "left" part of the circle or the "right" part.
 //!
-//! ```ignore
+//! ```
 //! # use angulus::*;
+//! # use ::rand::*;
 //! let top = Angle32::DEG_90;
 //! let bottom = -Angle32::DEG_90;
 //!
-//! let mut rng = rand::thead_rng();
+//! let mut rng = thread_rng();
 //!
 //! // Generate an angle on the "left" part of the circle.
 //! let a = rng.gen_range(top..=bottom);
