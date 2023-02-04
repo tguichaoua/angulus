@@ -1,3 +1,62 @@
+// FIXME : make the doc examples compile.
+
+//! Generate random angles with the [rand crate](https://docs.rs/rand/latest/rand/).
+//!
+//! ## Provided implementations
+//!
+//! [`Angle`] and [`AngleUnbounded`] (and [their unit wrapped equivalent][crate::units]) can be generated
+//! with the [`Standard`] distribution, and so with [`rand::random`][rand::random()] with the following
+//! ranges and distributions:
+//!
+//! - [`Angle`]: Uniformly distributed on the full circle.
+//! - [`AngleUnbounded`]: Uniformly distributed in the range `(-π, π]` radians.
+//!
+//! ## Uniform ranges
+//!
+//! Angle types can also be generated from a range using [`rand::Rng::gen_range`].
+//!
+//! ### [`AngleUnbounded`]
+//!
+//! Since [`AngleUnbounded`] implements [`PartialOrd`], this is stictly equivalent to generate a value from
+//! a range then convert it to [`AngleUnbounded`] or to generate the angle from a range of [`AngleUnbounded`].
+//!
+//! ```ignore
+//! # use angulus::*;
+//! let low = 10.0;
+//! let high = 90.0;
+//! let x = rand::thread_rng().gen_range(low..high);
+//! let angle = AngleUnbounded::from_degrees(x);
+//! ```
+//!
+//! ```ignore
+//! # use angulus::*;
+//! let low = AngleUnbounded::from_degrees(10.0);
+//! let high = AngleUnbounded::from_degrees(90.0);
+//! let angle = rand::thread_rng().gen_range(low..high);
+//! ```
+//!
+//! ### [`Angle`]
+//!
+//! Because [`Angle`] did not implements [`PartialOrd`], the order of the angle in the range will define if the
+//! generated angles are on the "left" part of the circle or the "right" part.
+//!
+//! ```ignore
+//! # use angulus::*;
+//! let top = Angle32::DEG_90;
+//! let bottom = -Angle32::DEG_90;
+//!
+//! let mut rng = rand::thead_rng();
+//!
+//! // Generate an angle on the "left" part of the circle.
+//! let a = rng.gen_range(top..=bottom);
+//! assert!(a.cos() <= 0.0);
+//!
+//! // Generate an angle on the "right" part of the circle.
+//! let a = rng.gen_range(bottom..=top);
+//! assert!(a.cos() >= 0.0);
+//! ```
+//!
+
 use std::ops::{Range, RangeInclusive};
 
 use rand::{

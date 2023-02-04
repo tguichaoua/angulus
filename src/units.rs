@@ -18,44 +18,6 @@
 //! assert_eq!(format!("{}", Gradians(angle)), "100g");
 //! # }
 //! ```
-//!
-//! ## (De)Serialization
-//!
-//! This require the `serde` feature flag.
-//!
-//! The angle types (de)serialize into/from radians.
-//! But unit wrappers will (de)serialize the value into/from the specified unit.
-//!
-//! ```ignore
-//! # use angulus::{units::*, *};
-//! # use float_eq::assert_float_eq;
-//! # use serde::{Serialize, Deserialize};
-//! # fn main() {
-//! #[derive(Serialize, Deserialize)]
-//! struct Foo {
-//!     rad: Radians<Angle32>,
-//!     deg: Degrees<Angle32>,
-//!     tr: Turns<Angle32>,
-//!     g: Gradians<Angle32>,
-//! }
-//!
-//! let json = serde_json::json!{
-//!     {
-//!         "rad": 1.0,
-//!         "deg": 90.0,
-//!         "tr": 0.5,
-//!         "g": 50,
-//!     }
-//! };
-//!
-//! let foo: Foo = serde_json::from_value(json).unwrap();
-//!
-//! assert_float_eq!(foo.rad.0.to_radians(), 1.0, abs <= 0.000001);
-//! assert_float_eq!(foo.deg.0.to_degrees(), 90.0, abs <= 0.000001);
-//! assert_float_eq!(foo.tr.0.to_turns(), 0.5, abs <= 0.000001);
-//! assert_float_eq!(foo.g.0.to_gradians(), 50.0, abs <= 0.000001);
-//! # }
-//! ```
 
 use std::fmt::Display;
 

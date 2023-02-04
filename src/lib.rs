@@ -83,19 +83,17 @@
 //! Since [`Angle`] and [`AngleUnbounded`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
 //! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
 //!
-//! ## Serde support
+//! ## Crate features
 //!
-//! The `serde` feature flag enable the support of [serde](https://crates.io/crates/serde).
-//!
-//! Even if [`Angle`] and [`AngleUnbounded`] are unit agnostic they (de)serialize from/into radians
-//! for convenience.
-//! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
+//! - [`serde`] : (De)Serialization with the [serde crate](https://docs.rs/serde/latest/serde/).
+//! - [`rand`] : Generate random angles with the [rand crate](https://docs.rs/rand/latest/rand/).
 
 #[cfg(feature = "serde")]
-mod serde;
+pub mod serde;
 
+#[allow(missing_docs)]
 #[cfg(feature = "rand")]
-mod rand;
+pub mod rand;
 
 mod angle;
 pub mod float;
