@@ -9,36 +9,17 @@
 //! - [`Angle`]: Uniformly distributed on the full circle.
 //! - [`AngleUnbounded`]: Uniformly distributed in the range `(-π, π]` radians.
 //!
+//! **Note**: The unit wrapper has no influence on the generated value.
+//!
 //! ## Uniform ranges
 //!
 //! Angle types can also be generated from a range using [`rand::Rng::gen_range`].
 //!
-//! ### [`AngleUnbounded`]
-//!
-//! Since [`AngleUnbounded`] implements [`PartialOrd`], this is stictly equivalent to generate a value from
-//! a range then convert it to [`AngleUnbounded`] or to generate the angle from a range of [`AngleUnbounded`].
-//!
-//! ```no_run
-//! # use angulus::*;
-//! # use ::rand::*;
-//! let low = 10.0;
-//! let high = 90.0;
-//! let x = thread_rng().gen_range(low..high);
-//! let angle = AngleUnbounded::from_degrees(x);
-//! ```
-//!
-//! ```no_run
-//! # use angulus::*;
-//! # use ::rand::*;
-//! let low = AngleUnbounded::from_degrees(10.0);
-//! let high = AngleUnbounded::from_degrees(90.0);
-//! let angle = thread_rng().gen_range(low..high);
-//! ```
-//!
 //! ### [`Angle`]
 //!
-//! Because [`Angle`] did not implements [`PartialOrd`], the order of the angle in the range will define if the
-//! generated angles are on the "left" part of the circle or the "right" part.
+//! Because [`Angle`] did not implements [`PartialOrd`], the generated angle will belong to the part of the
+//! circle between the bounds in counterclockwise. I.e. the order of the bounds will determine
+//! which part of the circle the generated angle belongs to.
 //!
 //! ```
 //! # use angulus::*;
@@ -57,6 +38,27 @@
 //! assert!(a.cos() >= 0.0);
 //! ```
 //!
+//! ### [`AngleUnbounded`]
+//!
+//! Since [`AngleUnbounded`] implements [`PartialOrd`], the order matter and the range may be empty,
+//! resulting in panic.
+//!
+//! ```no_run
+//! # use angulus::*;
+//! # use ::rand::*;
+//! let low = AngleUnbounded32::ZERO;
+//! let high = AngleUnbounded32::DEG_90;
+//! let x = thread_rng().gen_range(low..=high);
+//! ```
+//!
+//! ```should_panic
+//! # use angulus::*;
+//! # use ::rand::*;
+//! # let low = AngleUnbounded32::ZERO;
+//! # let high = AngleUnbounded32::DEG_90;
+//! let x = thread_rng().gen_range(high..=low);
+//! // panic: "cannot sample empty range"
+//! ```
 
 use std::ops::{Range, RangeInclusive};
 
