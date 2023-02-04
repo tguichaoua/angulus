@@ -15,7 +15,7 @@ exclude = [".github/"]
 
 [dependencies]
 rand = { version = "0.8", optional = true, default-features = false }
-serde = { version = "1", optional = true }
+serde = { version = "1", optional = true, default-features = false }
 
 [dev-dependencies]
 float_eq = "1"
