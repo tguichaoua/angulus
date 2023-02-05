@@ -28,6 +28,12 @@ impl<F: Float> Angle<F> {
     ///
     /// [Machine epsilon]: https://en.wikipedia.org/wiki/Machine_epsilon
     pub const EPSILON: Self = Angle::from_radians_unchecked(F::DOUBLE_EPSILON);
+
+    /// Smallest angle value.
+    pub const MIN: Self = Angle::from_radians_unchecked(F::NEG_PI_NEXT_UP);
+
+    /// Largest angle value.
+    pub const MAX: Self = Self::RAD_PI;
 }
 
 impl<F: Float> Angle<F> {

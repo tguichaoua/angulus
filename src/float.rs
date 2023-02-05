@@ -76,6 +76,9 @@ pub trait Float:
     /// Convertion factor from radians to gradians.
     const RAD_TO_GRAD: Self;
 
+    /// The least number greater than -π.
+    const NEG_PI_NEXT_UP: Self;
+
     /// Computes the sine (in radians).
     fn sin(self) -> Self;
     /// Computes the cosine (in radians).
@@ -108,6 +111,23 @@ impl Float for f32 {
 
     const GRAD_TO_RAD: Self = std::f32::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f32::consts::PI;
+
+    const NEG_PI_NEXT_UP: Self = {
+        // FIXME: use `next_up` once stable and stable as a const fn.
+        // Code adapted from `f32::next_up`.
+
+        let x = -std::f32::consts::PI;
+
+        // FIXME: use `to_bits` once const stable as a const fn.
+        // let bits = x.to_bits();
+        let bits = unsafe { std::mem::transmute::<f32, u32>(x) };
+
+        let next_bits = bits - 1;
+
+        // FIXME: use `from_bits` once stable as a const fn.
+        // Self::from_bits(next_bits)
+        unsafe { std::mem::transmute::<u32, f32>(next_bits) }
+    };
 
     #[inline]
     fn sin(self) -> Self {
@@ -152,6 +172,23 @@ impl Float for f64 {
 
     const GRAD_TO_RAD: Self = std::f64::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f64::consts::PI;
+
+    const NEG_PI_NEXT_UP: Self = {
+        // FIXME: use `next_up` once stable and stable as a const fn.
+        // Code adapted from `f64::next_up`.
+
+        let x = -std::f64::consts::PI;
+
+        // FIXME: use `to_bits` once const stable as a const fn.
+        // let bits = x.to_bits();
+        let bits = unsafe { std::mem::transmute::<f64, u64>(x) };
+
+        let next_bits = bits - 1;
+
+        // FIXME: use `from_bits` once stable as a const fn.
+        // Self::from_bits(next_bits)
+        unsafe { std::mem::transmute::<u64, f64>(next_bits) }
+    };
 
     #[inline]
     fn sin(self) -> Self {
