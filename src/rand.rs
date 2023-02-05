@@ -164,7 +164,7 @@ where
         let low = low.borrow().to_radians();
         let mut high = high.borrow().to_radians();
         if low > high {
-            high = high + F::TAU;
+            high += F::TAU;
         }
         Self(UniformFloat::new(low, high))
     }
@@ -178,7 +178,7 @@ where
         let low = low.borrow().to_radians();
         let mut high = high.borrow().to_radians();
         if low > high {
-            high = high + F::TAU;
+            high += F::TAU;
         }
         Self(UniformFloat::new_inclusive(low, high))
     }
