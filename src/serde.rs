@@ -6,11 +6,12 @@
 //! To explicitly (de)serialize to/from a specific unit, you can wrap the angle type into a unit wrapper from
 //! [the units module][crate::units].
 //!
+//! [`Angle`] (and their wrapped equivalents) will serialize to a value in [the main range](Angle#the-main-range).
+//!
 //! ```
 //! # use angulus::{units::*, *};
 //! # use float_eq::assert_float_eq;
 //! # use ::serde::{Serialize, Deserialize};
-//! # fn main() {
 //! #[derive(Serialize, Deserialize)]
 //! struct Foo {
 //!     angle: Angle32,
@@ -37,7 +38,6 @@
 //! assert_float_eq!(foo.deg.0.to_degrees(), 90.0, abs <= 0.000001);
 //! assert_float_eq!(foo.tr.0.to_turns(), 0.5, abs <= 0.000001);
 //! assert_float_eq!(foo.grad.0.to_gradians(), 50.0, abs <= 0.000001);
-//! # }
 //! ```
 
 use serde::{Deserialize, Serialize};

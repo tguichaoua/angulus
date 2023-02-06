@@ -5,23 +5,22 @@ use std::{
 
 use crate::{float::Float, forward_ref_binop, forward_ref_op_assign, forward_ref_unop, Angle};
 
-/// Represents an angle that may not be the canonical value.
-///
-/// The value of this angle is not bound into a range, unlike [`Angle`].
-///
-/// ```
-/// # use angulus::*;
-/// # use float_eq::assert_float_eq;
-/// # fn main() {
-/// let angle = (3.0_f32 * 90.0_f32.deg()).to_degrees();
-/// let unbounded = (3.0_f32 * 90.0_f32.deg_unbounded()).to_degrees();
-///
-/// assert_float_eq!(angle, -90.0, ulps <= 1);
-/// assert_float_eq!(unbounded, 270.0, ulps <= 1);
-/// # }
-/// ```
+/// Represents a point on the circle as an unit agnostic angle.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
+///
+/// ## Behaviour
+/// Unlike [`Angle`], two different values of the same point on the circle are different
+/// angles :
+///
+/// ```
+/// # use angulus::AngleUnbounded;
+/// let a = AngleUnbounded::from_degrees(90.0);
+/// let b = AngleUnbounded::from_degrees(450.0);
+///
+/// assert_ne!(a, b);
+/// ```
+
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Hash)]
 #[repr(transparent)]
 pub struct AngleUnbounded<F> {

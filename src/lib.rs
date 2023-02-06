@@ -10,30 +10,28 @@
 //!
 //! [`Angle`] and [`AngleUnbounded`] represent an angle value with no specific unit.
 //!
-//! [`Angle`] represent a canonical angle, i.e. the internal value fit the range `(-π, π]` in radians.
+//! ## [`Angle`] vs [`AngleUnbounded`]
 //!
-//! For example, `90°` and `-270°` have different value but are the same angle.
+//! Both represent a point on the circle as a unit agnostic angle.
+//!
+//! But [`Angle`] considere two different values of the same point as the same angle :
 //!
 //! ```
 //! # use angulus::Angle;
-//! # fn main() {
 //! let a = Angle::from_degrees(90.0);
-//! let b = Angle::from_degrees(-270.0);
+//! let b = Angle::from_degrees(450.0);
 //!
 //! assert_eq!(a, b);
-//! # }
 //! ```
 //!
-//! Conversely [`AngleUnbounded`] represent any angle value.
+//! While [`AngleUnbounded`] considere those value as two different angle :
 //!
 //! ```
 //! # use angulus::AngleUnbounded;
-//! # fn main() {
 //! let a = AngleUnbounded::from_degrees(90.0);
-//! let b = AngleUnbounded::from_degrees(-270.0);
+//! let b = AngleUnbounded::from_degrees(450.0);
 //!
 //! assert_ne!(a, b);
-//! # }
 //! ```
 //!
 //! ## From value to angle
@@ -42,24 +40,20 @@
 //!
 //! ```
 //! # use angulus::*;
-//! # fn main() {
 //! let deg = Angle::from_degrees(90.0);
 //! let rad = Angle::from_radians(3.14);
 //! let turns = Angle::from_turns(0.75);
 //! let grad = Angle::from_gradians(50.0);
-//! # }
 //! ```
 //!
 //! or you use the [`ToAngle`] trait directly on the value.
 //!
 //! ```
 //! # use angulus::*;
-//! # fn main() {
 //! let deg = 90.0.deg();
 //! let rad = 3.14.rad();
 //! let turns = 0.75.turns();
 //! let grad = 50.0.grad();
-//! # }
 //! ```
 //!
 //! ## From angle to value
@@ -68,14 +62,12 @@
 //!
 //! ```
 //! # use angulus::*;
-//! # fn main() {
 //! let a = Angle32::QUARTER;
 //!
 //! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
 //! assert_eq!(a.to_degrees(), 90.0);
 //! assert_eq!(a.to_turns(), 0.25);
 //! assert_eq!(a.to_gradians(), 100.0);
-//! # }
 //! ```
 //!
 //! ## Display
