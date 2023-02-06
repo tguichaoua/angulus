@@ -3,13 +3,13 @@
 //! ## Provided implementations
 //!
 //! [`Angle`] and [`AngleUnbounded`] (and [their unit wrapped equivalent][crate::units]) can be generated
-//! with the [`Standard`] distribution, and so with [`rand::random`](https://docs.rs/rand/latest/rand/fn.random.html) with the following
-//! ranges and distributions:
+//! with the [`Standard`] distribution, and so with [`rand::random`](https://docs.rs/rand/latest/rand/fn.random.html)
+//! with the following ranges and distributions:
 //!
-//! - [`Angle`]: Uniformly distributed on the full circle.
+//! - [`Angle`]: Uniformly distributed on the circle.
 //! - [`AngleUnbounded`]: Uniformly distributed in the range `(-π, π]` radians.
 //!
-//! **Note**: The unit wrapper has no influence on the generated value.
+//! **Note**: The unit wrappers have no influence on the generated value.
 //!
 //! ## Uniform ranges
 //!
@@ -17,9 +17,9 @@
 //!
 //! ### [`Angle`]
 //!
-//! Because [`Angle`] did not implements [`PartialOrd`], the generated angle will belong to the part of the
-//! circle between the bounds in counterclockwise. I.e. the order of the bounds will determine
-//! which part of the circle the generated angle belongs to.
+//! Because [`Angle`] [did not implements `PartialOrd`](Angle#why-doesnt-it-implement-partialord-),
+//! the generated angle will belong to the part of the circle between the bounds in counterclockwise.
+//! I.e. the order of the bounds will determine which part of the circle the generated angle belongs to.
 //!
 //! ```
 //! # use angulus::*;

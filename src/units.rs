@@ -7,16 +7,16 @@
 //! But unit wrappers implement the [`Display`] trait.
 //! The value is displayed by writting the angle value in the desired unit followed by the unit symbole.
 //!
+//! For [`Angle`], the displayed value is in [the main range](Angle#the-main-range).
+//!
 //! ```
 //! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns, Gradians}};
-//! # fn main() {
 //! let angle = 90.0_f32.deg();
 //!
 //! assert_eq!(format!("{}", Radians(angle)), "1.5707964 rad");
 //! assert_eq!(format!("{}", Degrees(angle)), "90°");
 //! assert_eq!(format!("{}", Turns(angle)), "0.25 tr");
 //! assert_eq!(format!("{}", Gradians(angle)), "100g");
-//! # }
 //! ```
 
 use std::fmt::Display;
@@ -38,6 +38,8 @@ macro_rules! unit {
         impl<F: Float> $name<Angle<F>> {
             /// The value of the angle in
             #[doc = $unit]
+            ///
+            /// The value is in [the main range](Angle#the-main-range).
             #[inline]
             pub fn to_value(self) -> F {
                 self.0.$to_method()

@@ -5,11 +5,37 @@ use crate::{
     float::Float, forward_ref_binop, forward_ref_op_assign, forward_ref_unop, AngleUnbounded,
 };
 
-/// Represents the canonical value of an angle.
-///
-/// The value is stored in the range `(-π, π]`.
+/// Represents a point on the circle as an unit agnostic angle.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
+///
+/// ## Behaviour
+///
+/// Two different values of the same point on the circle are the same [`Angle`] :
+///
+/// ```
+/// # use angulus::Angle;
+/// let a = Angle::from_degrees(90.0);
+/// let b = Angle::from_degrees(450.0);
+///
+/// assert_eq!(a, b);
+/// ```
+///
+/// To preserve the difference use [`AngleUnbounded`].
+///
+/// ## Why doesn't it implement [`PartialOrd`] ?
+///
+/// Because [`Angle`]s represents points on the circle (i.e. not a numerical value), they cannot be ordered.
+///
+/// ## The main range
+///
+/// The main range for an angle is :
+///
+/// - `(-π, π]` radians
+/// - `(-180, 180]` degrees
+/// - `(-0.5, 0.5]` turns
+/// - `(-200, 200]` gradians
+///
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
 pub struct Angle<F> {
@@ -160,6 +186,8 @@ impl<F: Float> Angle<F> {
 
 impl<F: Copy> Angle<F> {
     /// The value of the angle in radians.
+    ///
+    /// This value is in the range `(-π, π]`.
     #[inline]
     pub const fn to_radians(self) -> F {
         self.radians
@@ -168,18 +196,24 @@ impl<F: Copy> Angle<F> {
 
 impl<F: Float> Angle<F> {
     /// The value of the angle in degrees.
+    ///
+    /// This value is in the range `(-180, 180]`.
     #[inline]
     pub fn to_degrees(self) -> F {
         self.radians * F::RAD_TO_DEG
     }
 
     /// The value of the angle in turns.
+    ///
+    /// This value is in the range `(-0.5, 0.5]`.
     #[inline]
     pub fn to_turns(self) -> F {
         self.radians * F::RAD_TO_TURNS
     }
 
     /// The value of the angle in gradians.
+    ///
+    /// This value is in the range `(-200, 200]`.
     #[inline]
     pub fn to_gradians(self) -> F {
         self.radians * F::RAD_TO_GRAD
@@ -191,7 +225,7 @@ impl<F: Float> Angle<F> {
 //-------------------------------------------------------------------
 
 impl<F: Copy> Angle<F> {
-    /// Converts this angle into an unbounded angle.
+    /// Converts this angle into an unbounded angle in [the main range](Angle#the-main-range).
     pub const fn to_unbounded(self) -> AngleUnbounded<F> {
         AngleUnbounded::from_radians(self.radians)
     }
