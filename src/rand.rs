@@ -17,7 +17,7 @@
 //!
 //! ### [`Angle`]
 //!
-//! Because [`Angle`] [did not implements `PartialOrd`](crate::angle::Angle#why-does-it-doesnt-implement-partialord-), the generated angle will belong to the part of the
+//! Because [`Angle`] [did not implements `PartialOrd`](Angle#why-doesnt-it-implement-partialord-), the generated angle will belong to the part of the
 //! circle between the bounds in counterclockwise. I.e. the order of the bounds will determine
 //! which part of the circle the generated angle belongs to.
 //!

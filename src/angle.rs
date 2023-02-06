@@ -23,7 +23,7 @@ use crate::{
 ///
 /// To preserve the difference use [`AngleUnbounded`].
 ///
-/// ## Why does it doesn't implement [`PartialOrd`] ?
+/// ## Why doesn't it implement [`PartialOrd`] ?
 ///
 /// Because [`Angle`]s represents points on the circle (i.e. not a numerical value), they cannot be ordered.
 ///
