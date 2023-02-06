@@ -9,14 +9,12 @@
 //!
 //! ```
 //! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns, Gradians}};
-//! # fn main() {
 //! let angle = 90.0_f32.deg();
 //!
 //! assert_eq!(format!("{}", Radians(angle)), "1.5707964 rad");
 //! assert_eq!(format!("{}", Degrees(angle)), "90°");
 //! assert_eq!(format!("{}", Turns(angle)), "0.25 tr");
 //! assert_eq!(format!("{}", Gradians(angle)), "100g");
-//! # }
 //! ```
 
 use std::fmt::Display;
