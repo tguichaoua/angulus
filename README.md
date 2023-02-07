@@ -14,7 +14,7 @@ Using simple floating point numbers to store an angle value is error-prone : you
 ## Example
 
 ```rust
-use angulus::*;
+use angulus::prelude::*;
 
 // Create an angle of 90°.
 let alpha = 90.0_f32.deg();
@@ -28,8 +28,8 @@ let gamma = alpha + beta;
 // Print the result.
 println!(
     "The cosine of {} is {}",
-    units::Degrees(gamma), // The angle is wrapped to display the value in degrees.
-    gamma.cos()            // Compute the cosine without worrying about units.
+    Degrees(gamma), // The angle is wrapped to display the value in degrees.
+    gamma.cos()     // Compute the cosine without worrying about units.
 );
 
 // Output : The cosine of 135° is -0.70710677
