@@ -39,7 +39,7 @@
 //! To create an angle from a value, you can use the `from_*` methods with the unit of the value...
 //!
 //! ```
-//! # use angulus::*;
+//! # use angulus::Angle;
 //! let deg = Angle::from_degrees(90.0);
 //! let rad = Angle::from_radians(3.14);
 //! let turns = Angle::from_turns(0.75);
@@ -49,7 +49,7 @@
 //! or you use the [`ToAngle`] trait directly on the value.
 //!
 //! ```
-//! # use angulus::*;
+//! # use angulus::ToAngle;
 //! let deg = 90.0.deg();
 //! let rad = 3.14.rad();
 //! let turns = 0.75.turns();
@@ -61,7 +61,7 @@
 //! To convert back an angle to a value you can use the `to_*` methods with the desired unit.
 //!
 //! ```
-//! # use angulus::*;
+//! # use angulus::Angle32;
 //! let a = Angle32::QUARTER;
 //!
 //! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
@@ -113,3 +113,16 @@ pub type AngleUnbounded32 = AngleUnbounded<f32>;
 
 /// Type alias for [`AngleUnbounded::<f64>`].
 pub type AngleUnbounded64 = AngleUnbounded<f64>;
+
+/// Re-exports the most important elements of the crate.
+///
+/// ## Usage
+/// ```
+/// use angulus::prelude::*;
+/// ```
+pub mod prelude {
+    pub use crate::{
+        units::*, Angle, Angle32, Angle64, AngleUnbounded, AngleUnbounded32, AngleUnbounded64,
+        ToAngle,
+    };
+}
