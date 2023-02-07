@@ -1,5 +1,6 @@
 use std::{
     fmt::Debug,
+    iter::Sum,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
@@ -349,3 +350,9 @@ impl<F: Float> Neg for AngleUnbounded<F> {
 }
 
 forward_ref_unop!(impl<F: Float> Neg, neg for AngleUnbounded<F>);
+
+impl<F: Sum> Sum for AngleUnbounded<F> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        AngleUnbounded::from_radians(iter.map(|x| x.radians).sum())
+    }
+}

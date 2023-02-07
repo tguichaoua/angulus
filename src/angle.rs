@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 use crate::{
@@ -389,6 +390,12 @@ impl<F: Float> Neg for Angle<F> {
 }
 
 forward_ref_unop!(impl<F: Float> Neg, neg for Angle<F>);
+
+impl<F: Float + Sum> Sum for Angle<F> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        Angle::from_radians(iter.map(|x| x.radians).sum())
+    }
+}
 
 #[cfg(test)]
 mod tests {
