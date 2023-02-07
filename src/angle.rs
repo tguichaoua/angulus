@@ -399,7 +399,9 @@ impl<F: Float + Sum> Sum for Angle<F> {
 
 #[cfg(test)]
 mod tests {
-    use super::Angle;
+    use float_eq::assert_float_eq;
+
+    use crate::{Angle, Angle32};
 
     #[test]
     fn pi_eq_neg_pi() {
@@ -407,5 +409,15 @@ mod tests {
             Angle::from_radians(std::f32::consts::PI),
             Angle::from_radians(-std::f32::consts::PI),
         )
+    }
+
+    #[test]
+    fn angle_sum() {
+        let angles: Vec<Angle32> = std::iter::from_fn(|| rand::random()).take(20).collect();
+
+        let sum: Angle32 = angles.iter().copied().sum();
+        let add = angles.iter().fold(Angle::ZERO, |a, b| a + b);
+
+        assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
     }
 }

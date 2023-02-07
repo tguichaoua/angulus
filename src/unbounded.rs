@@ -356,3 +356,21 @@ impl<F: Sum> Sum for AngleUnbounded<F> {
         AngleUnbounded::from_radians(iter.map(|x| x.radians).sum())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use float_eq::assert_float_eq;
+
+    use crate::AngleUnbounded32;
+
+    #[test]
+    fn angle_unbounded_sum() {
+        let angles: Vec<AngleUnbounded32> =
+            std::iter::from_fn(|| rand::random()).take(20).collect();
+
+        let sum: AngleUnbounded32 = angles.iter().copied().sum();
+        let add = angles.iter().fold(AngleUnbounded32::ZERO, |a, b| a + b);
+
+        assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
+    }
+}
