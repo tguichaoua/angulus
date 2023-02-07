@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 use crate::{
@@ -390,9 +391,17 @@ impl<F: Float> Neg for Angle<F> {
 
 forward_ref_unop!(impl<F: Float> Neg, neg for Angle<F>);
 
+impl<F: Float + Sum> Sum for Angle<F> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        Angle::from_radians(iter.map(|x| x.radians).sum())
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::Angle;
+    use float_eq::assert_float_eq;
+
+    use crate::{Angle, Angle32};
 
     #[test]
     fn pi_eq_neg_pi() {
@@ -400,5 +409,38 @@ mod tests {
             Angle::from_radians(std::f32::consts::PI),
             Angle::from_radians(-std::f32::consts::PI),
         )
+    }
+
+    #[test]
+    fn angle_sum() {
+        const ANGLES: [f32; 20] = [
+            0.711_889,
+            0.612_456_56,
+            -1.165_211_3,
+            -1.452_307,
+            -0.587_785_5,
+            0.593_006_5,
+            0.012_860_533,
+            -1.142_349_6,
+            -1.302_776_9,
+            0.510_909_6,
+            2.365_249_2,
+            1.743_016_8,
+            1.165_635_7,
+            -2.191_822_8,
+            2.505_914_4,
+            0.498_677,
+            2.496_595,
+            -0.108_386_315,
+            0.991_436_9,
+            -2.835_525_5,
+        ];
+
+        let angles = ANGLES.map(Angle32::from_radians);
+
+        let sum: Angle32 = angles.iter().copied().sum();
+        let add = angles.iter().copied().fold(Angle::ZERO, |a, b| a + b);
+
+        assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
     }
 }

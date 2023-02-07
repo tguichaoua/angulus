@@ -1,5 +1,6 @@
 use std::{
     fmt::Debug,
+    iter::Sum,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
@@ -349,3 +350,49 @@ impl<F: Float> Neg for AngleUnbounded<F> {
 }
 
 forward_ref_unop!(impl<F: Float> Neg, neg for AngleUnbounded<F>);
+
+impl<F: Sum> Sum for AngleUnbounded<F> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        AngleUnbounded::from_radians(iter.map(|x| x.radians).sum())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use float_eq::assert_float_eq;
+
+    use crate::AngleUnbounded32;
+
+    #[test]
+    fn angle_unbounded_sum() {
+        const ANGLES: [f32; 20] = [
+            -1.093_766_9,
+            -2.507_797_2,
+            -1.995_534_5,
+            -0.704_018_65,
+            0.601_837_7,
+            -1.887_757_9,
+            0.630_587_64,
+            -0.860_579_43,
+            2.683_119,
+            0.664_140_76,
+            0.018_360_304,
+            0.041_261_05,
+            2.733_847_6,
+            2.532_730_3,
+            -3.082_243_2,
+            -1.973_592_4,
+            2.883_761_2,
+            0.876_528_8,
+            -1.492_470_1,
+            -1.600_921_4,
+        ];
+
+        let angles = ANGLES.map(AngleUnbounded32::from_radians);
+
+        let sum: AngleUnbounded32 = angles.iter().copied().sum();
+        let add = angles.iter().fold(AngleUnbounded32::ZERO, |a, b| a + b);
+
+        assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
+    }
+}
