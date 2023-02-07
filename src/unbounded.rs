@@ -365,8 +365,30 @@ mod tests {
 
     #[test]
     fn angle_unbounded_sum() {
-        let angles: Vec<AngleUnbounded32> =
-            std::iter::from_fn(|| rand::random()).take(20).collect();
+        const ANGLES: [f32; 20] = [
+            -1.0937668851049063,
+            -2.507797328889608,
+            -1.995534498459327,
+            -0.7040186671633046,
+            0.6018377176680536,
+            -1.8877579271161418,
+            0.6305876225028899,
+            -0.8605794383945895,
+            2.6831189817592183,
+            0.664140784056888,
+            0.01836030330686178,
+            0.04126105017961024,
+            2.7338476329797228,
+            2.5327304341141046,
+            -3.082243239618341,
+            -1.9735923450453656,
+            2.8837611698616596,
+            0.8765288203247845,
+            -1.4924701196438046,
+            -1.6009214013522177,
+        ];
+
+        let angles = ANGLES.map(AngleUnbounded32::from_radians);
 
         let sum: AngleUnbounded32 = angles.iter().copied().sum();
         let add = angles.iter().fold(AngleUnbounded32::ZERO, |a, b| a + b);

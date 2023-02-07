@@ -413,10 +413,33 @@ mod tests {
 
     #[test]
     fn angle_sum() {
-        let angles: Vec<Angle32> = std::iter::from_fn(|| rand::random()).take(20).collect();
+        const ANGLES: [f32; 20] = [
+            0.7118890089113972,
+            0.6124565737050864,
+            -1.1652112985370666,
+            -1.4523069297664148,
+            -0.5877854727419067,
+            0.593006465874315,
+            0.012860532864058971,
+            -1.142349592660066,
+            -1.302776944813708,
+            0.5109096400870778,
+            2.365249101845329,
+            1.7430168603877645,
+            1.1656356653230144,
+            -2.1918227857114694,
+            2.505914493517058,
+            0.49867698412979955,
+            2.4965948491689076,
+            -0.1083863173745554,
+            0.9914368692901823,
+            -2.835525562907099,
+        ];
+
+        let angles = ANGLES.map(Angle32::from_radians);
 
         let sum: Angle32 = angles.iter().copied().sum();
-        let add = angles.iter().fold(Angle::ZERO, |a, b| a + b);
+        let add = angles.iter().copied().fold(Angle::ZERO, |a, b| a + b);
 
         assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
     }
