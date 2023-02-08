@@ -37,7 +37,12 @@ println!(
 
 ## Features
 
-- `serde` : Serialization/deserialization support via serde.
+- `serde`: Serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
+- `rand`: Generate random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
+
+## Minimum Supported Rust Version
+
+This crate requires Rust 1.61.0 or later.
 
 ## License
 
