@@ -37,6 +37,38 @@ use crate::{
 /// - `(-0.5, 0.5]` turns
 /// - `(-200, 200]` gradians
 ///
+/// ## The `NaN` angle
+///
+/// An angle can be `NaN` in the following cases :
+///
+/// - create the angle from an non finite value
+/// ```
+/// # use angulus::Angle;
+/// let a = Angle::from_radians(f32::INFINITY);
+/// assert!(a.is_nan());
+///
+/// let b = Angle::from_radians(f32::NAN);
+/// assert!(b.is_nan());
+/// ```
+/// - create the angle with a too big value
+/// ```
+/// # use angulus::Angle;
+/// // Some unit can handle big values ...
+/// let a = Angle::from_degrees(f32::MAX);
+/// assert!(!a.is_nan());
+///
+/// // but not all.
+/// let b = Angle::from_turns(f32::MAX);
+/// assert!(b.is_nan());
+/// ```
+/// - doing some operations that result into non finite value
+/// ```
+/// # use angulus::Angle;
+/// let a = Angle::DEG_90;
+/// let b = a / 0.0;
+///
+/// assert!(b.is_nan());
+/// ```
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
 pub struct Angle<F> {
@@ -218,6 +250,16 @@ impl<F: Float> Angle<F> {
     #[inline]
     pub fn to_gradians(self) -> F {
         self.radians * F::RAD_TO_GRAD
+    }
+}
+
+impl<F: Float> Angle<F> {
+    /// Returns `true` if this angle is NaN.
+    ///
+    /// See [`Angle` documentation][Angle] for more details.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.radians.is_nan()
     }
 }
 
