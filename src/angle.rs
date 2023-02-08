@@ -227,6 +227,7 @@ impl<F: Float> Angle<F> {
 
 impl<F: Copy> Angle<F> {
     /// Converts this angle into an unbounded angle in [the main range](Angle#the-main-range).
+    #[inline]
     pub const fn to_unbounded(self) -> AngleUnbounded<F> {
         AngleUnbounded::from_radians(self.radians)
     }
