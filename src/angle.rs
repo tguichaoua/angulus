@@ -240,6 +240,44 @@ impl<F: Float> From<AngleUnbounded<F>> for Angle<F> {
 }
 
 //-------------------------------------------------------------------
+// Floating point type convertion
+//-------------------------------------------------------------------
+
+impl Angle<f32> {
+    /// Converts the floating point type to [`f64`].
+    #[inline]
+    pub fn to_f64(self) -> Angle<f64> {
+        let radians = self.radians as f64;
+        debug_assert!(-std::f64::consts::PI < radians && radians <= std::f64::consts::PI);
+        // Notes: f32 to f64 convertion is losslessly, we don't need to check the range.
+        Angle::from_radians_unchecked(radians)
+    }
+}
+
+impl Angle<f64> {
+    /// Converts the floating point type to [`f32`].
+    #[inline]
+    pub fn to_f32(self) -> Angle<f32> {
+        let radians = self.radians as f32;
+        Angle::from_radians(radians)
+    }
+}
+
+impl From<Angle<f64>> for Angle<f32> {
+    #[inline]
+    fn from(value: Angle<f64>) -> Self {
+        value.to_f32()
+    }
+}
+
+impl From<Angle<f32>> for Angle<f64> {
+    #[inline]
+    fn from(value: Angle<f32>) -> Self {
+        value.to_f64()
+    }
+}
+
+//-------------------------------------------------------------------
 // Maths
 //-------------------------------------------------------------------
 

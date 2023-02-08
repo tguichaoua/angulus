@@ -205,6 +205,42 @@ impl<F: Copy> From<Angle<F>> for AngleUnbounded<F> {
 }
 
 //-------------------------------------------------------------------
+// Floating point type convertion
+//-------------------------------------------------------------------
+
+impl AngleUnbounded<f32> {
+    /// Converts the floating point type to [`f64`].
+    #[inline]
+    pub fn to_f64(self) -> AngleUnbounded<f64> {
+        let radians = self.radians as f64;
+        AngleUnbounded::from_radians(radians)
+    }
+}
+
+impl AngleUnbounded<f64> {
+    /// Converts the floating point type to [`f32`].
+    #[inline]
+    pub fn to_f32(self) -> AngleUnbounded<f32> {
+        let radians = self.radians as f32;
+        AngleUnbounded::from_radians(radians)
+    }
+}
+
+impl From<AngleUnbounded<f64>> for AngleUnbounded<f32> {
+    #[inline]
+    fn from(value: AngleUnbounded<f64>) -> Self {
+        value.to_f32()
+    }
+}
+
+impl From<AngleUnbounded<f32>> for AngleUnbounded<f64> {
+    #[inline]
+    fn from(value: AngleUnbounded<f32>) -> Self {
+        value.to_f64()
+    }
+}
+
+//-------------------------------------------------------------------
 // Maths
 //-------------------------------------------------------------------
 
