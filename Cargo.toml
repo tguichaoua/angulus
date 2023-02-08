@@ -13,6 +13,9 @@ repository = "https://github.com/tguichaoua/angulus"
 
 exclude = [".github/"]
 
+[package.metadata.docs.rs]
+all-features = true
+
 [dependencies]
 rand = { version = "0.8", optional = true, default-features = false }
 serde = { version = "1", optional = true, default-features = false }
