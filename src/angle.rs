@@ -486,7 +486,7 @@ mod tests {
     use crate::{Angle, Angle32};
 
     #[test]
-    fn pi_eq_neg_pi() {
+    fn angle_pi_eq_neg_pi() {
         assert_eq!(
             Angle::from_radians(std::f32::consts::PI),
             Angle::from_radians(-std::f32::consts::PI),
@@ -494,7 +494,7 @@ mod tests {
     }
 
     #[test]
-    fn angle_sum() {
+    fn angle_sum_is_accurate() {
         const ANGLES: [f32; 20] = [
             0.711_889,
             0.612_456_56,
@@ -527,7 +527,7 @@ mod tests {
     }
 
     #[test]
-    fn angle_from_nan_are_nan() {
+    fn angle_from_nan_is_nan() {
         macro_rules! test {
             (
                 $($nan:expr),*
@@ -544,7 +544,7 @@ mod tests {
     }
 
     #[test]
-    fn angle_from_infinity_are_nan() {
+    fn angle_from_infinity_is_nan() {
         macro_rules! test {
             (
                 $($inf:expr),*
@@ -566,7 +566,7 @@ mod tests {
     }
 
     #[test]
-    fn angle_from_big_value_are_not_nan() {
+    fn angle_from_big_value_is_not_nan() {
         macro_rules! test {
             (
                 $($big_value:expr),*

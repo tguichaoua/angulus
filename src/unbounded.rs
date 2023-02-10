@@ -400,7 +400,7 @@ mod tests {
     use crate::AngleUnbounded32;
 
     #[test]
-    fn angle_unbounded_sum() {
+    fn angle_unbounded_sum_is_accurate() {
         const ANGLES: [f32; 20] = [
             -1.093_766_9,
             -2.507_797_2,
