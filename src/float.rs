@@ -76,6 +76,12 @@ pub trait Float:
     /// Convertion factor from radians to gradians.
     const RAD_TO_GRAD: Self;
 
+    /// The value of τ radians in turns.
+    const TAU_RAD_IN_TURNS: Self;
+
+    /// Returns `true` if this value is NaN.
+    fn is_nan(self) -> bool;
+
     /// Computes the sine (in radians).
     fn sin(self) -> Self;
     /// Computes the cosine (in radians).
@@ -108,6 +114,13 @@ impl Float for f32 {
 
     const GRAD_TO_RAD: Self = std::f32::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f32::consts::PI;
+
+    const TAU_RAD_IN_TURNS: Self = Self::TAU * Self::RAD_TO_TURNS;
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.is_nan()
+    }
 
     #[inline]
     fn sin(self) -> Self {
@@ -152,6 +165,13 @@ impl Float for f64 {
 
     const GRAD_TO_RAD: Self = std::f64::consts::PI / 200.0;
     const RAD_TO_GRAD: Self = 200.0 / std::f64::consts::PI;
+
+    const TAU_RAD_IN_TURNS: Self = Self::TAU * Self::RAD_TO_TURNS;
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.is_nan()
+    }
 
     #[inline]
     fn sin(self) -> Self {

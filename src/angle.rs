@@ -37,6 +37,27 @@ use crate::{
 /// - `(-0.5, 0.5]` turns
 /// - `(-200, 200]` gradians
 ///
+/// ## The `NaN` angle
+///
+/// An angle can be `NaN` in the following cases :
+///
+/// - create the angle from an non finite value
+/// ```
+/// # use angulus::Angle;
+/// let a = Angle::from_radians(f32::INFINITY);
+/// assert!(a.is_nan());
+///
+/// let b = Angle::from_radians(f32::NAN);
+/// assert!(b.is_nan());
+/// ```
+/// - doing some operations that result into non finite value
+/// ```
+/// # use angulus::Angle;
+/// let a = Angle::DEG_90;
+/// let b = a / 0.0;
+///
+/// assert!(b.is_nan());
+/// ```
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
 pub struct Angle<F> {
@@ -148,10 +169,11 @@ impl<F> Angle<F> {
 }
 
 impl<F: Float> Angle<F> {
-    /// Creates a new angle from a value in radians.
+    /// Creates a new angle from a value in radians assuming it is already in
+    /// the the range `[-2π, 2π]`.
     #[inline]
-    pub fn from_radians(radians: F) -> Self {
-        let radians = radians % F::TAU;
+    fn from_radians_partially_unchecked(radians: F) -> Self {
+        debug_assert!(radians.is_nan() || (-F::TAU <= radians && radians <= F::TAU));
         let radians = if radians > F::PI {
             radians - F::TAU
         } else if radians <= -F::PI {
@@ -160,6 +182,12 @@ impl<F: Float> Angle<F> {
             radians
         };
         Self::from_radians_unchecked(radians)
+    }
+
+    /// Creates a new angle from a value in radians.
+    #[inline]
+    pub fn from_radians(radians: F) -> Self {
+        Self::from_radians_partially_unchecked(radians % F::TAU)
     }
 
     /// Creates a new angle from a value in degrees.
@@ -171,7 +199,9 @@ impl<F: Float> Angle<F> {
     /// Creates a new angle from a value in turns.
     #[inline]
     pub fn from_turns(turns: F) -> Self {
-        Self::from_radians(turns * F::TURNS_TO_RAD)
+        // NOTE: to avoid `NaN` when handling big values, we have to operate the REM before
+        // converting the value into radians.
+        Self::from_radians_partially_unchecked((turns % F::TAU_RAD_IN_TURNS) * F::TURNS_TO_RAD)
     }
 
     /// Creates a new angle from a value in gradians.
@@ -221,6 +251,16 @@ impl<F: Float> Angle<F> {
     }
 }
 
+impl<F: Float> Angle<F> {
+    /// Returns `true` if this angle is NaN.
+    ///
+    /// See [`Angle` documentation][Angle] for more details.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.radians.is_nan()
+    }
+}
+
 //-------------------------------------------------------------------
 // Angle convertion
 //-------------------------------------------------------------------
@@ -249,7 +289,10 @@ impl Angle<f32> {
     #[inline]
     pub fn to_f64(self) -> Angle<f64> {
         let radians = self.radians as f64;
-        debug_assert!(-std::f64::consts::PI < radians && radians <= std::f64::consts::PI);
+        debug_assert!(
+            radians.is_nan()
+                || (-std::f64::consts::PI < radians && radians <= std::f64::consts::PI)
+        );
         // Notes: f32 to f64 convertion is losslessly, we don't need to check the range.
         Angle::from_radians_unchecked(radians)
     }
@@ -419,7 +462,7 @@ impl<F: Float> Neg for Angle<F> {
 
     #[inline]
     fn neg(self) -> Self::Output {
-        debug_assert!(-F::PI < self.radians && self.radians <= F::PI);
+        debug_assert!(self.radians.is_nan() || (-F::PI < self.radians && self.radians <= F::PI));
         if self.radians == F::PI {
             self
         } else {
@@ -481,5 +524,61 @@ mod tests {
         let add = angles.iter().copied().fold(Angle::ZERO, |a, b| a + b);
 
         assert_float_eq!(sum.to_radians(), add.to_radians(), abs <= 1e-5);
+    }
+
+    #[test]
+    fn angle_from_nan_are_nan() {
+        macro_rules! test {
+            (
+                $($nan:expr),*
+            ) => {
+                $(
+                    assert!(Angle::from_radians($nan).is_nan());
+                    assert!(Angle::from_degrees($nan).is_nan());
+                    assert!(Angle::from_turns($nan).is_nan());
+                    assert!(Angle::from_gradians($nan).is_nan());
+                )*
+            };
+        }
+        test!(f32::NAN, f64::NAN);
+    }
+
+    #[test]
+    fn angle_from_infinity_are_nan() {
+        macro_rules! test {
+            (
+                $($inf:expr),*
+            ) => {
+                $(
+                    assert!(Angle::from_radians($inf).is_nan());
+                    assert!(Angle::from_degrees($inf).is_nan());
+                    assert!(Angle::from_turns($inf).is_nan());
+                    assert!(Angle::from_gradians($inf).is_nan());
+                )*
+            };
+        }
+        test!(
+            f32::INFINITY,
+            f32::NEG_INFINITY,
+            f64::INFINITY,
+            f64::NEG_INFINITY
+        );
+    }
+
+    #[test]
+    fn angle_from_big_value_are_not_nan() {
+        macro_rules! test {
+            (
+                $($big_value:expr),*
+            ) => {
+                $(
+                    assert!(!Angle::from_radians($big_value).is_nan());
+                    assert!(!Angle::from_degrees($big_value).is_nan());
+                    assert!(!Angle::from_turns($big_value).is_nan());
+                    assert!(!Angle::from_gradians($big_value).is_nan());
+                )*
+            };
+        }
+        test!(f32::MAX, f32::MIN, f64::MAX, f64::MIN);
     }
 }
