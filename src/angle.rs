@@ -173,6 +173,7 @@ impl<F: Float> Angle<F> {
     /// the the range `[-2π, 2π]`.
     #[inline]
     fn from_radians_partially_unchecked(radians: F) -> Self {
+        debug_assert!(-F::TAU <= radians && radians <= F::TAU);
         let radians = if radians > F::PI {
             radians - F::TAU
         } else if radians <= -F::PI {
