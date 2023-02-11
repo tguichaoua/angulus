@@ -4,7 +4,11 @@ use std::{
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
-use crate::{float::Float, forward_ref_binop, forward_ref_op_assign, forward_ref_unop, Angle};
+use crate::{
+    float::Float,
+    macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
+    Angle,
+};
 
 /// Represents a point on the circle as an unit agnostic angle.
 ///
