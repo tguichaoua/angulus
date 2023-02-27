@@ -86,7 +86,6 @@
 #[cfg(feature = "serde")]
 pub mod serde;
 
-#[allow(missing_docs)]
 #[cfg(feature = "rand")]
 pub mod rand;
 
