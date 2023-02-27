@@ -1,11 +1,11 @@
-use std::{
+use core::{
     fmt::Debug,
     iter::Sum,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
 use crate::{
-    float::Float,
+    float::{Float, FloatMath},
     macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
     Angle,
 };
@@ -111,7 +111,7 @@ impl<F: Float> AngleUnbounded<F> {
 //-------------------------------------------------------------------
 
 impl<F: Debug> Debug for AngleUnbounded<F> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_tuple("AngleUnbounded")
             .field(&self.radians)
             .finish()
@@ -248,7 +248,7 @@ impl From<AngleUnbounded<f32>> for AngleUnbounded<f64> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: Float> AngleUnbounded<F> {
+impl<F: FloatMath> AngleUnbounded<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {

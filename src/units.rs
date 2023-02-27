@@ -19,7 +19,7 @@
 //! assert_eq!(format!("{}", Gradians(angle)), "100g");
 //! ```
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 use crate::{float::Float, Angle, AngleUnbounded};
 
@@ -79,7 +79,7 @@ macro_rules! unit {
         impl<F: Float + Display> Display for $name<Angle<F>>
         {
             #[inline]
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 write!(f, $format, self.to_value())
             }
         }
@@ -87,7 +87,7 @@ macro_rules! unit {
         impl<F: Float + Display> Display for $name<AngleUnbounded<F>>
         {
             #[inline]
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 write!(f, $format, self.to_value())
             }
         }

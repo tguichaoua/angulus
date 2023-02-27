@@ -1,6 +1,6 @@
 //! Defines which types can be used as a floating-point value for the angle.
 
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
+use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 mod private {
     pub trait Sealed {}
@@ -81,7 +81,10 @@ pub trait Float:
 
     /// Returns `true` if this value is NaN.
     fn is_nan(self) -> bool;
+}
 
+/// Maths operations.
+pub trait FloatMath: private::Sealed + Sized {
     /// Computes the sine (in radians).
     fn sin(self) -> Self;
     /// Computes the cosine (in radians).
@@ -98,22 +101,22 @@ impl Float for f32 {
     const EPSILON: Self = f32::EPSILON;
     const DOUBLE_EPSILON: Self = 2.0 * Self::EPSILON;
 
-    const TAU: Self = std::f32::consts::TAU;
-    const PI: Self = std::f32::consts::PI;
-    const FRAC_PI_2: Self = std::f32::consts::FRAC_PI_2;
-    const FRAC_PI_3: Self = std::f32::consts::FRAC_PI_3;
-    const FRAC_PI_4: Self = std::f32::consts::FRAC_PI_4;
-    const FRAC_PI_6: Self = std::f32::consts::FRAC_PI_6;
-    const FRAC_PI_8: Self = std::f32::consts::FRAC_PI_8;
+    const TAU: Self = core::f32::consts::TAU;
+    const PI: Self = core::f32::consts::PI;
+    const FRAC_PI_2: Self = core::f32::consts::FRAC_PI_2;
+    const FRAC_PI_3: Self = core::f32::consts::FRAC_PI_3;
+    const FRAC_PI_4: Self = core::f32::consts::FRAC_PI_4;
+    const FRAC_PI_6: Self = core::f32::consts::FRAC_PI_6;
+    const FRAC_PI_8: Self = core::f32::consts::FRAC_PI_8;
 
-    const DEG_TO_RAD: Self = std::f32::consts::PI / 180.0;
-    const RAD_TO_DEG: Self = 180.0 / std::f32::consts::PI;
+    const DEG_TO_RAD: Self = core::f32::consts::PI / 180.0;
+    const RAD_TO_DEG: Self = 180.0 / core::f32::consts::PI;
 
-    const TURNS_TO_RAD: Self = std::f32::consts::TAU;
-    const RAD_TO_TURNS: Self = 1.0 / std::f32::consts::TAU;
+    const TURNS_TO_RAD: Self = core::f32::consts::TAU;
+    const RAD_TO_TURNS: Self = 1.0 / core::f32::consts::TAU;
 
-    const GRAD_TO_RAD: Self = std::f32::consts::PI / 200.0;
-    const RAD_TO_GRAD: Self = 200.0 / std::f32::consts::PI;
+    const GRAD_TO_RAD: Self = core::f32::consts::PI / 200.0;
+    const RAD_TO_GRAD: Self = 200.0 / core::f32::consts::PI;
 
     const TAU_RAD_IN_TURNS: Self = Self::TAU * Self::RAD_TO_TURNS;
 
@@ -121,7 +124,41 @@ impl Float for f32 {
     fn is_nan(self) -> bool {
         self.is_nan()
     }
+}
 
+impl Float for f64 {
+    const ZERO: Self = 0.0f64;
+    const ONE: Self = 1.0f64;
+    const EPSILON: Self = f64::EPSILON;
+    const DOUBLE_EPSILON: Self = 2.0 * Self::EPSILON;
+
+    const TAU: Self = core::f64::consts::TAU;
+    const PI: Self = core::f64::consts::PI;
+    const FRAC_PI_2: Self = core::f64::consts::FRAC_PI_2;
+    const FRAC_PI_3: Self = core::f64::consts::FRAC_PI_3;
+    const FRAC_PI_4: Self = core::f64::consts::FRAC_PI_4;
+    const FRAC_PI_6: Self = core::f64::consts::FRAC_PI_6;
+    const FRAC_PI_8: Self = core::f64::consts::FRAC_PI_8;
+
+    const DEG_TO_RAD: Self = core::f64::consts::PI / 180.0;
+    const RAD_TO_DEG: Self = 180.0 / core::f64::consts::PI;
+
+    const TURNS_TO_RAD: Self = core::f64::consts::TAU;
+    const RAD_TO_TURNS: Self = 1.0 / core::f64::consts::TAU;
+
+    const GRAD_TO_RAD: Self = core::f64::consts::PI / 200.0;
+    const RAD_TO_GRAD: Self = 200.0 / core::f64::consts::PI;
+
+    const TAU_RAD_IN_TURNS: Self = Self::TAU * Self::RAD_TO_TURNS;
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.is_nan()
+    }
+}
+
+#[cfg(feature = "std")]
+impl FloatMath for f32 {
     #[inline]
     fn sin(self) -> Self {
         self.sin()
@@ -143,36 +180,8 @@ impl Float for f32 {
     }
 }
 
-impl Float for f64 {
-    const ZERO: Self = 0.0f64;
-    const ONE: Self = 1.0f64;
-    const EPSILON: Self = f64::EPSILON;
-    const DOUBLE_EPSILON: Self = 2.0 * Self::EPSILON;
-
-    const TAU: Self = std::f64::consts::TAU;
-    const PI: Self = std::f64::consts::PI;
-    const FRAC_PI_2: Self = std::f64::consts::FRAC_PI_2;
-    const FRAC_PI_3: Self = std::f64::consts::FRAC_PI_3;
-    const FRAC_PI_4: Self = std::f64::consts::FRAC_PI_4;
-    const FRAC_PI_6: Self = std::f64::consts::FRAC_PI_6;
-    const FRAC_PI_8: Self = std::f64::consts::FRAC_PI_8;
-
-    const DEG_TO_RAD: Self = std::f64::consts::PI / 180.0;
-    const RAD_TO_DEG: Self = 180.0 / std::f64::consts::PI;
-
-    const TURNS_TO_RAD: Self = std::f64::consts::TAU;
-    const RAD_TO_TURNS: Self = 1.0 / std::f64::consts::TAU;
-
-    const GRAD_TO_RAD: Self = std::f64::consts::PI / 200.0;
-    const RAD_TO_GRAD: Self = 200.0 / std::f64::consts::PI;
-
-    const TAU_RAD_IN_TURNS: Self = Self::TAU * Self::RAD_TO_TURNS;
-
-    #[inline]
-    fn is_nan(self) -> bool {
-        self.is_nan()
-    }
-
+#[cfg(feature = "std")]
+impl FloatMath for f64 {
     #[inline]
     fn sin(self) -> Self {
         self.sin()
@@ -191,5 +200,51 @@ impl Float for f64 {
     #[inline]
     fn sin_cos(self) -> (Self, Self) {
         self.sin_cos()
+    }
+}
+
+#[cfg(all(not(feature = "std"), feature = "libm"))]
+impl FloatMath for f32 {
+    #[inline]
+    fn sin(self) -> Self {
+        libm::sinf(self)
+    }
+
+    #[inline]
+    fn cos(self) -> Self {
+        libm::cosf(self)
+    }
+
+    #[inline]
+    fn tan(self) -> Self {
+        libm::tanf(self)
+    }
+
+    #[inline]
+    fn sin_cos(self) -> (Self, Self) {
+        (libm::sinf(self), libm::cosf(self))
+    }
+}
+
+#[cfg(all(not(feature = "std"), feature = "libm"))]
+impl FloatMath for f64 {
+    #[inline]
+    fn sin(self) -> Self {
+        libm::sin(self)
+    }
+
+    #[inline]
+    fn cos(self) -> Self {
+        libm::cos(self)
+    }
+
+    #[inline]
+    fn tan(self) -> Self {
+        libm::tan(self)
+    }
+
+    #[inline]
+    fn sin_cos(self) -> (Self, Self) {
+        (libm::sin(self), libm::cos(self))
     }
 }
