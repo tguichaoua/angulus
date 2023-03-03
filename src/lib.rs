@@ -1,6 +1,3 @@
-#![deny(missing_docs)]
-#![cfg_attr(not(feature = "std"), no_std)]
-
 //! Unit agnostic angle.
 //!
 //! ## Overview
@@ -83,6 +80,9 @@
 //! - [`serde`]: enable serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
 //! - [`rand`]: enable generation of random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
 
+#![deny(missing_docs)]
+#![cfg_attr(not(feature = "std"), no_std)]
+
 #[cfg(feature = "serde")]
 pub mod serde;
 
@@ -101,8 +101,10 @@ pub use to_angle::ToAngle;
 pub use unbounded::AngleUnbounded;
 
 #[doc = include_str!("../README.md")]
-#[cfg(any(feature = "std", feature = "libm"))] // Readme use math methods.
-#[cfg(doctest)]
+#[cfg(all(
+    doctest,
+    any(feature = "std", feature = "libm") // Readme use math methods.
+))]
 pub struct ReadmeDoctests;
 
 /// Type alias for [`Angle::<f32>`].
