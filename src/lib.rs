@@ -103,7 +103,7 @@ pub use unbounded::AngleUnbounded;
 #[doc = include_str!("../README.md")]
 #[cfg(all(
     doctest,
-    any(feature = "std", feature = "libm") // Readme use math methods.
+    any(feature = "std", feature = "libm") // Readme uses math methods.
 ))]
 pub struct ReadmeDoctests;
 
