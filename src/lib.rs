@@ -77,8 +77,8 @@
 //!
 //! - `std`: by default angulus links to the standard library. Disable this feature to remove this dependency and be able to use angulus in `#![no_std]` crates.
 //! - `libm`: use the [libm crate](https://docs.rs/libm/latest/libm/) for the math methods (sin, cos, tan) when `std` is disabled.
-//! - [`serde`]: enable serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
-//! - [`rand`]: enable generation of random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
+//! - `serde`: enable serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
+//! - `rand`: enable generation of random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
 
 #![deny(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
