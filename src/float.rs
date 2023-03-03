@@ -83,7 +83,10 @@ pub trait Float:
     fn is_nan(self) -> bool;
 }
 
-/// Maths operations.
+/// Maths operations for the [`Float`] types.
+///
+/// Require either the `std` or the `libm` feature flag.
+#[cfg(any(feature = "std", feature = "libm"))]
 pub trait FloatMath: private::Sealed + Sized {
     /// Computes the sine (in radians).
     fn sin(self) -> Self;
