@@ -84,6 +84,7 @@ pub trait Float:
 }
 
 /// Maths operations.
+#[cfg(any(feature = "std", feature = "libm"))]
 pub trait FloatMath: private::Sealed + Sized {
     /// Computes the sine (in radians).
     fn sin(self) -> Self;

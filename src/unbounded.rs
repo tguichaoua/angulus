@@ -5,7 +5,7 @@ use core::{
 };
 
 use crate::{
-    float::{Float, FloatMath},
+    float::Float,
     macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
     Angle,
 };
@@ -248,7 +248,8 @@ impl From<AngleUnbounded<f32>> for AngleUnbounded<f64> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: FloatMath> AngleUnbounded<F> {
+#[cfg(any(feature = "std", feature = "libm"))]
+impl<F: crate::float::FloatMath> AngleUnbounded<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {

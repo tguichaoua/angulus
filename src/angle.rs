@@ -2,7 +2,6 @@ use core::fmt::Debug;
 use core::iter::Sum;
 use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use crate::float::FloatMath;
 use crate::{
     float::Float,
     macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
@@ -328,7 +327,8 @@ impl From<Angle<f32>> for Angle<f64> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: FloatMath> Angle<F> {
+#[cfg(any(feature = "std", feature = "libm"))]
+impl<F: crate::float::FloatMath> Angle<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {
