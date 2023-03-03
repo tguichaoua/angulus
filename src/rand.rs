@@ -60,7 +60,7 @@
 //! // panic: "cannot sample empty range"
 //! ```
 
-use std::ops::{Range, RangeInclusive};
+use core::ops::{Range, RangeInclusive};
 
 use rand::{
     distributions::{

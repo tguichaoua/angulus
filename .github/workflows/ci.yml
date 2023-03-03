@@ -50,6 +50,8 @@ jobs:
         run: cargo test --workspace --no-default-features
       - name: no_std
         run: cargo test --workspace --no-default-features --features=libm
+      - name: no_std all features
+        run: cargo test --workspace --no-default-features --features=libm,rand,serde
   msrv:
     name: 'Check MSRV: 1.61.0'
     runs-on: ubuntu-latest
