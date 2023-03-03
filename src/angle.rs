@@ -1,7 +1,8 @@
-use std::fmt::Debug;
-use std::iter::Sum;
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use core::fmt::Debug;
+use core::iter::Sum;
+use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+use crate::float::FloatMath;
 use crate::{
     float::Float,
     macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
@@ -145,7 +146,7 @@ impl<F: Float> Angle<F> {
 //-------------------------------------------------------------------
 
 impl<F: Debug> Debug for Angle<F> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_tuple("Angle").field(&self.radians).finish()
     }
 }
@@ -293,7 +294,7 @@ impl Angle<f32> {
         let radians = self.radians as f64;
         debug_assert!(
             radians.is_nan()
-                || (-std::f64::consts::PI < radians && radians <= std::f64::consts::PI)
+                || (-core::f64::consts::PI < radians && radians <= core::f64::consts::PI)
         );
         // Notes: f32 to f64 convertion is losslessly, we don't need to check the range.
         Angle::from_radians_unchecked(radians)
@@ -327,7 +328,7 @@ impl From<Angle<f32>> for Angle<f64> {
 // Maths
 //-------------------------------------------------------------------
 
-impl<F: Float> Angle<F> {
+impl<F: FloatMath> Angle<F> {
     /// Computes the sine.
     #[inline]
     pub fn sin(self) -> F {
@@ -490,8 +491,8 @@ mod tests {
     #[test]
     fn angle_pi_eq_neg_pi() {
         assert_eq!(
-            Angle::from_radians(std::f32::consts::PI),
-            Angle::from_radians(-std::f32::consts::PI),
+            Angle::from_radians(core::f32::consts::PI),
+            Angle::from_radians(-core::f32::consts::PI),
         )
     }
 

@@ -37,8 +37,10 @@ println!(
 
 ## Features
 
-- `serde`: Serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
-- `rand`: Generate random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
+- `std`: by default angulus links to the standard library. Disable this feature to remove this dependency and be able to use angulus in `#![no_std]` crates.
+- `libm`: use the [libm crate](https://docs.rs/libm/latest/libm/) for the math methods (sin, cos, tan) when `std` is disabled.
+- `serde`: enable serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
+- `rand`: enable generation of random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
 
 ## Minimum Supported Rust Version
 
