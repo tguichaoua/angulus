@@ -122,7 +122,7 @@ pub type AngleUnbounded64 = AngleUnbounded<f64>;
 
 /// Re-exports the most important elements of the crate.
 ///
-/// ## Usage
+/// # Usage
 /// ```
 /// use angulus::prelude::*;
 /// ```

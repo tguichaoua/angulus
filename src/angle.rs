@@ -10,7 +10,7 @@ use crate::AngleUnbounded;
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 ///
-/// ## Behaviour
+/// # Behaviour
 ///
 /// Two different values of the same point on the circle are the same [`Angle`] :
 ///
@@ -24,11 +24,11 @@ use crate::AngleUnbounded;
 ///
 /// To preserve the difference use [`AngleUnbounded`].
 ///
-/// ## Why doesn't it implement [`PartialOrd`] ?
+/// # Why doesn't it implement [`PartialOrd`] ?
 ///
 /// Because [`Angle`]s represents points on the circle (i.e. not a numerical value), they cannot be ordered.
 ///
-/// ## The main range
+/// # The main range
 ///
 /// The main range for an angle is :
 ///
@@ -37,7 +37,7 @@ use crate::AngleUnbounded;
 /// - `(-0.5, 0.5]` turns
 /// - `(-200, 200]` gradians
 ///
-/// ## The `NaN` angle
+/// # The `NaN` angle
 ///
 /// An angle can be `NaN` in the following cases :
 ///

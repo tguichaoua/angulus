@@ -10,7 +10,7 @@ use crate::Angle;
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 ///
-/// ## Behaviour
+/// # Behaviour
 /// Unlike [`Angle`], two different values of the same point on the circle are different
 /// angles :
 ///
