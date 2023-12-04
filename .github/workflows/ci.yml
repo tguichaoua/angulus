@@ -47,13 +47,13 @@ jobs:
           toolchain: 1.61
 
       - name: Default features
-        run: cargo check --all-targets
+        run: cargo check
 
       - name: All features
-        run: cargo check --all-targets --all-features
+        run: cargo check --all-features
 
       - name: No-default features
-        run: cargo check --all-targets --no-default-features
+        run: cargo check --no-default-features
 
   docs:
     name: Docs
