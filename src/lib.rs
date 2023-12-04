@@ -127,8 +127,8 @@ pub type AngleUnbounded64 = AngleUnbounded<f64>;
 /// use angulus::prelude::*;
 /// ```
 pub mod prelude {
+    pub use crate::units::*;
     pub use crate::{
-        units::*, Angle, Angle32, Angle64, AngleUnbounded, AngleUnbounded32, AngleUnbounded64,
-        ToAngle,
+        Angle, Angle32, Angle64, AngleUnbounded, AngleUnbounded32, AngleUnbounded64, ToAngle,
     };
 }

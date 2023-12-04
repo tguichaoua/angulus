@@ -1,14 +1,10 @@
-use core::{
-    fmt::Debug,
-    iter::Sum,
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
-};
+use core::fmt::Debug;
+use core::iter::Sum;
+use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use crate::{
-    float::Float,
-    macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
-    Angle,
-};
+use crate::float::Float;
+use crate::macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop};
+use crate::Angle;
 
 /// Represents a point on the circle as an unit agnostic angle.
 ///

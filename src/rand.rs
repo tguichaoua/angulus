@@ -62,19 +62,15 @@
 
 use core::ops::{Range, RangeInclusive};
 
-use rand::{
-    distributions::{
-        uniform::{SampleBorrow, SampleRange, SampleUniform, UniformFloat, UniformSampler},
-        Distribution, Standard,
-    },
-    Rng,
+use rand::distributions::uniform::{
+    SampleBorrow, SampleRange, SampleUniform, UniformFloat, UniformSampler,
 };
+use rand::distributions::{Distribution, Standard};
+use rand::Rng;
 
-use crate::{
-    float::Float,
-    units::{Degrees, Gradians, Radians, Turns},
-    Angle, AngleUnbounded,
-};
+use crate::float::Float;
+use crate::units::{Degrees, Gradians, Radians, Turns};
+use crate::{Angle, AngleUnbounded};
 
 //-------------------------------------------------------------------
 // Standard Distribution

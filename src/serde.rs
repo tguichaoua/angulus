@@ -42,11 +42,9 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    float::Float,
-    units::{Degrees, Gradians, Radians, Turns},
-    Angle, AngleUnbounded,
-};
+use crate::float::Float;
+use crate::units::{Degrees, Gradians, Radians, Turns};
+use crate::{Angle, AngleUnbounded};
 
 //-------------------------------------------------------------------
 
@@ -132,10 +130,8 @@ mod tests {
     use float_eq::assert_float_eq;
     use serde::{Deserialize, Serialize};
 
-    use crate::{
-        units::{Degrees, Gradians, Radians, Turns},
-        Angle, AngleUnbounded, ToAngle,
-    };
+    use crate::units::{Degrees, Gradians, Radians, Turns};
+    use crate::{Angle, AngleUnbounded, ToAngle};
 
     const TOLERANCE: f32 = 0.00001;
 

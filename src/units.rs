@@ -21,7 +21,8 @@
 
 use core::fmt::Display;
 
-use crate::{float::Float, Angle, AngleUnbounded};
+use crate::float::Float;
+use crate::{Angle, AngleUnbounded};
 
 macro_rules! unit {
     (
