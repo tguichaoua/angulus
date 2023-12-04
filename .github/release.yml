@@ -3,6 +3,7 @@ changelog:
     labels:
       - C-Meta
       - C-Release
+      - C-Code-Quality
   categories:
       - title: 💥 Breaking Changes
         labels:
