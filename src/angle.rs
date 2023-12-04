@@ -201,7 +201,7 @@ impl<F: Float> Angle<F> {
     pub fn from_turns(turns: F) -> Self {
         // NOTE: to avoid `NaN` when handling big values, we have to operate the REM before
         // converting the value into radians.
-        Self::from_radians_partially_unchecked((turns % F::TAU_RAD_IN_TURNS) * F::TURNS_TO_RAD)
+        Self::from_radians_partially_unchecked((turns % F::ONE) * F::TURNS_TO_RAD)
     }
 
     /// Creates a new angle from a value in gradians.
