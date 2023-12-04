@@ -81,7 +81,7 @@ where
     Self: Distribution<F>,
 {
     #[inline]
-    fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> Angle<F> {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Angle<F> {
         // Standard distribution generates float in the range [0, 1).
         let x = rng.gen::<F>();
 
@@ -100,7 +100,7 @@ where
     Self: Distribution<Angle<F>>,
 {
     #[inline]
-    fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> AngleUnbounded<F> {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> AngleUnbounded<F> {
         rng.gen::<Angle<F>>().to_unbounded()
     }
 }
@@ -115,7 +115,7 @@ macro_rules! impl_distribution_for_unit {
                 Self: Distribution<T>,
             {
                 #[inline]
-                fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> $Unit<T> {
+                fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> $Unit<T> {
                     $Unit(rng.gen())
                 }
             }

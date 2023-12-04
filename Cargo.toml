@@ -41,3 +41,26 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 # ---------------------------------------------------------------------------- #
+
+[lints.rust]
+absolute_paths_not_starting_with_crate = "warn"
+let_underscore_drop = "warn"
+missing_docs = "warn"
+non_ascii_idents = "warn"
+unsafe_code = "warn"
+unused_import_braces = "warn"
+unused_lifetimes = "warn"
+unused_macro_rules = "warn"
+unused_qualifications = "warn"
+unused_tuple_struct_fields = "warn"
+variant_size_differences = "warn"
+
+[lints.clippy]
+cargo = "warn"
+pedantic = "warn"
+module_name_repetitions = { level = "allow", priority = 1 }
+
+must_use_candidate = { level = "allow", priority = 1 }       # todo: remove this
+return_self_not_must_use = { level = "allow", priority = 1 } # todo: remove this
+
+# ---------------------------------------------------------------------------- #

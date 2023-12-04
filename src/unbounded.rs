@@ -212,7 +212,7 @@ impl AngleUnbounded<f32> {
     /// Converts the floating point type to [`f64`].
     #[inline]
     pub fn to_f64(self) -> AngleUnbounded<f64> {
-        let radians = self.radians as f64;
+        let radians = f64::from(self.radians);
         AngleUnbounded::from_radians(radians)
     }
 }
@@ -221,6 +221,7 @@ impl AngleUnbounded<f64> {
     /// Converts the floating point type to [`f32`].
     #[inline]
     pub fn to_f32(self) -> AngleUnbounded<f32> {
+        #[allow(clippy::cast_possible_truncation)]
         let radians = self.radians as f32;
         AngleUnbounded::from_radians(radians)
     }
@@ -309,7 +310,7 @@ forward_ref_binop!(impl<F: Float> Sub, sub for AngleUnbounded<F>, AngleUnbounded
 impl<F: Float> SubAssign for AngleUnbounded<F> {
     #[inline]
     fn sub_assign(&mut self, rhs: Self) {
-        self.radians -= rhs.radians
+        self.radians -= rhs.radians;
     }
 }
 
