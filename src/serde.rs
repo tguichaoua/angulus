@@ -42,17 +42,15 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    float::Float,
-    units::{Degrees, Gradians, Radians, Turns},
-    Angle, AngleUnbounded,
-};
+use crate::float::Float;
+use crate::units::{Degrees, Gradians, Radians, Turns};
+use crate::{Angle, AngleUnbounded};
 
 //-------------------------------------------------------------------
 
-macro_rules! impl_angle {
-    ($angle:ident) => {
-        impl<F: Copy + Serialize> Serialize for $angle<F> {
+macro_rules! impl_serde_for_angle {
+    ($Angle:ident) => {
+        impl<F: Copy + Serialize> Serialize for $Angle<F> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -61,26 +59,26 @@ macro_rules! impl_angle {
             }
         }
 
-        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $angle<F> {
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $Angle<F> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
                 let radians = Deserialize::deserialize(deserializer)?;
-                Ok($angle::from_radians(radians))
+                Ok($Angle::from_radians(radians))
             }
         }
     };
 }
 
-impl_angle!(Angle);
-impl_angle!(AngleUnbounded);
+impl_serde_for_angle!(Angle);
+impl_serde_for_angle!(AngleUnbounded);
 
 //-------------------------------------------------------------------
 
-macro_rules! unit_impl {
-    ($unit:ident) => {
-        impl<F: Float + Serialize> Serialize for $unit<Angle<F>> {
+macro_rules! impl_serde_for_unit {
+    ($Unit:ident) => {
+        impl<F: Float + Serialize> Serialize for $Unit<Angle<F>> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -89,7 +87,7 @@ macro_rules! unit_impl {
             }
         }
 
-        impl<F: Float + Serialize> Serialize for $unit<AngleUnbounded<F>> {
+        impl<F: Float + Serialize> Serialize for $Unit<AngleUnbounded<F>> {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -98,7 +96,7 @@ macro_rules! unit_impl {
             }
         }
 
-        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $unit<Angle<F>> {
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $Unit<Angle<F>> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
@@ -108,7 +106,7 @@ macro_rules! unit_impl {
             }
         }
 
-        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $unit<AngleUnbounded<F>> {
+        impl<'de, F: Float + Deserialize<'de>> Deserialize<'de> for $Unit<AngleUnbounded<F>> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
@@ -120,10 +118,10 @@ macro_rules! unit_impl {
     };
 }
 
-unit_impl!(Radians);
-unit_impl!(Degrees);
-unit_impl!(Turns);
-unit_impl!(Gradians);
+impl_serde_for_unit!(Radians);
+impl_serde_for_unit!(Degrees);
+impl_serde_for_unit!(Turns);
+impl_serde_for_unit!(Gradians);
 
 //-------------------------------------------------------------------
 
@@ -132,10 +130,8 @@ mod tests {
     use float_eq::assert_float_eq;
     use serde::{Deserialize, Serialize};
 
-    use crate::{
-        units::{Degrees, Gradians, Radians, Turns},
-        Angle, AngleUnbounded, ToAngle,
-    };
+    use crate::units::{Degrees, Gradians, Radians, Turns};
+    use crate::{Angle, AngleUnbounded, ToAngle};
 
     const TOLERANCE: f32 = 0.00001;
 

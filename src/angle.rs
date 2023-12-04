@@ -2,17 +2,15 @@ use core::fmt::Debug;
 use core::iter::Sum;
 use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use crate::{
-    float::Float,
-    macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop},
-    AngleUnbounded,
-};
+use crate::float::Float;
+use crate::macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop};
+use crate::AngleUnbounded;
 
 /// Represents a point on the circle as an unit agnostic angle.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 ///
-/// ## Behaviour
+/// # Behaviour
 ///
 /// Two different values of the same point on the circle are the same [`Angle`] :
 ///
@@ -26,11 +24,11 @@ use crate::{
 ///
 /// To preserve the difference use [`AngleUnbounded`].
 ///
-/// ## Why doesn't it implement [`PartialOrd`] ?
+/// # Why doesn't it implement [`PartialOrd`] ?
 ///
 /// Because [`Angle`]s represents points on the circle (i.e. not a numerical value), they cannot be ordered.
 ///
-/// ## The main range
+/// # The main range
 ///
 /// The main range for an angle is :
 ///
@@ -39,7 +37,7 @@ use crate::{
 /// - `(-0.5, 0.5]` turns
 /// - `(-200, 200]` gradians
 ///
-/// ## The `NaN` angle
+/// # The `NaN` angle
 ///
 /// An angle can be `NaN` in the following cases :
 ///

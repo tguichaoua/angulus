@@ -62,19 +62,15 @@
 
 use core::ops::{Range, RangeInclusive};
 
-use rand::{
-    distributions::{
-        uniform::{SampleBorrow, SampleRange, SampleUniform, UniformFloat, UniformSampler},
-        Distribution, Standard,
-    },
-    Rng,
+use rand::distributions::uniform::{
+    SampleBorrow, SampleRange, SampleUniform, UniformFloat, UniformSampler,
 };
+use rand::distributions::{Distribution, Standard};
+use rand::Rng;
 
-use crate::{
-    float::Float,
-    units::{Degrees, Gradians, Radians, Turns},
-    Angle, AngleUnbounded,
-};
+use crate::float::Float;
+use crate::units::{Degrees, Gradians, Radians, Turns};
+use crate::{Angle, AngleUnbounded};
 
 //-------------------------------------------------------------------
 // Standard Distribution
@@ -109,25 +105,25 @@ where
     }
 }
 
-macro_rules! impl_unit {
+macro_rules! impl_distribution_for_unit {
     (
-        $($unit:ident),+
+        $($Unit:ident),+
     ) => {
         $(
-            impl<T> Distribution<$unit<T>> for Standard
+            impl<T> Distribution<$Unit<T>> for Standard
             where
                 Self: Distribution<T>,
             {
                 #[inline]
-                fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> $unit<T> {
-                    $unit(rng.gen())
+                fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> $Unit<T> {
+                    $Unit(rng.gen())
                 }
             }
         )+
     };
 }
 
-impl_unit!(Radians, Degrees, Turns, Gradians);
+impl_distribution_for_unit!(Radians, Degrees, Turns, Gradians);
 
 //-------------------------------------------------------------------
 // Range
