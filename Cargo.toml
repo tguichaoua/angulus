@@ -55,4 +55,9 @@ unused_qualifications = "warn"
 unused_tuple_struct_fields = "warn"
 variant_size_differences = "warn"
 
+[lints.clippy]
+cargo = "warn"
+pedantic = "warn"
+module_name_repetitions = "allow"
+
 # ---------------------------------------------------------------------------- #
