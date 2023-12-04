@@ -2,26 +2,24 @@
 name = "angulus"
 version = "0.5.0"
 edition = "2021"
-rust-version = "1.61"
-authors = ["Tristan Guichaoua"]
+authors = ["Tristan Guichaoua <tguichaoua.dev@gmail.com>"]
 description = "Unit agnostic angle"
+
+rust-version = "1.61"
+repository = "https://github.com/tguichaoua/angulus"
+license = "MIT OR Apache-2.0"
 keywords = ["utility", "angle", "math", "wrapper"]
 categories = ["data-structures", "mathematics", "value-formatting"]
-license = "MIT OR Apache-2.0"
-readme = "README.md"
-repository = "https://github.com/tguichaoua/angulus"
 
 exclude = [".github/"]
 
-[package.metadata.docs.rs]
-# To build locally:
-# RUSTDOCFLAGS="--cfg doc_cfg" cargo +nightly doc --all-features --no-deps --open
-all-features = true
-rustdoc-args = ["--cfg", "doc_cfg"]
+# ---------------------------------------------------------------------------- #
 
 [features]
 default = ["std"]
 std = []
+
+# ---------------------------------------------------------------------------- #
 
 [dependencies]
 libm = { version = "0.2", optional = true, default-features = false }
@@ -33,3 +31,13 @@ float_eq = "1"
 rand = "0.8"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
+# ---------------------------------------------------------------------------- #
+
+[package.metadata.docs.rs]
+# To build locally:
+# RUSTDOCFLAGS="--cfg docsrs" cargo +nightly doc --all-features --no-deps --open
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+# ---------------------------------------------------------------------------- #

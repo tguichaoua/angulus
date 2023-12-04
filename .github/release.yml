@@ -1,0 +1,15 @@
+changelog:
+  exclude:
+    labels:
+      - C-Meta
+      - C-Release
+  categories:
+      - title: 💥 Breaking Changes
+        labels:
+          - R-Breaking
+      - title: ✨ New Features
+        labels:
+          - C-Enhancement
+      - title: Other Changes
+        labels:
+          - "*"

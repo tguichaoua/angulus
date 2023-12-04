@@ -3,6 +3,7 @@
 [<img alt="github" src="https://img.shields.io/badge/github-tguichaoua/angulus-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/tguichaoua/angulus)
 [<img alt="crates.io" src="https://img.shields.io/crates/v/angulus.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/angulus)
 [<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-angulus-66c2a5?style=for-the-badge&labelColor=555555&logo=docs.rs" height="20">](https://docs.rs/angulus)
+[<img alt="msrv" src="https://img.shields.io/badge/msrv-1.61.0-dea584.svg?style=for-the-badge&labelColor=555555&logo=rust" height="20">](https://github.com/rust-lang/rust/releases/tag/1.61.0)
 
 Unit agnostic angle.
 
