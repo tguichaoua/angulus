@@ -26,19 +26,19 @@ use crate::{Angle, AngleUnbounded};
 
 macro_rules! unit {
     (
-        $vis:vis $name:ident, $unit:expr, $to_method:ident, $from_method:ident, $format:expr
+        $Unit:ident, $doc:expr, $to_method:ident, $from_method:ident, $format:expr
     ) => {
         /// Unit wrapper to "colorize" an angle in
-        #[doc = $unit]
+        #[doc = $doc]
         ///
         /// See the [module level documentation][self] for more details.
         #[derive(Debug, Copy, Clone)]
         #[repr(transparent)]
-        $vis struct $name<A>(pub A);
+        pub struct $Unit<A>(pub A);
 
-        impl<F: Float> $name<Angle<F>> {
+        impl<F: Float> $Unit<Angle<F>> {
             /// The value of the angle in
-            #[doc = $unit]
+            #[doc = $doc]
             ///
             /// The value is in [the main range](Angle#the-main-range).
             #[inline]
@@ -47,56 +47,53 @@ macro_rules! unit {
             }
 
             /// Create an new instance from a value in
-            #[doc = $unit]
+            #[doc = $doc]
             #[inline]
             pub fn from_value(x: F) -> Self {
                 Self(Angle::$from_method(x))
             }
         }
 
-        impl<F: Float> $name<AngleUnbounded<F>> {
+        impl<F: Float> $Unit<AngleUnbounded<F>> {
             /// The value of the angle in
-            #[doc = $unit]
+            #[doc = $doc]
             #[inline]
             pub fn to_value(self) -> F {
                 self.0.$to_method()
             }
 
             /// Create an new instance from a value in
-            #[doc = $unit]
+            #[doc = $doc]
             #[inline]
             pub fn from_value(x: F) -> Self {
                 Self(AngleUnbounded::$from_method(x))
             }
         }
 
-        impl<A> From<A> for $name<A> {
+        impl<A> From<A> for $Unit<A> {
             #[inline]
             fn from(x: A) -> Self {
                 Self(x)
             }
         }
 
-        impl<F: Float + Display> Display for $name<Angle<F>>
-        {
+        impl<F: Float + Display> Display for $Unit<Angle<F>> {
             #[inline]
             fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 write!(f, $format, self.to_value())
             }
         }
 
-        impl<F: Float + Display> Display for $name<AngleUnbounded<F>>
-        {
+        impl<F: Float + Display> Display for $Unit<AngleUnbounded<F>> {
             #[inline]
             fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 write!(f, $format, self.to_value())
             }
         }
-
     };
 }
 
-unit!(pub Radians, "radians.", to_radians, from_radians, "{} rad");
-unit!(pub Degrees, "degrees.", to_degrees, from_degrees, "{}°");
-unit!(pub Turns, "turns.", to_turns, from_turns, "{} tr");
-unit!(pub Gradians, "gradians.", to_gradians, from_gradians, "{}g");
+unit!(Radians, "radians.", to_radians, from_radians, "{} rad");
+unit!(Degrees, "degrees.", to_degrees, from_degrees, "{}°");
+unit!(Turns, "turns.", to_turns, from_turns, "{} tr");
+unit!(Gradians, "gradians.", to_gradians, from_gradians, "{}g");
