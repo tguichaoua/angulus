@@ -1,19 +1,11 @@
 name: CI
+
 on:
   pull_request:
-    paths:
-      - '**'
-      - '!/*.md'
-      - '!/docs/**'
-      - '!/LICENSE-*'
   push:
     branches:
       - main
-    paths:
-      - '**'
-      - '!/*.md'
-      - '!/docs/**'
-      - '!/LICENSE-*'
+
 jobs:
   ci:
     name: CI
