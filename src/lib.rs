@@ -119,16 +119,3 @@ pub type AngleUnbounded32 = AngleUnbounded<f32>;
 
 /// Type alias for [`AngleUnbounded::<f64>`].
 pub type AngleUnbounded64 = AngleUnbounded<f64>;
-
-/// Re-exports the most important elements of the crate.
-///
-/// # Usage
-/// ```
-/// use angulus::prelude::*;
-/// ```
-pub mod prelude {
-    pub use crate::units::*;
-    pub use crate::{
-        Angle, Angle32, Angle64, AngleUnbounded, AngleUnbounded32, AngleUnbounded64, ToAngle,
-    };
-}

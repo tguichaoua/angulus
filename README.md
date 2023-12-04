@@ -16,7 +16,8 @@ Using simple floating point numbers to store an angle value is error-prone : you
 ## Example
 
 ```rust
-use angulus::prelude::*;
+use angulus::{Angle, ToAngle};
+use angulus::units::Degrees;
 
 // Create an angle of 90°.
 let alpha = 90.0_f32.deg();
