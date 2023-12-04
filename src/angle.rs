@@ -288,7 +288,7 @@ impl Angle<f32> {
     /// Converts the floating point type to [`f64`].
     #[inline]
     pub fn to_f64(self) -> Angle<f64> {
-        let radians = self.radians as f64;
+        let radians = f64::from(self.radians);
         debug_assert!(
             radians.is_nan()
                 || (-core::f64::consts::PI < radians && radians <= core::f64::consts::PI)
@@ -302,6 +302,7 @@ impl Angle<f64> {
     /// Converts the floating point type to [`f32`].
     #[inline]
     pub fn to_f32(self) -> Angle<f32> {
+        #[allow(clippy::cast_possible_truncation)]
         let radians = self.radians as f32;
         Angle::from_radians(radians)
     }
@@ -491,7 +492,7 @@ mod tests {
         assert_eq!(
             Angle::from_radians(core::f32::consts::PI),
             Angle::from_radians(-core::f32::consts::PI),
-        )
+        );
     }
 
     #[test]

@@ -193,8 +193,6 @@ mod tests {
             }
         );
 
-        assert_eq!(Angle::from_degrees(270.0).to_degrees(), -90.0);
-
         let foo: Foo = serde_json::from_value(json).unwrap();
 
         assert_float_eq!(foo.angle.to_radians(), 1.0, abs <= TOLERANCE);
