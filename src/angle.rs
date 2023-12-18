@@ -219,6 +219,7 @@ impl<F: Copy> Angle<F> {
     /// The value of the angle in radians.
     ///
     /// This value is in the range `(-π, π]`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub const fn to_radians(self) -> F {
         self.radians
@@ -229,6 +230,7 @@ impl<F: Float> Angle<F> {
     /// The value of the angle in degrees.
     ///
     /// This value is in the range `(-180, 180]`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_degrees(self) -> F {
         self.radians * F::RAD_TO_DEG
@@ -237,6 +239,7 @@ impl<F: Float> Angle<F> {
     /// The value of the angle in turns.
     ///
     /// This value is in the range `(-0.5, 0.5]`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_turns(self) -> F {
         self.radians * F::RAD_TO_TURNS
@@ -245,6 +248,7 @@ impl<F: Float> Angle<F> {
     /// The value of the angle in gradians.
     ///
     /// This value is in the range `(-200, 200]`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_gradians(self) -> F {
         self.radians * F::RAD_TO_GRAD
@@ -255,6 +259,7 @@ impl<F: Float> Angle<F> {
     /// Returns `true` if this angle is NaN.
     ///
     /// See [`Angle` documentation][Angle] for more details.
+    #[must_use]
     #[inline]
     pub fn is_nan(self) -> bool {
         self.radians.is_nan()
@@ -267,6 +272,7 @@ impl<F: Float> Angle<F> {
 
 impl<F: Copy> Angle<F> {
     /// Converts this angle into an unbounded angle in [the main range](Angle#the-main-range).
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub const fn to_unbounded(self) -> AngleUnbounded<F> {
         AngleUnbounded::from_radians(self.radians)
@@ -286,6 +292,7 @@ impl<F: Float> From<AngleUnbounded<F>> for Angle<F> {
 
 impl Angle<f32> {
     /// Converts the floating point type to [`f64`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_f64(self) -> Angle<f64> {
         let radians = f64::from(self.radians);
@@ -300,6 +307,7 @@ impl Angle<f32> {
 
 impl Angle<f64> {
     /// Converts the floating point type to [`f32`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_f32(self) -> Angle<f32> {
         #[allow(clippy::cast_possible_truncation)]
@@ -329,24 +337,28 @@ impl From<Angle<f32>> for Angle<f64> {
 #[cfg(any(feature = "std", feature = "libm"))]
 impl<F: crate::float::FloatMath> Angle<F> {
     /// Computes the sine.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn sin(self) -> F {
         self.radians.sin()
     }
 
     /// Computes the cosine.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn cos(self) -> F {
         self.radians.cos()
     }
 
     /// Computes the tangent.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn tan(self) -> F {
         self.radians.tan()
     }
 
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn sin_cos(self) -> (F, F) {
         self.radians.sin_cos()

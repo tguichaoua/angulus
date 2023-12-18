@@ -4,20 +4,35 @@ use crate::{Angle, AngleUnbounded};
 /// Helper trait to convert a numerical value into an angle.
 pub trait ToAngle: Sized {
     /// Creates an angle with the value as radians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rad(self) -> Angle<Self>;
+
     /// Creates an unbounded angle with the value as radians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rad_unbounded(self) -> AngleUnbounded<Self>;
+
     /// Creates an angle with the value as degrees.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn deg(self) -> Angle<Self>;
+
     /// Creates an unbounded angle with the value as degrees.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn deg_unbounded(self) -> AngleUnbounded<Self>;
+
     /// Creates an angle with the value as turns.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn turns(self) -> Angle<Self>;
+
     /// Creates an unbounded angle with the value as turns.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn turns_unbounded(self) -> AngleUnbounded<Self>;
+
     /// Creates an angle with the value as gradians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn grad(self) -> Angle<Self>;
+
     /// Creates an unbounded angle with the value as gradians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn grad_unbounded(self) -> AngleUnbounded<Self>;
 }
 

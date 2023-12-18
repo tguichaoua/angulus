@@ -77,6 +77,7 @@ pub trait Float:
     const RAD_TO_GRAD: Self;
 
     /// Returns `true` if this value is NaN.
+    #[must_use]
     fn is_nan(self) -> bool;
 }
 
@@ -86,12 +87,16 @@ pub trait Float:
 #[cfg(any(feature = "std", feature = "libm"))]
 pub trait FloatMath: private::Sealed + Sized {
     /// Computes the sine (in radians).
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn sin(self) -> Self;
     /// Computes the cosine (in radians).
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn cos(self) -> Self;
     /// Computes the tangent (in radians).
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn tan(self) -> Self;
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn sin_cos(self) -> (Self, Self);
 }
 
