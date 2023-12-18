@@ -37,34 +37,42 @@ pub trait ToAngle: Sized {
 }
 
 impl<F: Float> ToAngle for F {
+    #[inline]
     fn rad(self) -> Angle<Self> {
         Angle::from_radians(self)
     }
 
+    #[inline]
     fn rad_unbounded(self) -> AngleUnbounded<Self> {
         AngleUnbounded::from_radians(self)
     }
 
+    #[inline]
     fn deg(self) -> Angle<Self> {
         Angle::from_degrees(self)
     }
 
+    #[inline]
     fn deg_unbounded(self) -> AngleUnbounded<Self> {
         AngleUnbounded::from_degrees(self)
     }
 
+    #[inline]
     fn turns(self) -> Angle<Self> {
         Angle::from_turns(self)
     }
 
+    #[inline]
     fn turns_unbounded(self) -> AngleUnbounded<Self> {
         AngleUnbounded::from_turns(self)
     }
 
+    #[inline]
     fn grad(self) -> Angle<Self> {
         Angle::from_gradians(self)
     }
 
+    #[inline]
     fn grad_unbounded(self) -> AngleUnbounded<Self> {
         AngleUnbounded::from_gradians(self)
     }
