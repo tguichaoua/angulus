@@ -6,13 +6,13 @@ use crate::float::Float;
 use crate::macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop};
 use crate::AngleUnbounded;
 
-/// Represents a point on the circle as an unit agnostic angle.
+/// Represents a point on the circle as a unit-agnostic angle.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 ///
 /// # Behaviour
 ///
-/// Two different values of the same point on the circle are the same [`Angle`] :
+/// Two different values of the same point on the circle are the same [`Angle`].
 ///
 /// ```
 /// # use angulus::Angle;
@@ -22,26 +22,15 @@ use crate::AngleUnbounded;
 /// assert_eq!(a, b);
 /// ```
 ///
-/// To preserve the difference use [`AngleUnbounded`].
-///
 /// # Why doesn't it implement [`PartialOrd`] ?
 ///
-/// Because [`Angle`]s represents points on the circle (i.e. not a numerical value), they cannot be ordered.
-///
-/// # The main range
-///
-/// The main range for an angle is :
-///
-/// - `(-π, π]` radians
-/// - `(-180, 180]` degrees
-/// - `(-0.5, 0.5]` turns
-/// - `(-200, 200]` gradians
+/// Because [`Angle`]s represent points on the circle (i.e., not a numerical value), they cannot be ordered.
 ///
 /// # The `NaN` angle
 ///
-/// An angle can be `NaN` in the following cases :
+/// An angle can be `NaN` in the following cases:
 ///
-/// - create the angle from an non finite value
+/// - Create an angle from a non-finite value;
 /// ```
 /// # use angulus::Angle;
 /// let a = Angle::from_radians(f32::INFINITY);
@@ -50,7 +39,7 @@ use crate::AngleUnbounded;
 /// let b = Angle::from_radians(f32::NAN);
 /// assert!(b.is_nan());
 /// ```
-/// - doing some operations that result into non finite value
+/// - Doing an operation that result into a non-finite value;
 /// ```
 /// # use angulus::Angle;
 /// let a = Angle::DEG_90;
@@ -271,7 +260,7 @@ impl<F: Float> Angle<F> {
 //-------------------------------------------------------------------
 
 impl<F: Copy> Angle<F> {
-    /// Converts this angle into an unbounded angle in [the main range](Angle#the-main-range).
+    /// Converts this angle into an unbounded angle in [the main range](crate#the-main-range).
     #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub const fn to_unbounded(self) -> AngleUnbounded<F> {

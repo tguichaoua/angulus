@@ -6,13 +6,14 @@ use crate::float::Float;
 use crate::macros::{forward_ref_binop, forward_ref_op_assign, forward_ref_unop};
 use crate::Angle;
 
-/// Represents a point on the circle as an unit agnostic angle.
+/// Represents a point on the circle as a unit-agnostic angle.
 ///
 /// The parameter `F` is the floating-point type used to store the value.
 ///
 /// # Behaviour
-/// Unlike [`Angle`], two different values of the same point on the circle are different
-/// angles :
+///
+/// Unlike [`Angle`], two different values of the same point on the circle are
+/// two different [`AngleUnbounded`].
 ///
 /// ```
 /// # use angulus::AngleUnbounded;
