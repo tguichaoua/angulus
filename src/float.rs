@@ -61,19 +61,19 @@ pub trait Float:
     /// π/8
     const FRAC_PI_8: Self;
 
-    /// Convertion factor from degrees to radians.
+    /// Conversion factor from degrees to radians.
     const DEG_TO_RAD: Self;
-    /// Convertion factor from radians to degrees.
+    /// Conversion factor from radians to degrees.
     const RAD_TO_DEG: Self;
 
-    /// Convertion factor from turns to radians.
+    /// Conversion factor from turns to radians.
     const TURNS_TO_RAD: Self;
-    /// Convertion factor from radians to turns.
+    /// Conversion factor from radians to turns.
     const RAD_TO_TURNS: Self;
 
-    /// Convertion factor from gradians to radians.
+    /// Conversion factor from gradians to radians.
     const GRAD_TO_RAD: Self;
-    /// Convertion factor from radians to gradians.
+    /// Conversion factor from radians to gradians.
     const RAD_TO_GRAD: Self;
 
     /// Returns `true` if this value is NaN.

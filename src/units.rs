@@ -5,7 +5,7 @@
 //! Because angles are unit agnostic they cannot implement the [`Display`] trait.
 //!
 //! But unit wrappers implement the [`Display`] trait.
-//! The value is displayed by writting the angle value in the desired unit followed by the unit symbole.
+//! The value is displayed by writing the angle value in the desired unit followed by the unit symbol.
 //!
 //! For [`Angle`], the displayed value is in [the main range](Angle#the-main-range).
 //!

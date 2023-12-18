@@ -267,7 +267,7 @@ impl<F: Float> Angle<F> {
 }
 
 //-------------------------------------------------------------------
-// Angle convertion
+// Angle conversion
 //-------------------------------------------------------------------
 
 impl<F: Copy> Angle<F> {
@@ -287,7 +287,7 @@ impl<F: Float> From<AngleUnbounded<F>> for Angle<F> {
 }
 
 //-------------------------------------------------------------------
-// Floating point type convertion
+// Floating point type conversion
 //-------------------------------------------------------------------
 
 impl Angle<f32> {
@@ -300,7 +300,7 @@ impl Angle<f32> {
             radians.is_nan()
                 || (-core::f64::consts::PI < radians && radians <= core::f64::consts::PI)
         );
-        // Notes: f32 to f64 convertion is losslessly, we don't need to check the range.
+        // Notes: f32 to f64 conversion is lossless, we don't need to check the range.
         Angle::from_radians_unchecked(radians)
     }
 }

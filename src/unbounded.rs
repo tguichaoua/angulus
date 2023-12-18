@@ -190,7 +190,7 @@ impl<F: Float> AngleUnbounded<F> {
 }
 
 //-------------------------------------------------------------------
-// MainAngle convertion
+// MainAngle conversion
 //-------------------------------------------------------------------
 
 impl<F: Float> AngleUnbounded<F> {
@@ -210,7 +210,7 @@ impl<F: Copy> From<Angle<F>> for AngleUnbounded<F> {
 }
 
 //-------------------------------------------------------------------
-// Floating point type convertion
+// Floating point type conversion
 //-------------------------------------------------------------------
 
 impl AngleUnbounded<f32> {

@@ -12,7 +12,7 @@
 //!
 //! Both represent a point on the circle as a unit agnostic angle.
 //!
-//! But [`Angle`] considere two different values of the same point as the same angle :
+//! But [`Angle`] consider two different values of the same point as the same angle :
 //!
 //! ```
 //! # use angulus::Angle;
@@ -22,7 +22,7 @@
 //! assert_eq!(a, b);
 //! ```
 //!
-//! While [`AngleUnbounded`] considere those value as two different angle :
+//! While [`AngleUnbounded`] consider those value as two different angle :
 //!
 //! ```
 //! # use angulus::AngleUnbounded;
@@ -70,7 +70,7 @@
 //!
 //! ## Display
 //!
-//! Since [`Angle`] and [`AngleUnbounded`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
+//! Since [`Angle`] and [`AngleUnbounded`] are unit agnostic they didn't implement the [`Display`][std::fmt::Display] trait.
 //! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
 //!
 //! ## Crate features
