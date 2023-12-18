@@ -1,25 +1,26 @@
 //! Generate random angles with the [rand crate](https://docs.rs/rand/latest/rand/).
 //!
-//! ## Provided implementations
+//! # Provided implementations
 //!
-//! [`Angle`] and [`AngleUnbounded`] (and [their unit wrapped equivalent][crate::units]) can be generated
+//! [`Angle`] and [`AngleUnbounded`] (and [their unit-wrapped equivalents][crate::units]) can be generated
 //! with the [`Standard`] distribution, and so with [`rand::random`](https://docs.rs/rand/latest/rand/fn.random.html)
 //! with the following ranges and distributions:
 //!
-//! - [`Angle`]: Uniformly distributed on the circle.
-//! - [`AngleUnbounded`]: Uniformly distributed in the range `(-π, π]` radians.
+//! - [`Angle`]: uniformly distributed on the circle.
+//! - [`AngleUnbounded`]: uniformly distributed in [the main range](crate#the-main-range).
 //!
 //! **Note**: The unit wrappers have no influence on the generated value.
 //!
-//! ## Uniform ranges
+//! # Uniform ranges
 //!
-//! Angle types can also be generated from a range using [`rand::Rng::gen_range`].
+//! [`Angle`] and [`AngleUnbounded`] can also be generated from a range using [`rand::Rng::gen_range`]
+//! with some specific behaviour.
 //!
-//! ### [`Angle`]
+//! ## [`Angle`]
 //!
-//! Because [`Angle`] [did not implements `PartialOrd`](Angle#why-doesnt-it-implement-partialord-),
+//! Because [`Angle`] [did not implement `PartialOrd`](Angle#why-doesnt-it-implement-partialord-),
 //! the generated angle will belong to the part of the circle between the bounds in counterclockwise.
-//! I.e. the order of the bounds will determine which part of the circle the generated angle belongs to.
+//! I.e., the order of the bounds will determine which part of the circle the generated angle belongs to.
 //!
 //! ```
 //! # use angulus::*;
@@ -38,9 +39,9 @@
 //! assert!(a.cos() >= 0.0);
 //! ```
 //!
-//! ### [`AngleUnbounded`]
+//! ## [`AngleUnbounded`]
 //!
-//! Since [`AngleUnbounded`] implements [`PartialOrd`], the order matter and the range may be empty,
+//! Since [`AngleUnbounded`] implements [`PartialOrd`], the order matters and the range may be empty,
 //! resulting in panic.
 //!
 //! ```no_run

@@ -1,18 +1,11 @@
-//! Unit agnostic angle.
+//! This crate provides two types ([`Angle`] and [`AngleUnbounded`]) that both represent an angle value
+//! with no specific unit (radian, degree, etc.).
 //!
-//! ## Overview
+//! They can be used in place of `f32` and `f64` for angle manipulations.
 //!
-//! Using simple floating point numbers to store an angle value is error-prone : you may add two
-//! angle with one in radians and the second in degrees or you may try to compute the cosine of
-//! a value in degrees and get an unexpected result.
+//! # [`Angle`] vs [`AngleUnbounded`]
 //!
-//! [`Angle`] and [`AngleUnbounded`] represent an angle value with no specific unit.
-//!
-//! ## [`Angle`] vs [`AngleUnbounded`]
-//!
-//! Both represent a point on the circle as a unit agnostic angle.
-//!
-//! But [`Angle`] considere two different values of the same point as the same angle :
+//! [`Angle`] is a specific point of the circle.
 //!
 //! ```
 //! # use angulus::Angle;
@@ -22,7 +15,7 @@
 //! assert_eq!(a, b);
 //! ```
 //!
-//! While [`AngleUnbounded`] considere those value as two different angle :
+//! While [`AngleUnbounded`] preserves the "number of turns".
 //!
 //! ```
 //! # use angulus::AngleUnbounded;
@@ -32,48 +25,22 @@
 //! assert_ne!(a, b);
 //! ```
 //!
-//! ## From value to angle
+//! # The main range
 //!
-//! To create an angle from a value, you can use the `from_*` methods with the unit of the value...
+//! The main range for an angle is :
 //!
-//! ```
-//! # use angulus::Angle;
-//! let deg = Angle::from_degrees(90.0);
-//! let rad = Angle::from_radians(3.14);
-//! let turns = Angle::from_turns(0.75);
-//! let grad = Angle::from_gradians(50.0);
-//! ```
+//! - `(-π, π]` radians
+//! - `(-180, 180]` degrees
+//! - `(-0.5, 0.5]` turns
+//! - `(-200, 200]` gradians
 //!
-//! or you use the [`ToAngle`] trait directly on the value.
+//! # Display
 //!
-//! ```
-//! # use angulus::ToAngle;
-//! let deg = 90.0.deg();
-//! let rad = 3.14.rad();
-//! let turns = 0.75.turns();
-//! let grad = 50.0.grad();
-//! ```
+//! Since [`Angle`] and [`AngleUnbounded`] are unit-agnostic, they cannot implement the [`Display`][std::fmt::Display] trait.
 //!
-//! ## From angle to value
+//! To display an angle with a specific unit, wrap it in one of the unit struct of [the `units` module][units].
 //!
-//! To convert back an angle to a value you can use the `to_*` methods with the desired unit.
-//!
-//! ```
-//! # use angulus::Angle32;
-//! let a = Angle32::QUARTER;
-//!
-//! assert_eq!(a.to_radians(), std::f32::consts::FRAC_PI_2);
-//! assert_eq!(a.to_degrees(), 90.0);
-//! assert_eq!(a.to_turns(), 0.25);
-//! assert_eq!(a.to_gradians(), 100.0);
-//! ```
-//!
-//! ## Display
-//!
-//! Since [`Angle`] and [`AngleUnbounded`] are unit agnotic they didn't implement the [`Display`][std::fmt::Display] trait.
-//! But you can use one of the unit wrapper from [the units module][units] to specify a unit.
-//!
-//! ## Crate features
+//! # Crate features
 //!
 //! - `std`: by default angulus links to the standard library. Disable this feature to remove this dependency and be able to use angulus in `#![no_std]` crates.
 //! - `libm`: use the [libm crate](https://docs.rs/libm/latest/libm/) for the math methods (sin, cos, tan) when `std` is disabled.

@@ -1,13 +1,6 @@
-//! This module provides wrappers to "colorize" an angle with a specific unit.
+//! Wrappers to represent an angle with a specific unit.
 //!
-//! ## Display
-//!
-//! Because angles are unit agnostic they cannot implement the [`Display`] trait.
-//!
-//! But unit wrappers implement the [`Display`] trait.
-//! The value is displayed by writting the angle value in the desired unit followed by the unit symbole.
-//!
-//! For [`Angle`], the displayed value is in [the main range](Angle#the-main-range).
+//! Wrapping an [`Angle`] or an [`AngleUnbounded`] with these wrappers enables [`Display`] capability.
 //!
 //! ```
 //! # use angulus::{Angle, ToAngle, units::{Degrees, Radians, Turns, Gradians}};
@@ -28,8 +21,9 @@ macro_rules! unit {
     (
         $Unit:ident, $doc:expr, $to_method:ident, $from_method:ident, $format:expr
     ) => {
-        /// Unit wrapper to "colorize" an angle in
+        /// Unit wrapper for the
         #[doc = $doc]
+        /// unit.
         ///
         /// See the [module level documentation][self] for more details.
         #[derive(Debug, Copy, Clone)]
@@ -37,17 +31,19 @@ macro_rules! unit {
         pub struct $Unit<A>(pub A);
 
         impl<F: Float> $Unit<Angle<F>> {
-            /// The value of the angle in
+            /// Returns the value of the angle in the
             #[doc = $doc]
+            /// unit.
             ///
-            /// The value is in [the main range](Angle#the-main-range).
+            /// The value is in [the main range](crate#the-main-range).
             #[inline]
             pub fn to_value(self) -> F {
                 self.0.$to_method()
             }
 
-            /// Create an new instance from a value in
+            /// Converts a value in
             #[doc = $doc]
+            /// into an angle.
             #[inline]
             pub fn from_value(x: F) -> Self {
                 Self(Angle::$from_method(x))
@@ -55,15 +51,17 @@ macro_rules! unit {
         }
 
         impl<F: Float> $Unit<AngleUnbounded<F>> {
-            /// The value of the angle in
+            /// Returns the value of the angle in the
             #[doc = $doc]
+            /// unit.
             #[inline]
             pub fn to_value(self) -> F {
                 self.0.$to_method()
             }
 
-            /// Create an new instance from a value in
+            /// Converts a value in
             #[doc = $doc]
+            /// into an angle.
             #[inline]
             pub fn from_value(x: F) -> Self {
                 Self(AngleUnbounded::$from_method(x))
@@ -93,7 +91,7 @@ macro_rules! unit {
     };
 }
 
-unit!(Radians, "radians.", to_radians, from_radians, "{} rad");
-unit!(Degrees, "degrees.", to_degrees, from_degrees, "{}°");
-unit!(Turns, "turns.", to_turns, from_turns, "{} tr");
-unit!(Gradians, "gradians.", to_gradians, from_gradians, "{}g");
+unit!(Radians, "radian", to_radians, from_radians, "{} rad");
+unit!(Degrees, "degree", to_degrees, from_degrees, "{}°");
+unit!(Turns, "turn", to_turns, from_turns, "{} tr");
+unit!(Gradians, "gradian", to_gradians, from_gradians, "{}g");

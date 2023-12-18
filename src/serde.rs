@@ -1,12 +1,8 @@
 //! (De)Serialization with the [serde crate](https://docs.rs/serde/latest/serde/).
 //!
-//! ## Select in which unit to (de)serialize to/from
-//!
-//! For convenience, even though [`Angle`] and [`AngleUnbounded`] are unit agnostic, they (de)serialize to/from radians.
-//! To explicitly (de)serialize to/from a specific unit, you can wrap the angle type into a unit wrapper from
-//! [the units module][crate::units].
-//!
-//! [`Angle`] (and their wrapped equivalents) will serialize to a value in [the main range](Angle#the-main-range).
+//! [`Angle`] and [`AngleUnbounded`] are (de)serialized to/from floating point numbers.
+//! By default, they are converted into radians or read as a radian values.
+//! To convert or read them with a different unit, use one of the wrappers from [the `units` module][crate::units].
 //!
 //! ```
 //! # use angulus::{units::*, *};
@@ -14,7 +10,7 @@
 //! # use ::serde::{Serialize, Deserialize};
 //! #[derive(Serialize, Deserialize)]
 //! struct Foo {
-//!     angle: Angle32,
+//!     raw: Angle32,
 //!     rad: Radians<Angle32>,
 //!     deg: Degrees<Angle32>,
 //!     tr: Turns<Angle32>,
@@ -23,7 +19,7 @@
 //!
 //! let json = serde_json::json!{
 //!     {
-//!         "angle": 0.5,   // this field is read as 0.5 rad
+//!         "raw": 0.5,     // this field is read as 0.5 rad
 //!         "rad": 1.0,     // this field is read as 1 rad
 //!         "deg": 90.0,    // this field is read as 90°
 //!         "tr": 0.5,      // this field is read as 0.5 turns
@@ -33,7 +29,7 @@
 //!
 //! let foo: Foo = serde_json::from_value(json).unwrap();
 //!
-//! assert_float_eq!(foo.angle.to_radians(), 0.5, abs <= 0.000001);
+//! assert_float_eq!(foo.raw.to_radians(), 0.5, abs <= 0.000001);
 //! assert_float_eq!(foo.rad.0.to_radians(), 1.0, abs <= 0.000001);
 //! assert_float_eq!(foo.deg.0.to_degrees(), 90.0, abs <= 0.000001);
 //! assert_float_eq!(foo.tr.0.to_turns(), 0.5, abs <= 0.000001);
