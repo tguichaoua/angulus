@@ -80,7 +80,6 @@
 //! - `serde`: enable serialization and deserialization with the [serde crate](https://docs.rs/serde/latest/serde/).
 //! - `rand`: enable generation of random angle with the [rand crate](https://docs.rs/rand/latest/rand/).
 
-#![deny(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 

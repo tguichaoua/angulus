@@ -60,7 +60,4 @@ cargo = "warn"
 pedantic = "warn"
 module_name_repetitions = { level = "allow", priority = 1 }
 
-must_use_candidate = { level = "allow", priority = 1 }       # todo: remove this
-return_self_not_must_use = { level = "allow", priority = 1 } # todo: remove this
-
 # ---------------------------------------------------------------------------- #

@@ -159,6 +159,7 @@ impl<F: Float> AngleUnbounded<F> {
 
 impl<F: Copy> AngleUnbounded<F> {
     /// The value of the unbounded angle in radians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub const fn to_radians(self) -> F {
         self.radians
@@ -167,18 +168,21 @@ impl<F: Copy> AngleUnbounded<F> {
 
 impl<F: Float> AngleUnbounded<F> {
     /// The value of the unbounded angle in degrees.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_degrees(self) -> F {
         self.radians * F::RAD_TO_DEG
     }
 
     /// The value of the unbounded angle in turns.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_turns(self) -> F {
         self.radians * F::RAD_TO_TURNS
     }
 
     /// The value of the unbounded angle in gradians.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_gradians(self) -> F {
         self.radians * F::RAD_TO_GRAD
@@ -191,6 +195,7 @@ impl<F: Float> AngleUnbounded<F> {
 
 impl<F: Float> AngleUnbounded<F> {
     /// Converts this angle into a bounded angle.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_bounded(self) -> Angle<F> {
         Angle::from_radians(self.radians)
@@ -210,6 +215,7 @@ impl<F: Copy> From<Angle<F>> for AngleUnbounded<F> {
 
 impl AngleUnbounded<f32> {
     /// Converts the floating point type to [`f64`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_f64(self) -> AngleUnbounded<f64> {
         let radians = f64::from(self.radians);
@@ -219,6 +225,7 @@ impl AngleUnbounded<f32> {
 
 impl AngleUnbounded<f64> {
     /// Converts the floating point type to [`f32`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn to_f32(self) -> AngleUnbounded<f32> {
         #[allow(clippy::cast_possible_truncation)]
@@ -248,24 +255,28 @@ impl From<AngleUnbounded<f32>> for AngleUnbounded<f64> {
 #[cfg(any(feature = "std", feature = "libm"))]
 impl<F: crate::float::FloatMath> AngleUnbounded<F> {
     /// Computes the sine.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn sin(self) -> F {
         self.radians.sin()
     }
 
     /// Computes the cosine.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn cos(self) -> F {
         self.radians.cos()
     }
 
     /// Computes the tangent.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn tan(self) -> F {
         self.radians.tan()
     }
 
     /// Simultaneously computes the sine and cosine. Returns `(sin(x), cos(x))`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     #[inline]
     pub fn sin_cos(self) -> (F, F) {
         self.radians.sin_cos()
